@@ -21,7 +21,7 @@ export const site = {
 		'英语笔译硕士，四年以上教育内容与项目管理经验，兼具 AI 产品落地、英语教研与本地化背景。独立完成两款 AI 教育产品，从需求分析、Prompt 设计做到前端上线。持阿里云大模型 ACP 与 CAIE 认证。',
 	acpCert: {
 		src: '/certs/alibaba-acp-llm.jpg',
-		label: '查看证书',
+		label: '查看 ACP 证书',
 		closeLabel: '关闭',
 		alt: '阿里云大模型 ACP 证书，Xiaoxue Zhang，编号 ACP26260802754212，有效期至 2028 年 8 月 9 日',
 	},

@@ -2,28 +2,23 @@
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { withBase } from '../lib/paths';
-
-const acpNeedle = '阿里云大模型 ACP';
-const acpAt = site.about.indexOf(acpNeedle);
-const aboutBefore = acpAt === -1 ? site.about : site.about.slice(0, acpAt + acpNeedle.length);
-const aboutAfter = acpAt === -1 ? '' : site.about.slice(acpAt + acpNeedle.length);
 ---
 
 <section id="about" class="about">
 	<h2>{homeCopy.aboutTitle}</h2>
 	<p>
-		{aboutBefore}{' '}
+		{site.about}{' '}
 		<a
 			class="about__cert"
 			href={withBase(site.acpCert.src)}
 			target="_blank"
 			rel="noopener noreferrer"
 			aria-haspopup="dialog"
+			aria-controls="acp-cert"
 			data-acp-dialog
 		>
 			{site.acpCert.label}
 		</a>
-		{aboutAfter}
 	</p>
 	<ul class="about__skills about__skills--primary">
 		{site.aboutSkillsPrimary.map((skill) => (
@@ -37,7 +32,7 @@ const aboutAfter = acpAt === -1 ? '' : site.about.slice(acpAt + acpNeedle.length
 	</ul>
 	<dialog id="acp-cert" class="about__dialog" aria-labelledby="acp-cert-title">
 		<div class="about__dialog-bar">
-			<p id="acp-cert-title">{acpNeedle}</p>
+			<p id="acp-cert-title">阿里云大模型 ACP</p>
 			<form method="dialog">
 				<button type="submit">{site.acpCert.closeLabel}</button>
 			</form>

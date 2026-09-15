@@ -15,23 +15,32 @@ const { work } = Astro.props;
 <article class="work-card">
 	<h2>{work.title}</h2>
 	<p class="work-card__lede">{work.tagline}</p>
-	<div class="window">
+	<a class="window" href={workCaseHref(work.slug)}>
 		<WindowBar caption={work.title} />
 		<div class="window__screen">
 			{
 				work.video ? (
-					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline autoplay></video>
+					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline></video>
 				) : (
 					<img src={withBase(work.cover)} alt={work.title} />
 				)
 			}
 		</div>
-	</div>
+	</a>
 	<p class="result-number">{work.result}</p>
 	<div class="work-card__cta">
 		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabel}</a>
 	</div>
 </article>
+
+<script>
+	if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+		for (const video of document.querySelectorAll<HTMLVideoElement>('.work-card video')) {
+			video.autoplay = true;
+			void video.play();
+		}
+	}
+</script>
 
 <style>
 	.work-card {

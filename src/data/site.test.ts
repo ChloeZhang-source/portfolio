@@ -50,7 +50,7 @@ test('site.ts exports the locked job-search copy and required fields', async () 
 	assert.match(site.about, /阿里云大模型 ACP/);
 	assert.match(site.about, /CAIE/);
 	assert.equal(site.acpCert.src, '/certs/alibaba-acp-llm.jpg');
-	assert.equal(site.acpCert.label, '查看证书');
+	assert.equal(site.acpCert.label, '查看 ACP 证书');
 	assert.equal(site.acpCert.closeLabel, '关闭');
 	assert.match(site.acpCert.alt, /阿里云大模型 ACP/);
 	assert.match(site.acpCert.alt, /ACP26260802754212/);

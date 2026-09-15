@@ -50,6 +50,11 @@ test('About opens a paper-backed ACP preview dialog, not a CAIE image or 16:9 wi
 	assert.match(source, /target=["']_blank["']/);
 	assert.match(source, /object-fit:\s*contain/);
 	assert.match(source, /var\(--color-bg\)/);
+	assert.match(source, /aria-controls=["']acp-cert["']/);
+	assert.match(source, /\{site\.about\}/);
+	assert.ok(source.indexOf('{site.about}') < source.indexOf('site.acpCert.label'));
+	assert.doesNotMatch(source, /indexOf\(['"]阿里云大模型 ACP['"]\)/);
+	assert.doesNotMatch(source, /\baboutBefore\b|\baboutAfter\b/);
 	assert.doesNotMatch(source, /window__screen/);
 	assert.doesNotMatch(source, /aspect-ratio:\s*16\s*\/\s*9/);
 	assert.doesNotMatch(source, /caie|CAIE\.jpg|identity|身份证|429005/i);
