@@ -1,28 +1,37 @@
-export const NAV_HREF_BY_CHAPTER = {
+import { stripBase, withBase } from './paths.ts';
+
+const NAV_PATH_BY_CHAPTER = {
 	home: '/#home',
 	work: '/#work',
 	experience: '/#experience',
 } as const;
 
-export type NavChapter = keyof typeof NAV_HREF_BY_CHAPTER;
+export const NAV_HREF_BY_CHAPTER = {
+	home: withBase(NAV_PATH_BY_CHAPTER.home),
+	work: withBase(NAV_PATH_BY_CHAPTER.work),
+	experience: withBase(NAV_PATH_BY_CHAPTER.experience),
+} as const;
 
-export function navHrefForChapter(chapter: NavChapter): string {
-	return NAV_HREF_BY_CHAPTER[chapter];
+export type NavChapter = keyof typeof NAV_PATH_BY_CHAPTER;
+
+export function navHrefForChapter(chapter: NavChapter, baseUrl?: string): string {
+	return withBase(NAV_PATH_BY_CHAPTER[chapter], baseUrl);
 }
 
-export function navCurrentHref(pathname: string, hash = ''): string {
-	if (/^\/work(\/|$)/.test(pathname)) {
-		return NAV_HREF_BY_CHAPTER.work;
+export function navCurrentHref(pathname: string, hash = '', baseUrl?: string): string {
+	const path = stripBase(pathname, baseUrl);
+	if (/^\/work(\/|$)/.test(path)) {
+		return navHrefForChapter('work', baseUrl);
 	}
 
 	const section = hash.replace(/^#/, '');
 	if (section === 'work') {
-		return NAV_HREF_BY_CHAPTER.work;
+		return navHrefForChapter('work', baseUrl);
 	}
 
 	if (section === 'experience' || section === 'contact') {
-		return NAV_HREF_BY_CHAPTER.experience;
+		return navHrefForChapter('experience', baseUrl);
 	}
 
-	return NAV_HREF_BY_CHAPTER.home;
+	return navHrefForChapter('home', baseUrl);
 }

@@ -41,6 +41,7 @@ test('About opens a paper-backed ACP preview dialog, not a CAIE image or 16:9 wi
 
 	assert.match(source, /site\.acpCert/);
 	assert.match(source, /site\.acpCert\.label/);
+	assert.match(source, /withBase\(site\.acpCert\.src\)/);
 	assert.match(source, /site\.acpCert\.src/);
 	assert.match(source, /site\.acpCert\.alt/);
 	assert.match(source, /<dialog/);

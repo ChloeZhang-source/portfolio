@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/site';
 import { workCaseHref } from '../lib/work';
+import { withBase } from '../lib/paths';
 import ChapterRule from './ChapterRule.astro';
 import WindowBar from './WindowBar.astro';
 
@@ -49,7 +50,7 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 					<a class="window" href={workCaseHref(work.slug)}>
 						<WindowBar caption={work.title} />
 						<div class="window__screen">
-							<img src={work.cover} alt={work.title} />
+							<img src={withBase(work.cover)} alt={work.title} />
 						</div>
 					</a>
 					<div class="hero__copy">

@@ -20,16 +20,20 @@ npm run dev
 | `npm run build` | 静态构建，产物在 `dist/` |
 | `npm run preview` | 预览构建结果 |
 
-路由：`/`、`/work/speaking`、`/work/interview`、`/resume.pdf`。没有 `/works`、没有 `/en`。
+路由：本地 `astro preview` 带 GitHub Pages 前缀，首页是 `/portfolio/`，案例是 `/portfolio/work/speaking` 与 `/portfolio/work/interview`，简历是 `/portfolio/resume.pdf`。没有 `/works`、没有 `/en`。开发时 `npm run dev` 同样走 `/portfolio/`。
 
 ## 部署
 
-任意静态 host（Cloudflare Pages / GitHub Pages / Vercel 等）：
+仓库：[ChloeZhang-source/portfolio](https://github.com/ChloeZhang-source/portfolio)
 
+GitHub Pages 仓库站：<https://chloezhang-source.github.io/portfolio/>
+
+- `site`: `https://chloezhang-source.github.io`
+- `base`: `/portfolio/`
 - 构建命令：`npm run build`
 - 发布目录：`dist/`
 
-上线前把 `astro.config.mjs` 里的 `site` 从 `https://example.com` 改成真实站点 URL（OG 图依赖它）。
+push `main` 时 `.github/workflows/pages.yml` 会跑 `npm ci`、`npm test`、`npm run build`，并把 `dist/` 发到 GitHub Pages。仓库设置里把 Pages 源选成 GitHub Actions。
 
 ## 改内容（不要改组件）
 
@@ -55,6 +59,7 @@ npm run dev
 | 路径 | 用途 |
 | --- | --- |
 | `resume.pdf` | 中文简历 |
+| `favicon.svg` | 纸面风格站点图标 |
 | `avatar.jpg` | 首页窗口头像 |
 | `wechat-qr.png` | 联系区微信码 |
 | `fonts/noto-serif-sc-title.woff2` | Hero 标题子集字体 |

@@ -5,6 +5,10 @@ export function resolveDocumentTitle(customTitle: string | undefined, name: stri
 	return trimmed ? trimmed : `${name} · ${DEFAULT_TITLE_SUFFIX}`;
 }
 
-export function absoluteOgImageUrl(siteOrigin: string | URL, imagePath: string): string {
+export function absoluteOgImageUrl(siteOrigin: string | URL | undefined, imagePath: string): string {
+	if (!siteOrigin) {
+		throw new Error('astro.config site is required for Open Graph URLs');
+	}
+
 	return new URL(imagePath, siteOrigin).href;
 }

@@ -13,6 +13,7 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /resolveDocumentTitle/);
 	assert.match(source, /absoluteOgImageUrl/);
+	assert.match(source, /withBase/);
 	assert.match(source, /site\.name/);
 	assert.match(source, /site\.headline/);
 	assert.match(source, /site\.avatarSrc/);
@@ -22,6 +23,14 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 	assert.match(source, /property=["']og:title["']/);
 	assert.match(source, /property=["']og:description["']/);
 	assert.match(source, /property=["']og:image["']/);
+	assert.match(source, /property=["']og:url["']/);
+	assert.match(source, /property=["']og:type["']/);
+	assert.match(source, /content=["']website["']/);
+	assert.match(source, /rel=["']canonical["']/);
+	assert.match(source, /rel=["']icon["']/);
+	assert.match(source, /favicon\.svg/);
+	assert.match(source, /absoluteOgImageUrl\(\s*Astro\.site\s*,\s*withBase\(ogImage\)\s*\)/);
+	assert.doesNotMatch(source, /example\.com/);
 
 	assert.match(source, /<slot\s+name=["']header["']\s*\/>/);
 	assert.match(source, /<slot\s+name=["']footer["']\s*\/>/);
@@ -43,7 +52,9 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 
 	assert.match(source, /rel=["']preload["']/);
 	assert.match(source, /as=["']font["']/);
-	assert.match(source, /\/fonts\/noto-serif-sc-title\.woff2/);
+	assert.match(source, /withBase\(['"]\/fonts\/noto-serif-sc-title\.woff2['"]\)/);
+	assert.match(source, /url\("\$\{titleFontHref\}"\)/);
+	assert.doesNotMatch(source, /url\(["']\{titleFontHref\}["']\)/);
 	assert.match(source, /@font-face/);
 	assert.match(source, /font-family:\s*["']Noto Serif SC["']/);
 	assert.match(source, /font-display:\s*swap/);
@@ -70,4 +81,13 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 		.join(', ');
 
 	assert.match(source, new RegExp(`unicode-range:\\s*${range.replace(/[+,]/g, '\\$&')}`));
+});
+
+test('public favicon is a paper-window mark with a hairline and amber dot', async () => {
+	const source = await readFile(join(here, '../../public/favicon.svg'), 'utf8');
+
+	assert.match(source, /<svg[\s\S]*<\/svg>/);
+	assert.match(source, /#f4f3ef|#F4F3EF/);
+	assert.match(source, /#e4e1d8|#E4E1D8/);
+	assert.match(source, /#c29857|#C29857/);
 });

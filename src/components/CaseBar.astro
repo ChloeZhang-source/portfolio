@@ -5,6 +5,7 @@ import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { mailtoHref } from '../lib/contact';
 import { otherCaseWork, workCaseHref } from '../lib/work';
+import { withBase } from '../lib/paths';
 
 interface Props {
 	work: Work;
@@ -27,7 +28,7 @@ const other = otherCaseWork(works, work.slug);
 		<a href={mailtoHref(site.email)}>{homeCopy.contactMailLabel}</a>
 	</p>
 	<p>
-		<a href={caseCopy.wechatHref}>{caseCopy.wechatSeeHome}</a>
+		<a href={withBase(caseCopy.wechatHref)}>{caseCopy.wechatSeeHome}</a>
 	</p>
 </div>
 

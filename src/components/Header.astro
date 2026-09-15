@@ -1,26 +1,27 @@
 ---
 import { site } from '../data/site';
 import { navCurrentHref } from '../lib/nav';
+import { withBase } from '../lib/paths';
 
 const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 ---
 
 <div class="site-header">
-	<a class="site-header__name" href="/">{site.name}</a>
+	<a class="site-header__name" href={withBase('/')}>{site.name}</a>
 	<nav class="site-header__nav" aria-label="页面导航">
 		{
 			site.nav.map((item) => (
 				<a
-					href={item.href}
-					class:list={[item.href === currentHref && 'nav-current']}
-					aria-current={item.href === currentHref ? 'page' : undefined}
+					href={withBase(item.href)}
+					class:list={[withBase(item.href) === currentHref && 'nav-current']}
+					aria-current={withBase(item.href) === currentHref ? 'page' : undefined}
 				>
 					{item.label}
 				</a>
 			))
 		}
 	</nav>
-	<a class="site-header__resume" href={site.resumeHref} download={site.resumeDownloadName}>
+	<a class="site-header__resume" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>
 		{site.resumeLabel}
 	</a>
 </div>

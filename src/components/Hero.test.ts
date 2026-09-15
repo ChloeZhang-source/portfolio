@@ -44,6 +44,7 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /work\.video/);
 	assert.doesNotMatch(source, /class=["']btn["']/);
 	assert.match(source, /works\.map/);
+	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
 	assert.match(source, /work\.title/);
 	assert.match(source, /work\.tagline/);

@@ -14,6 +14,7 @@ test('Contact is the #contact closer: likeness, mail text, email, WeChat window 
 	assert.match(source, /WindowBar/);
 	assert.match(source, /mailtoHref/);
 	assert.match(source, /id=["']contact["']/);
+	assert.match(source, /withBase\(site\.avatarSrc\)/);
 	assert.match(source, /site\.avatarSrc/);
 	assert.match(source, /contact__avatar/);
 	assert.match(source, /alt=\{site\.name\}/);
@@ -21,6 +22,7 @@ test('Contact is the #contact closer: likeness, mail text, email, WeChat window 
 	assert.doesNotMatch(source, /window--portrait/);
 	assert.match(source, /homeCopy\.contactMailLabel/);
 	assert.match(source, /site\.email/);
+	assert.match(source, /withBase\(site\.wechatQrSrc\)/);
 	assert.match(source, /site\.wechatQrSrc/);
 	assert.match(source, /site\.wechatHint/);
 	assert.match(source, /caption=["']微信["']/);

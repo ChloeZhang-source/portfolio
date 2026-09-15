@@ -2,6 +2,7 @@
 import type { Work } from '../content/works-schema';
 import { caseCopy, resultFactsFor } from '../data/case';
 import { caseProductCta, showCaseDemo } from '../lib/work';
+import { withBase } from '../lib/paths';
 import WindowBar from './WindowBar.astro';
 
 interface Props {
@@ -27,9 +28,9 @@ const shots = work.gallery.map((item) => {
 		<div class="window__screen">
 			{
 				work.video ? (
-					<video src={work.video} poster={work.cover} muted loop playsinline controls></video>
+					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline controls></video>
 				) : (
-					<img src={work.cover} alt={work.title} />
+					<img src={withBase(work.cover)} alt={work.title} />
 				)
 			}
 		</div>
@@ -63,7 +64,7 @@ const shots = work.gallery.map((item) => {
 					<a class="btn" href={caseCopy.walkthroughHref}>
 						{caseCopy.walkthroughLabel}
 					</a>
-					<a class="case-hero__resume" href={caseCopy.requestHref}>
+					<a class="case-hero__resume" href={withBase(caseCopy.requestHref)}>
 						{caseCopy.requestLabel}
 					</a>
 				</div>
@@ -78,7 +79,7 @@ const shots = work.gallery.map((item) => {
 						<div class="window">
 							<WindowBar caption={shot.caption} />
 							<div class="window__screen">
-								<img src={shot.src} alt={shot.alt} />
+								<img src={withBase(shot.src)} alt={shot.alt} />
 							</div>
 						</div>
 					))

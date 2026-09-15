@@ -11,7 +11,9 @@ test('Header links the name home, renders site.nav, and keeps resume download vi
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /site\.name/);
-	assert.match(source, /href=["']\/["']/);
+	assert.match(source, /withBase\(['"]\/['"]\)/);
+	assert.match(source, /withBase\(item\.href\)/);
+	assert.match(source, /withBase\(site\.resumeHref\)/);
 	assert.match(source, /site\.nav/);
 	assert.match(source, /site\.resumeHref/);
 	assert.match(source, /site\.resumeDownloadName/);

@@ -1,6 +1,7 @@
 ---
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
+import { withBase } from '../lib/paths';
 
 const acpNeedle = '阿里云大模型 ACP';
 const acpAt = site.about.indexOf(acpNeedle);
@@ -14,7 +15,7 @@ const aboutAfter = acpAt === -1 ? '' : site.about.slice(acpAt + acpNeedle.length
 		{aboutBefore}{' '}
 		<a
 			class="about__cert"
-			href={site.acpCert.src}
+			href={withBase(site.acpCert.src)}
 			target="_blank"
 			rel="noopener noreferrer"
 			aria-haspopup="dialog"
@@ -41,7 +42,7 @@ const aboutAfter = acpAt === -1 ? '' : site.about.slice(acpAt + acpNeedle.length
 				<button type="submit">{site.acpCert.closeLabel}</button>
 			</form>
 		</div>
-		<img src={site.acpCert.src} alt={site.acpCert.alt} />
+		<img src={withBase(site.acpCert.src)} alt={site.acpCert.alt} />
 	</dialog>
 </section>
 

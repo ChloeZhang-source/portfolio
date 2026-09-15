@@ -3,9 +3,12 @@ import { test } from 'node:test';
 
 test('workCaseHref is a case-page path, not a product URL', async () => {
 	const { workCaseHref } = await import('./work.ts');
+	const { withBase } = await import('./paths.ts');
 
 	assert.equal(workCaseHref('speaking'), '/work/speaking');
 	assert.equal(workCaseHref('interview'), '/work/interview');
+	assert.equal(workCaseHref('speaking', '/portfolio/'), '/portfolio/work/speaking');
+	assert.equal(withBase('/work/speaking', '/portfolio/'), '/portfolio/work/speaking');
 });
 
 test('homepage card helpers are gone; case pages keep caseProductCta', async () => {

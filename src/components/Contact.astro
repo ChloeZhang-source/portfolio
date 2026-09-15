@@ -2,6 +2,7 @@
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { mailtoHref } from '../lib/contact';
+import { withBase } from '../lib/paths';
 import WindowBar from './WindowBar.astro';
 
 const sendLabel = homeCopy.contactMailLabel;
@@ -13,7 +14,7 @@ const mailHref = mailtoHref(site.email);
 	<div class="contact__row">
 		<img
 			class="contact__avatar"
-			src={site.avatarSrc}
+			src={withBase(site.avatarSrc)}
 			alt={site.name}
 			width="96"
 			height="96"
@@ -25,7 +26,7 @@ const mailHref = mailtoHref(site.email);
 		<div class="window contact__wechat">
 			<WindowBar caption="微信" />
 			<figure>
-				<img src={site.wechatQrSrc} alt="微信二维码" width="120" height="120" />
+				<img src={withBase(site.wechatQrSrc)} alt="微信二维码" width="120" height="120" />
 				<figcaption class="muted">{site.wechatHint}</figcaption>
 			</figure>
 		</div>

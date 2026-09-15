@@ -13,7 +13,9 @@ test('CaseHero is media → caption facts → product CTA → optional #demo →
 	assert.match(source, /caseProductCta/);
 	assert.match(source, /showCaseDemo/);
 	assert.match(source, /resultFactsFor/);
+	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
+	assert.match(source, /withBase\(work\.video\)/);
 	assert.match(source, /work\.video/);
 	assert.match(source, /id=["']demo["']/);
 	assert.match(source, /id=["']gallery["']/);
@@ -22,11 +24,12 @@ test('CaseHero is media → caption facts → product CTA → optional #demo →
 	assert.match(source, /caption=\{work\.title\}/);
 	assert.match(source, /caption=\{shot\.caption\}/);
 	assert.match(source, /alt=\{shot\.alt\}/);
-	assert.match(source, /src=\{shot\.src\}/);
+	assert.match(source, /src=\{withBase\(shot\.src\)\}/);
 	assert.match(source, /work\.demoNotes/);
 	assert.match(source, /caseCopy\.accessTitle/);
 	assert.match(source, /caseCopy\.walkthroughLabel/);
 	assert.match(source, /caseCopy\.requestLabel/);
+	assert.match(source, /withBase\(caseCopy\.requestHref\)/);
 	assert.match(source, /product\.external/);
 	assert.match(source, /target=["']_blank["']/);
 	assert.match(source, /rel=["']noopener noreferrer["']/);
