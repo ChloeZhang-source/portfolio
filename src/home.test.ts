@@ -27,6 +27,10 @@ test('homepage chapters are Home → Explore #work → Experience (About + timel
 	assert.match(source, /Experience\.astro/);
 	assert.match(source, /getCollection\(['"]works['"]\)/);
 	assert.match(source, /id=["']work["']/);
+	const experienceChapter = source.match(/<section\b[^>]*chapter--experience[^>]*>/);
+	assert.ok(experienceChapter, 'experience chapter wrapper must exist');
+	assert.match(experienceChapter[0], /id=["']experience["']/);
+	assert.match(source, /\.chapter--experience[^{]*\{[^}]*scroll-margin-top:\s*6rem/s);
 	assert.match(source, /chapter__kicker">作品</);
 	assert.match(source, /chapter__kicker">经历</);
 	assert.doesNotMatch(source, /chapter__kicker">Explore</);

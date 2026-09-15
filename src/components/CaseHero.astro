@@ -23,6 +23,7 @@ const shots = work.gallery.map((item) => {
 ---
 
 <section class="case-hero">
+	<h1>{work.title}</h1>
 	<div class="window case-hero__media">
 		<WindowBar caption={work.title} />
 		<div class="window__screen">
@@ -103,6 +104,15 @@ const shots = work.gallery.map((item) => {
 		display: grid;
 		gap: 1rem;
 		padding: 2.25rem 1.25rem 2rem;
+	}
+
+	.case-hero h1 {
+		margin: 0;
+		max-width: 42rem;
+		font-size: 1.35rem;
+		font-weight: 500;
+		line-height: 1.6;
+		letter-spacing: 0.02em;
 	}
 
 	.case-hero__media {

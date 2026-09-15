@@ -6,12 +6,12 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Experience is a compact #experience timeline from site.experience', async () => {
+test('Experience is a compact timeline from site.experience, not the chapter hash target', async () => {
 	const source = await readFile(join(here, 'Experience.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
-	assert.match(source, /id=["']experience["']/);
+	assert.doesNotMatch(source, /id=["']experience["']/);
 	assert.match(source, /homeCopy\.experienceTitle/);
 	assert.match(source, /site\.experience/);
 	assert.match(source, /splitExperiencePeriod/);

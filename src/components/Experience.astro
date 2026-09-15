@@ -5,7 +5,7 @@ import { splitExperiencePeriod } from '../lib/experience';
 import WindowBar from './WindowBar.astro';
 ---
 
-<section id="experience" class="experience">
+<section class="experience">
 	<h2>{homeCopy.experienceTitle}</h2>
 	<div class="window">
 		<WindowBar caption="经历" />
@@ -44,7 +44,6 @@ import WindowBar from './WindowBar.astro';
 		--exp-node: rgba(27, 26, 23, 0.3);
 		--rail-pad: 136px;
 		--rail-x: 110px;
-		scroll-margin-top: 4.5rem;
 	}
 
 	.experience :global(.window) {

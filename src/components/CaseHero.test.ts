@@ -6,13 +6,17 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('CaseHero is media → caption facts → product CTA → optional #demo → gallery windows', async () => {
+test('CaseHero is visible h1 → media → caption facts → product CTA → optional #demo → gallery windows', async () => {
 	const source = await readFile(join(here, 'CaseHero.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/case['"]/);
 	assert.match(source, /caseProductCta/);
 	assert.match(source, /showCaseDemo/);
 	assert.match(source, /resultFactsFor/);
+	assert.match(source, /<h1>\{work\.title\}<\/h1>/);
+	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*1\.35rem/s);
+	assert.match(source, /\.case-hero h1\s*\{[^}]*font-weight:\s*500/s);
+	assert.doesNotMatch(source, /\.case-hero h1\s*\{[^}]*font-family:/s);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
 	assert.match(source, /withBase\(work\.video\)/);
@@ -42,6 +46,7 @@ test('CaseHero is media → caption facts → product CTA → optional #demo →
 
 	const template = source.slice(source.lastIndexOf('---'));
 	const order = [
+		'<h1>{work.title}</h1>',
 		'work.cover',
 		'case-hero__facts',
 		'product.href',

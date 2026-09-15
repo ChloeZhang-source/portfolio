@@ -31,7 +31,7 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
 			}
 		</div>
 	</section>
-	<section class="chapter chapter--experience">
+	<section id="experience" class="chapter chapter--experience">
 		<div class="chapter__art" aria-hidden="true">
 			<ChapterRule />
 		</div>
@@ -48,6 +48,10 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
 		width: min(var(--window-max), 100%);
 		display: grid;
 		gap: 3.5rem;
+	}
+
+	.chapter--experience {
+		scroll-margin-top: 6rem;
 	}
 
 	.chapter--experience :global(.about),
