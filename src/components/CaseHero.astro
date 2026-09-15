@@ -62,9 +62,13 @@ const shots = work.gallery.map((item) => {
 				<p>{caseCopy.accessTitle}</p>
 				<p>{work.demoNotes}</p>
 				<div class="case-hero__cta">
-					<a class="btn" href={caseCopy.walkthroughHref}>
-						{caseCopy.walkthroughLabel}
-					</a>
+					{
+						product.external && (
+							<a class="btn" href={caseCopy.walkthroughHref}>
+								{caseCopy.walkthroughLabel}
+							</a>
+						)
+					}
 					<a class="case-hero__resume" href={withBase(caseCopy.requestHref)}>
 						{caseCopy.requestLabel}
 					</a>

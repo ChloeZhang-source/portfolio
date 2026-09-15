@@ -32,6 +32,8 @@ test('Experience is a compact timeline from site.experience, not the chapter has
 	assert.doesNotMatch(source, /\.experience h2\s*\{[^}]*font-family:/s);
 	assert.doesNotMatch(source, /\.experience h3\s*\{[^}]*font-family:/s);
 	assert.doesNotMatch(source, /\.experience h2\s*\{[^}]*font-size:\s*1\.62em/s);
+	assert.match(source, /--exp-ink-3:\s*#6f6c66/);
+	assert.doesNotMatch(source, /--exp-ink-3:\s*#8a857a/);
 	assert.match(source, /--rail-pad:\s*136px/);
 	assert.match(source, /max-width:\s*44\.9rem/);
 	assert.doesNotMatch(source, /hello@example\.com/);

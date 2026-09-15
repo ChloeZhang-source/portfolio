@@ -212,7 +212,7 @@ code {
 	font-family: var(--font-mono);
 	font-size: 0.72rem;
 	letter-spacing: 0.06em;
-	color: #8a857a;
+	color: var(--color-muted);
 }
 
 .window__lights {

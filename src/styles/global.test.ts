@@ -59,6 +59,8 @@ test('window chrome is a floating exhibit: 18px radius, soft shadow, gray lights
 
 	assert.match(css, /\.window__bar\s*\{[^}]*background:\s*var\(--color-window-bar\)/s);
 	assert.match(css, /\.window__bar\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
+	assert.match(css, /\.window__bar\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.doesNotMatch(css, /\.window__bar\s*\{[^}]*color:\s*#8a857a/s);
 	assert.match(css, /\.window__bar\s*\{[^}]*gap:/s);
 	assert.match(css, /\.nav-current::after\s*\{[^}]*height:\s*2px/s);
 	assert.match(css, /\.nav-current::after\s*\{[^}]*background:\s*var\(--color-amber\)/s);

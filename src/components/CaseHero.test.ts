@@ -71,3 +71,12 @@ test('CaseHero is visible h1 → media → caption facts → product CTA → opt
 	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);
 	assert.doesNotMatch(source, /hello@example\.com/);
 });
+
+test('walkthrough link in #demo is only rendered when the product CTA is external', async () => {
+	const source = await readFile(join(here, 'CaseHero.astro'), 'utf8');
+	const demoBlock = source.slice(source.indexOf('id="demo"'), source.indexOf('id="gallery"'));
+
+	assert.match(demoBlock, /product\.external/);
+	assert.match(demoBlock, /product\.external[\s\S]{0,400}caseCopy\.walkthroughLabel/);
+	assert.match(demoBlock, /caseCopy\.requestLabel/);
+});
