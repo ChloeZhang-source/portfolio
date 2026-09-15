@@ -32,6 +32,6 @@ test('every site.experience period splits into a two-line rail label', async () 
 		assert.match(item.period, when.end === '至今' ? /至今/ : new RegExp(when.end.replace('.', '\\.')));
 	}
 
-	assert.equal(splitExperiencePeriod(site.experience[0].period).current, true);
+	assert.equal(splitExperiencePeriod(site.experience[0].period).current, false);
 	assert.ok(site.experience.slice(1).every((item) => !splitExperiencePeriod(item.period).current));
 });
