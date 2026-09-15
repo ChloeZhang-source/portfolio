@@ -10,12 +10,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-		"test": "node --experimental-strip-types --test src/data/site.test.ts src/data/home.test.ts src/data/case.test.ts src/data/assets.test.ts src/content/works.test.ts src/lib/seo.test.ts src/lib/contact.test.ts src/lib/paths.test.ts src/lib/work.test.ts src/lib/experience.test.ts src/lib/side-atmosphere.test.ts src/lib/nav.test.ts src/styles/global.test.ts src/layouts/BaseLayout.test.ts src/components/Header.test.ts src/components/Footer.test.ts src/components/Contact.test.ts src/components/Hero.test.ts src/components/WorkCard.test.ts src/components/About.test.ts src/components/Experience.test.ts src/components/CaseHero.test.ts src/components/CaseBar.test.ts src/components/SideAtmosphere.test.ts src/components/ChapterRule.test.ts src/components/WindowBar.test.ts src/home.test.ts src/case-page.test.ts"
+		"test": "node --experimental-strip-types --test src/data/site.test.ts src/data/home.test.ts src/data/case.test.ts src/data/assets.test.ts src/content/works.test.ts src/lib/seo.test.ts src/lib/contact.test.ts src/lib/paths.test.ts src/lib/work.test.ts src/lib/experience.test.ts src/lib/side-atmosphere.test.ts src/lib/nav.test.ts src/styles/global.test.ts src/layouts/BaseLayout.test.ts src/components/Header.test.ts src/components/Footer.test.ts src/components/Contact.test.ts src/components/Hero.test.ts src/components/WorkCard.test.ts src/components/About.test.ts src/components/Experience.test.ts src/components/CaseHero.test.ts src/components/CaseBar.test.ts src/components/SideAtmosphere.test.ts src/components/ChapterRule.test.ts src/components/WindowBar.test.ts src/home.test.ts src/case-page.test.ts src/not-found.test.ts"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.1",
     "@astrojs/mdx": "^8.0.1",
     "astro": "^7.3.2"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.1"
   },
   "allowScripts": {
     "esbuild": true

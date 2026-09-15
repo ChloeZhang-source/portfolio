@@ -74,6 +74,7 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 		'方案',
 		'我做了什么',
 		'结果与反思',
+		'未找到页面',
 	].join('');
 	const range = [...new Set([...headingText].map((ch) => ch.codePointAt(0)))]
 		.sort((a, b) => a - b)

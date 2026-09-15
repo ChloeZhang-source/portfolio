@@ -1,0 +1,17 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout title="未找到页面" description="这个地址没有对应页面，可以回到首页继续看作品和经历。">
+	<Header slot="header" />
+	<section class="chapter">
+		<p class="chapter__kicker">404</p>
+		<h1>未找到页面</h1>
+		<p class="chapter__lede">这个地址没有对应页面，可以回到首页继续看作品和经历。</p>
+		<a class="btn" href={withBase('/')}>回到首页</a>
+	</section>
+	<Footer slot="footer" />
+</BaseLayout>
