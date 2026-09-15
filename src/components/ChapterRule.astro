@@ -1,0 +1,48 @@
+<div class="sep sep--ruler" aria-hidden="true">
+	<span class="sep__end"></span>
+	<span class="sep__rule"></span>
+	<span class="sep__dot"></span>
+	<span class="sep__rule"></span>
+	<span class="sep__end"></span>
+</div>
+
+<style>
+	.sep {
+		display: flex;
+		align-items: center;
+		width: 248px;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+
+	.sep__end {
+		flex: 0 0 auto;
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: var(--color-node);
+	}
+
+	.sep__rule {
+		flex: 1;
+		height: 1px;
+		background: var(--color-rule);
+	}
+
+	.sep__end + .sep__rule {
+		margin-left: 8px;
+	}
+
+	.sep__rule:has(+ .sep__end) {
+		margin-right: 8px;
+	}
+
+	.sep__dot {
+		flex: 0 0 auto;
+		width: 7px;
+		height: 7px;
+		margin: 0 12px;
+		border-radius: 50%;
+		background: var(--color-amber);
+	}
+</style>

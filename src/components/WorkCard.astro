@@ -1,0 +1,69 @@
+---
+import { homeCopy } from '../data/home';
+import { workCaseHref } from '../lib/work';
+import type { Work } from '../content/works-schema';
+import WindowBar from './WindowBar.astro';
+
+interface Props {
+	work: Work;
+}
+
+const { work } = Astro.props;
+---
+
+<article class="work-card">
+	<h2>{work.title}</h2>
+	<p class="work-card__lede">{work.tagline}</p>
+	<div class="window">
+		<WindowBar caption={work.title} />
+		<div class="window__screen">
+			{
+				work.video ? (
+					<video src={work.video} poster={work.cover} muted loop playsinline autoplay></video>
+				) : (
+					<img src={work.cover} alt={work.title} />
+				)
+			}
+		</div>
+	</div>
+	<p class="result-number">{work.result}</p>
+	<div class="work-card__cta">
+		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabel}</a>
+	</div>
+</article>
+
+<style>
+	.work-card {
+		display: grid;
+		justify-items: center;
+		gap: 0.65rem;
+		text-align: center;
+	}
+
+	.work-card h2,
+	.work-card p {
+		margin: 0;
+		max-width: var(--lede-max);
+	}
+
+	.work-card h2 {
+		font-size: 1.35rem;
+		font-weight: 500;
+		line-height: 1.6;
+		letter-spacing: 0.02em;
+	}
+
+	.work-card__lede {
+		color: var(--color-muted);
+	}
+
+	.work-card .window {
+		width: 100%;
+		margin: 0.75rem 0 0.35rem;
+		text-align: left;
+	}
+
+	.work-card__cta {
+		margin-top: 0.35rem;
+	}
+</style>

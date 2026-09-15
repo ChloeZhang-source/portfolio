@@ -1,0 +1,268 @@
+---
+import { SIDE_CHAPTERS, SIDE_CHAPTER_FOLIOS } from '../lib/side-atmosphere';
+
+const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
+	home: '8%',
+	work: '42%',
+	experience: '78%',
+};
+---
+
+<div class="side-atmosphere" data-side-atmosphere aria-hidden="true">
+	<div class="side-atmosphere__rail side-atmosphere__rail--left">
+		<span class="side-atmosphere__rule"></span>
+		<span class="side-atmosphere__caret" data-caret style={`top: ${fallbackY.home}`}></span>
+		{
+			SIDE_CHAPTERS.map((id) => (
+				<div
+					class:list={['side-atmosphere__node', id === 'home' && 'side-atmosphere__node--now']}
+					data-chapter={id}
+					style={`top: ${fallbackY[id]}`}
+				>
+					<span class="side-atmosphere__folio">{SIDE_CHAPTER_FOLIOS[id]}</span>
+					<span class="side-atmosphere__dot"></span>
+				</div>
+			))
+		}
+	</div>
+	<div class="side-atmosphere__rail side-atmosphere__rail--right">
+		<span class="side-atmosphere__rule"></span>
+		<span class="side-atmosphere__caret" data-caret style={`top: ${fallbackY.home}`}></span>
+		{
+			SIDE_CHAPTERS.map((id) => (
+				<div
+					class:list={['side-atmosphere__node', id === 'home' && 'side-atmosphere__node--now']}
+					data-chapter={id}
+					style={`top: ${fallbackY[id]}`}
+				>
+					<span class="side-atmosphere__dot"></span>
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<script>
+	import {
+		SIDE_CHAPTERS,
+		SIDE_CHAPTER_SELECTORS,
+		resolveActiveChapter,
+		spineCaretY,
+		spineNodeY,
+		type ChapterBounds,
+		type SideChapter,
+		type SpineStation,
+	} from '../lib/side-atmosphere';
+
+	const root = document.querySelector<HTMLElement>('[data-side-atmosphere]');
+	const page = document.querySelector('main');
+
+	if (root && page) {
+		const nodes = [...root.querySelectorAll<HTMLElement>('[data-chapter]')];
+		const carets = [...root.querySelectorAll<HTMLElement>('[data-caret]')];
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+		const railY = (node: HTMLElement) => {
+			const y = Number.parseFloat(node.style.top);
+			return Number.isFinite(y) ? y : 0;
+		};
+
+		const fit = () => {
+			const pageHeight = Math.max(page.scrollHeight, page.offsetHeight);
+			root.style.height = `${pageHeight}px`;
+
+			const pageTop = page.getBoundingClientRect().top + window.scrollY;
+
+			for (const id of SIDE_CHAPTERS) {
+				const chapter = document.querySelector<HTMLElement>(SIDE_CHAPTER_SELECTORS[id]);
+				if (!chapter) {
+					continue;
+				}
+
+				const marker = chapter.querySelector<HTMLElement>('.chapter__art') ?? chapter;
+				const markerTop =
+					marker.getBoundingClientRect().top + window.scrollY + marker.offsetHeight / 2;
+				const y = spineNodeY(markerTop, pageTop, pageHeight);
+
+				for (const node of nodes) {
+					if (node.dataset.chapter !== id) {
+						continue;
+					}
+
+					const railTop = node.offsetParent instanceof HTMLElement ? node.offsetParent.offsetTop : 0;
+					node.style.top = `${y - railTop}px`;
+				}
+			}
+		};
+
+		const paint = () => {
+			const header = document.querySelector('body > header');
+			const headerBottom = header?.getBoundingClientRect().bottom ?? 64;
+			const anchor = headerBottom + 8;
+			const chapters: ChapterBounds[] = [];
+
+			for (const id of SIDE_CHAPTERS) {
+				const el = document.querySelector(SIDE_CHAPTER_SELECTORS[id]);
+				if (!el) {
+					continue;
+				}
+
+				const rect = el.getBoundingClientRect();
+				chapters.push({ id, top: rect.top, bottom: rect.bottom });
+			}
+
+			const active: SideChapter = resolveActiveChapter(chapters, anchor);
+
+			for (const node of nodes) {
+				node.classList.toggle('side-atmosphere__node--now', node.dataset.chapter === active);
+			}
+
+			const stations: SpineStation[] = [];
+
+			for (const chapter of chapters) {
+				const node = nodes.find((item) => item.dataset.chapter === chapter.id);
+				if (!node) {
+					continue;
+				}
+
+				stations.push({ top: chapter.top, nodeY: railY(node) });
+			}
+
+			const activeNode = nodes.find((item) => item.dataset.chapter === active);
+			const caretY = reduceMotion.matches
+				? (activeNode ? railY(activeNode) : 0)
+				: spineCaretY(stations, headerBottom);
+
+			for (const caret of carets) {
+				caret.style.top = `${caretY}px`;
+			}
+		};
+
+		const sync = () => {
+			fit();
+			paint();
+		};
+
+		sync();
+		requestAnimationFrame(sync);
+		window.addEventListener('scroll', paint, { passive: true });
+		window.addEventListener('resize', sync);
+		reduceMotion.addEventListener('change', paint);
+		new ResizeObserver(sync).observe(page);
+	}
+</script>
+
+<style>
+	.side-atmosphere {
+		position: absolute !important;
+		top: 0;
+		left: 50% !important;
+		z-index: 0;
+		width: 100vw !important;
+		max-width: none !important;
+		margin: 0 !important;
+		overflow: hidden;
+		transform: translateX(-50%);
+		pointer-events: none;
+	}
+
+	.side-atmosphere__rail {
+		position: absolute;
+		top: 3.5rem;
+		bottom: 3.5rem;
+		width: 4.25rem;
+	}
+
+	.side-atmosphere__rail--left {
+		left: max(1.25rem, calc(50% - 38.5rem));
+	}
+
+	.side-atmosphere__rail--right {
+		right: max(1.25rem, calc(50% - 38.5rem));
+	}
+
+	.side-atmosphere__rule {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		background: var(--color-rule);
+	}
+
+	.side-atmosphere__rail--left .side-atmosphere__rule {
+		right: 3px;
+	}
+
+	.side-atmosphere__rail--right .side-atmosphere__rule {
+		left: 3px;
+	}
+
+	.side-atmosphere__caret {
+		position: absolute;
+		z-index: 1;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--color-amber);
+		transform: translateY(-50%);
+	}
+
+	.side-atmosphere__rail--left .side-atmosphere__caret {
+		right: 0;
+	}
+
+	.side-atmosphere__rail--right .side-atmosphere__caret {
+		left: 0;
+	}
+
+	.side-atmosphere__node {
+		position: absolute;
+		left: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		transform: translateY(-50%);
+	}
+
+	.side-atmosphere__rail--left .side-atmosphere__node {
+		justify-content: flex-end;
+		gap: 0.7rem;
+	}
+
+	.side-atmosphere__rail--right .side-atmosphere__node {
+		justify-content: flex-start;
+	}
+
+	.side-atmosphere__folio {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+	}
+
+	.side-atmosphere__node--now .side-atmosphere__folio {
+		color: var(--color-text);
+	}
+
+	.side-atmosphere__dot {
+		display: grid;
+		flex: 0 0 auto;
+		place-items: center;
+		width: 7px;
+		height: 7px;
+	}
+
+	.side-atmosphere__dot::after {
+		content: '';
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: var(--color-node);
+	}
+
+	@media (max-width: 1100px) {
+		.side-atmosphere {
+			display: none;
+		}
+	}
+</style>

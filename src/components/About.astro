@@ -1,0 +1,160 @@
+---
+import { homeCopy } from '../data/home';
+import { site } from '../data/site';
+
+const acpNeedle = '阿里云大模型 ACP';
+const acpAt = site.about.indexOf(acpNeedle);
+const aboutBefore = acpAt === -1 ? site.about : site.about.slice(0, acpAt + acpNeedle.length);
+const aboutAfter = acpAt === -1 ? '' : site.about.slice(acpAt + acpNeedle.length);
+---
+
+<section id="about" class="about">
+	<h2>{homeCopy.aboutTitle}</h2>
+	<p>
+		{aboutBefore}{' '}
+		<a
+			class="about__cert"
+			href={site.acpCert.src}
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-haspopup="dialog"
+			data-acp-dialog
+		>
+			{site.acpCert.label}
+		</a>
+		{aboutAfter}
+	</p>
+	<ul class="about__skills about__skills--primary">
+		{site.aboutSkillsPrimary.map((skill) => (
+			<li>{skill}</li>
+		))}
+	</ul>
+	<ul class="about__skills about__skills--secondary">
+		{site.aboutSkillsSecondary.map((skill) => (
+			<li>{skill}</li>
+		))}
+	</ul>
+	<dialog id="acp-cert" class="about__dialog" aria-labelledby="acp-cert-title">
+		<div class="about__dialog-bar">
+			<p id="acp-cert-title">{acpNeedle}</p>
+			<form method="dialog">
+				<button type="submit">{site.acpCert.closeLabel}</button>
+			</form>
+		</div>
+		<img src={site.acpCert.src} alt={site.acpCert.alt} />
+	</dialog>
+</section>
+
+<script>
+	const link = document.querySelector<HTMLAnchorElement>('[data-acp-dialog]');
+	const dialog = document.querySelector<HTMLDialogElement>('#acp-cert');
+
+	link?.addEventListener('click', (event) => {
+		if (!dialog || typeof dialog.showModal !== 'function') return;
+		event.preventDefault();
+		dialog.showModal();
+	});
+
+	dialog?.addEventListener('click', (event) => {
+		if (event.target === dialog) dialog.close();
+	});
+</script>
+
+<style>
+	.about {
+		scroll-margin-top: 4.5rem;
+	}
+
+	.about h2 {
+		margin: 0 0 0.85rem;
+		font-size: 1.25rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+	}
+
+	.about p {
+		margin: 0 0 1rem;
+		max-width: 40rem;
+		color: var(--color-muted);
+	}
+
+	.about__cert {
+		color: var(--color-text);
+		font-weight: 500;
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
+		white-space: nowrap;
+	}
+
+	.about__skills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 1rem;
+		margin: 0 0 0.45rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.about__skills--primary {
+		color: var(--color-text);
+		font-weight: 500;
+	}
+
+	.about__skills--secondary {
+		color: var(--color-muted);
+		font-size: var(--font-size-muted);
+	}
+
+	.about__dialog {
+		width: min(52rem, calc(100vw - 1.5rem));
+		max-height: calc(100dvh - 1.5rem);
+		margin: auto;
+		padding: 1rem 1rem 1.1rem;
+		overflow: auto;
+		border: 0;
+		border-radius: var(--radius);
+		background: var(--color-bg);
+		box-shadow: var(--shadow);
+	}
+
+	.about__dialog::backdrop {
+		background: rgba(28, 28, 28, 0.42);
+	}
+
+	.about__dialog-bar {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.about__dialog-bar p {
+		margin: 0;
+		max-width: none;
+		color: var(--color-text);
+		font-weight: 500;
+	}
+
+	.about__dialog-bar button {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--color-muted);
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.about__dialog-bar button:hover {
+		color: var(--color-text);
+	}
+
+	.about__dialog img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: calc(100dvh - 6rem);
+		object-fit: contain;
+		background: var(--color-bg);
+	}
+</style>

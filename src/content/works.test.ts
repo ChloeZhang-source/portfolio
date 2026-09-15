@@ -1,0 +1,173 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { test } from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { load } from 'js-yaml';
+
+const here = dirname(fileURLToPath(import.meta.url));
+
+function parseFrontmatter(raw: string): Record<string, unknown> {
+	const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+	assert.ok(match, 'MDX must start with YAML frontmatter');
+	return load(match[1]) as Record<string, unknown>;
+}
+
+function headingOrder(body: string): string[] {
+	return [...body.matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].trim());
+}
+
+test('works schema validates speaking (public) and interview (demo) entries', async () => {
+	const { worksSchema } = await import('./works-schema.ts');
+
+	const speaking = worksSchema.parse({
+		title: '口语陪练',
+		slug: 'speaking',
+		tagline: '公开内测的口语练习闭环',
+		role: '独立产品经理',
+		result: '公开内测中，无需登录即可试用',
+		transferable: '可迁移到其他对话式练习产品',
+		summaryEn: 'x '.repeat(80).trim(),
+		summaryEnShort: 'Public beta. No login required.',
+		cover: '/work/speaking/cover.jpg',
+		gallery: [{ image: '/work/speaking/1.jpg', alt: '进入练习画面：3D 陪练官与开场问候', caption: '进入练习' }],
+		productUrl: 'https://example.com/speaking',
+		ctaLabel: '打开产品',
+		access: 'public',
+		order: 1,
+	});
+	assert.equal(speaking.access, 'public');
+	assert.equal(speaking.ctaLabel, '打开产品');
+
+	const interview = worksSchema.parse({
+		title: '面试系统',
+		slug: 'interview',
+		tagline: '多轮模拟面试闭环',
+		role: '独立产品经理',
+		result: '已完成 50+ 场模拟面试',
+		transferable: '可迁移到多轮智能体工作流',
+		summaryEn: 'x '.repeat(80).trim(),
+		summaryEnShort: '50+ mock interviews completed.',
+		cover: '/work/interview/cover.jpg',
+		gallery: [{ image: '/work/interview/1.jpg', alt: '面试指引页：流程步骤与评分标准', caption: '面试指引' }],
+		ctaLabel: '看流程',
+		access: 'demo',
+		demoNotes: '本产品已在真实业务环境使用，不提供公开账号。',
+		order: 2,
+	});
+	assert.equal(interview.access, 'demo');
+	assert.equal(interview.ctaLabel, '看流程');
+	assert.equal(interview.productUrl, undefined);
+	assert.equal(interview.demoAccount, undefined);
+	assert.equal(interview.demoPassword, undefined);
+
+	assert.throws(() =>
+		worksSchema.parse({
+			...speaking,
+			access: 'closed',
+		}),
+	);
+	assert.throws(() =>
+		worksSchema.parse({
+			...speaking,
+			productUrl: undefined,
+		}),
+	);
+	assert.throws(() =>
+		worksSchema.parse({
+			...interview,
+			demoNotes: undefined,
+		}),
+	);
+	assert.throws(() =>
+		worksSchema.parse({
+			...interview,
+			ctaLabel: '打开演示',
+		}),
+	);
+	assert.throws(() =>
+		worksSchema.parse({
+			...speaking,
+			gallery: ['/work/speaking/1.jpg'],
+		}),
+	);
+});
+
+test('speaking and interview MDX match locked copy and heading order', async () => {
+	const { worksSchema } = await import('./works-schema.ts');
+	const requiredHeadings = ['问题', '洞察', '方案', '我做了什么', '结果与反思'];
+
+	const speakingRaw = await readFile(join(here, 'works/speaking.mdx'), 'utf8');
+	const interviewRaw = await readFile(join(here, 'works/interview.mdx'), 'utf8');
+
+	const speaking = worksSchema.parse(parseFrontmatter(speakingRaw));
+	const interview = worksSchema.parse(parseFrontmatter(interviewRaw));
+
+	assert.equal(speaking.slug, 'speaking');
+	assert.equal(speaking.access, 'public');
+	assert.equal(speaking.ctaLabel, '打开产品');
+	assert.equal(speaking.result, '公开内测中，无需登录即可试用');
+	assert.match(speaking.summaryEn, /Public beta\. No login required\./);
+	assert.match(speaking.summaryEn, /public-beta product interface/);
+	assert.doesNotMatch(speaking.summaryEn, /placeholders/);
+	assert.doesNotMatch(speakingRaw, /立即体验|Try now|免费注册/);
+	assert.deepEqual(
+		speaking.gallery.map((item) => item.caption),
+		['进入练习', '开口对话', '即时反馈'],
+	);
+	assert.equal(new Set(speaking.gallery.map((item) => item.alt)).size, speaking.gallery.length);
+	for (const item of speaking.gallery) {
+		assert.notEqual(item.alt, '口语陪练');
+		assert.notEqual(item.alt, speaking.title);
+		assert.match(item.image, /^\/work\/speaking\/gallery-\d+\.jpg$/);
+	}
+	assert.equal(speaking.demoAccount, undefined);
+	assert.equal(speaking.demoPassword, undefined);
+
+	assert.equal(interview.slug, 'interview');
+	assert.equal(interview.access, 'demo');
+	assert.equal(interview.ctaLabel, '看流程');
+	assert.equal(interview.tagline, '前司用来招聘线上老师');
+	assert.equal(interview.result, '已完成 50+ 场教师招聘面试');
+	assert.equal(
+		interview.transferable,
+		'结构化评测和 AI 辅助打分，可迁到其他招聘或多轮智能体流程',
+	);
+	assert.equal(interview.productUrl, undefined);
+	assert.match(interview.summaryEn, /50\+ teacher-hiring interviews completed\./);
+	assert.match(interview.summaryEn, /Built for teacher hiring at my previous company\./);
+	assert.match(interview.summaryEn, /Live environment\. No public login\./);
+	assert.match(interview.summaryEn, /Walkthrough on this page\./);
+	assert.doesNotMatch(interview.summaryEn, /demo account|Demo account|credentials|mock interview/i);
+	assert.match(interview.demoNotes ?? '', /前司招聘线上老师/);
+	assert.match(interview.demoNotes ?? '', /面试指引/);
+	assert.match(interview.demoNotes ?? '', /管理端评分/);
+	assert.match(interview.demoNotes ?? '', /不提供登录|不提供公开账号/);
+	assert.match(interview.demoNotes ?? '', /脱敏/);
+	assert.match(interview.demoNotes ?? '', /预约|讲解/);
+	assert.doesNotMatch(interview.demoNotes ?? '', /Demo account|密码|账号位于|题库生成/);
+	assert.doesNotMatch(interviewRaw, /立即体验|Try now|免费注册/);
+	assert.doesNotMatch(interviewRaw, /DEMO_|mianshi\.zhan\.com|打开演示|可演示|demoAccount|demoPassword/);
+	assert.doesNotMatch(interviewRaw, /模拟面试|题库生成到改进建议/);
+	assert.doesNotMatch(interviewRaw, /考生路径|#demo/);
+	assert.match(interviewRaw, /应聘老师一条分环节面试/);
+	assert.match(interviewRaw, /对照 AI 参考分的评分台/);
+	assert.deepEqual(
+		interview.gallery.map((item) => item.caption),
+		['面试指引', '正式面试', '管理端评分'],
+	);
+	assert.equal(new Set(interview.gallery.map((item) => item.alt)).size, interview.gallery.length);
+	for (const item of interview.gallery) {
+		assert.notEqual(item.alt, '面试系统');
+		assert.notEqual(item.alt, interview.title);
+		assert.match(item.image, /^\/work\/interview\/gallery-\d+\.jpg$/);
+	}
+
+	const speakingWords = speaking.summaryEn.trim().split(/\s+/).length;
+	const interviewWords = interview.summaryEn.trim().split(/\s+/).length;
+	assert.ok(speakingWords >= 80 && speakingWords <= 120, `speaking summaryEn words: ${speakingWords}`);
+	assert.ok(interviewWords >= 80 && interviewWords <= 120, `interview summaryEn words: ${interviewWords}`);
+
+	assert.deepEqual(headingOrder(speakingRaw.split(/---/)[2] ?? ''), requiredHeadings);
+	assert.deepEqual(headingOrder(interviewRaw.split(/---/)[2] ?? ''), requiredHeadings);
+});

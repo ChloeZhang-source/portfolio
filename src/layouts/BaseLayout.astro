@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+import { absoluteOgImageUrl, resolveDocumentTitle } from '../lib/seo';
+
+interface Props {
+	title?: string;
+	description?: string;
+	ogImage?: string;
+}
+
+const {
+	title: titleProp,
+	description = site.headline,
+	ogImage = site.avatarSrc,
+} = Astro.props;
+
+const title = resolveDocumentTitle(titleProp, site.name);
+const ogTitle = title;
+const ogDescription = description;
+const ogImageAbsolute = absoluteOgImageUrl(Astro.site ?? new URL('https://example.com'), ogImage);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:image" content={ogImageAbsolute} />
+		<link
+			rel="preload"
+			href="/fonts/noto-serif-sc-title.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<style is:inline>
+			/* Noto Serif SC Medium subset (SIL OFL 1.1), glyphs for page headings */
+			@font-face {
+				font-family: "Noto Serif SC";
+				font-style: normal;
+				font-weight: 500;
+				font-display: swap;
+				src: url("/fonts/noto-serif-sc-title.woff2") format("woff2");
+				unicode-range: U+20, U+41, U+49, U+4E0E, U+4E48, U+4E86, U+4E8E, U+4EA7, U+4EC0, U+505A, U+5173, U+5386, U+53CD, U+53E3, U+54C1, U+5BDF, U+601D, U+6211, U+6559, U+65B9, U+679C, U+6848, U+6D1E, U+7406, U+7CFB, U+7EC3, U+7ECF, U+7ED3, U+7EDF, U+8054, U+80B2, U+8BD5, U+8BED, U+95EE, U+966A, U+9762, U+9898;
+			}
+		</style>
+	</head>
+	<body>
+		<a class="skip-link" href="#main">跳到正文</a>
+		<header>
+			<slot name="header" />
+		</header>
+		<main id="main" tabindex="-1">
+			<slot />
+		</main>
+		<footer>
+			<slot name="footer" />
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+---
+import type { Work } from '../content/works-schema';
+import { caseCopy } from '../data/case';
+import { homeCopy } from '../data/home';
+import { site } from '../data/site';
+import { mailtoHref } from '../lib/contact';
+import { otherCaseWork, workCaseHref } from '../lib/work';
+
+interface Props {
+	work: Work;
+	works: Work[];
+}
+
+const { work, works } = Astro.props;
+const other = otherCaseWork(works, work.slug);
+---
+
+<div class="case-bar">
+	{
+		other && (
+			<p>
+				<a href={workCaseHref(other.slug)}>{other.title}</a>
+			</p>
+		)
+	}
+	<p>
+		<a href={mailtoHref(site.email)}>{homeCopy.contactMailLabel}</a>
+	</p>
+	<p>
+		<a href={caseCopy.wechatHref}>{caseCopy.wechatSeeHome}</a>
+	</p>
+</div>
+
+<style>
+	.case-bar {
+		display: grid;
+		gap: 0.75rem;
+		padding: 1.5rem 1.25rem 2rem;
+	}
+
+	.case-bar p {
+		margin: 0;
+	}
+
+	.case-bar a {
+		color: var(--color-accent);
+	}
+</style>

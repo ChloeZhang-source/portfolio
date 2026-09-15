@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { test } from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+const here = dirname(fileURLToPath(import.meta.url));
+
+test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async () => {
+	const source = await readFile(join(here, 'pages', 'work', '[slug].astro'), 'utf8');
+
+	assert.match(source, /getStaticPaths/);
+	assert.match(source, /getCollection\(['"]works['"]\)/);
+	assert.match(source, /CaseHero\.astro/);
+	assert.match(source, /CaseBar\.astro/);
+	assert.match(source, /Header\.astro/);
+	assert.match(source, /<Content/);
+	assert.match(source, /slot=["']header["']/);
+	assert.match(source, /slot=["']footer["']/);
+	assert.match(source, /work\.title/);
+	assert.match(source, /work\.tagline/);
+	assert.match(source, /work\.cover/);
+	assert.match(source, /max-width:\s*42rem/);
+	assert.match(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-weight:\s*500/s);
+	assert.doesNotMatch(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-family:/s);
+	assert.doesNotMatch(source, /font-weight:\s*600/);
+	assert.doesNotMatch(source, /Footer\.astro/);
+	assert.doesNotMatch(source, /hello@example\.com/);
+	assert.doesNotMatch(source, /DEMO_ACCOUNT|DEMO_PASSWORD/);
+	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);
+});

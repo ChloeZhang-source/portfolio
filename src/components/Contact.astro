@@ -1,0 +1,111 @@
+---
+import { homeCopy } from '../data/home';
+import { site } from '../data/site';
+import { mailtoHref } from '../lib/contact';
+import WindowBar from './WindowBar.astro';
+
+const sendLabel = homeCopy.contactMailLabel;
+const mailHref = mailtoHref(site.email);
+---
+
+<section id="contact" class="contact">
+	<h2>联系</h2>
+	<div class="contact__row">
+		<img
+			class="contact__avatar"
+			src={site.avatarSrc}
+			alt={site.name}
+			width="96"
+			height="96"
+		/>
+		<a class="contact__mail" href={mailHref}>
+			<span class="contact__send">{sendLabel}</span>
+			<span class="contact__email">{site.email}</span>
+		</a>
+		<div class="window contact__wechat">
+			<WindowBar caption="微信" />
+			<figure>
+				<img src={site.wechatQrSrc} alt="微信二维码" width="120" height="120" />
+				<figcaption class="muted">{site.wechatHint}</figcaption>
+			</figure>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact {
+		scroll-margin-top: 4.5rem;
+	}
+
+	.contact h2 {
+		margin: 0 0 1rem;
+		font-size: 1.25rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+	}
+
+	.contact__row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1.25rem 1.75rem;
+	}
+
+	.contact__avatar {
+		width: 5.5rem;
+		height: 5.5rem;
+		flex: 0 0 auto;
+		border-radius: 50%;
+		object-fit: cover;
+		object-position: 50% 18%;
+	}
+
+	.contact__mail {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.45rem 0.85rem;
+		min-width: 0;
+		text-decoration: none;
+	}
+
+	.contact__send {
+		font-weight: 500;
+	}
+
+	.contact__email {
+		color: var(--color-muted);
+		font-family: var(--font-mono);
+		font-size: 0.92rem;
+		overflow-wrap: anywhere;
+	}
+
+	.contact__mail:hover .contact__send,
+	.contact__mail:hover .contact__email {
+		color: var(--color-text);
+	}
+
+	.contact__wechat {
+		width: 10.75rem;
+		flex: 0 0 auto;
+	}
+
+	.contact__wechat figure {
+		margin: 0;
+		padding: 0.85rem 0.85rem 0.75rem;
+	}
+
+	.contact__wechat img {
+		display: block;
+		width: 120px;
+		height: 120px;
+		margin-inline: auto;
+		object-fit: contain;
+		background: #fff;
+	}
+
+	.contact__wechat figcaption {
+		margin-top: 0.45rem;
+		text-align: center;
+	}
+</style>

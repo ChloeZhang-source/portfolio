@@ -1,0 +1,265 @@
+---
+import { site } from '../data/site';
+import { workCaseHref } from '../lib/work';
+import ChapterRule from './ChapterRule.astro';
+import WindowBar from './WindowBar.astro';
+
+interface Props {
+	works: {
+		slug: string;
+		title: string;
+		cover: string;
+		tagline: string;
+	}[];
+}
+
+const { works } = Astro.props;
+const proofBreak = '做过';
+const proofAt = site.headlineProof.indexOf(proofBreak);
+const proofLead =
+	proofAt === -1
+		? site.headlineProof
+		: site.headlineProof.slice(0, proofAt + proofBreak.length);
+const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proofBreak.length);
+---
+
+<section id="home" class="chapter hero">
+	<div class="chapter__art" aria-hidden="true">
+		<ChapterRule />
+	</div>
+	<p class="chapter__kicker">{site.name}</p>
+	<h1>
+		<span class="hero__role">{site.headlineRole}</span>
+		<span class="hero__proof">
+			{proofLead}
+			{
+				proofRest ? (
+					<>
+						<wbr />
+						<span class="hero__proof-phrase">{proofRest}</span>
+					</>
+				) : null
+			}
+		</span>
+	</h1>
+	<div class="hero__board">
+		{
+			works.map((work, index) => (
+				<article class={index === 0 ? 'hero__pair hero__pair--start' : 'hero__pair hero__pair--end'}>
+					<a class="window" href={workCaseHref(work.slug)}>
+						<WindowBar caption={work.title} />
+						<div class="window__screen">
+							<img src={work.cover} alt={work.title} />
+						</div>
+					</a>
+					<div class="hero__copy">
+						<p class="hero__work-title">{work.title}</p>
+						<p class="hero__work-tagline">{work.tagline}</p>
+					</div>
+					<div class="hero__mark" aria-hidden="true">
+						<span class="hero__mark-folio">{String(index + 1).padStart(2, '0')}</span>
+						<span class="hero__mark-rule"></span>
+						<span class="hero__mark-dot"></span>
+					</div>
+				</article>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.chapter__kicker {
+		letter-spacing: 0.28em;
+		text-transform: none;
+	}
+
+	.hero h1 {
+		margin: 0 0 2.5rem;
+		max-width: 28rem;
+		font-size: clamp(1.9rem, 4vw, 2.6rem);
+		font-weight: 500;
+		line-height: 1.45;
+		letter-spacing: 0.04em;
+		text-wrap: balance;
+		text-align: center;
+	}
+
+	.hero__role {
+		display: block;
+		font-family: var(--font-serif);
+		letter-spacing: 0.02em;
+	}
+
+	.hero__proof {
+		display: block;
+		margin-top: 0.55em;
+		font-family: var(--font-sans);
+		font-size: 0.95rem;
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		line-height: 1.7;
+		color: var(--color-muted);
+		text-wrap: wrap;
+		word-break: keep-all;
+	}
+
+	.hero__proof-phrase {
+		white-space: nowrap;
+	}
+
+	@media (max-width: 22rem) {
+		.hero__proof-phrase {
+			white-space: normal;
+		}
+	}
+
+	.hero__board {
+		display: grid;
+		gap: 1.6rem;
+		width: min(var(--window-max), 100%);
+	}
+
+	.hero__pair {
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.7fr) minmax(0, 0.95fr);
+		grid-template-areas: "window copy mark";
+		align-items: center;
+		gap: 0.9rem 1.15rem;
+		width: 100%;
+	}
+
+	.hero__pair--start {
+		justify-self: stretch;
+	}
+
+	.hero__pair--end {
+		grid-template-areas: "mark copy window";
+		grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.7fr) minmax(0, 1.15fr);
+		justify-self: stretch;
+	}
+
+	.hero__pair .window {
+		grid-area: window;
+		display: block;
+		width: 100%;
+		max-width: none;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.hero__copy {
+		grid-area: copy;
+		min-width: 0;
+		text-align: left;
+	}
+
+	.hero__pair--end .hero__copy {
+		text-align: right;
+	}
+
+	.hero__mark {
+		grid-area: mark;
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		min-width: 0;
+		pointer-events: none;
+	}
+
+	.hero__pair--start .hero__mark,
+	.hero__pair--end .hero__mark {
+		justify-content: center;
+	}
+
+	.hero__pair--end .hero__mark {
+		flex-direction: row-reverse;
+	}
+
+	.hero__mark-folio {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+	}
+
+	.hero__mark-rule {
+		width: 2.5rem;
+		height: 1px;
+		background: var(--color-rule);
+	}
+
+	.hero__mark-dot {
+		flex: 0 0 auto;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--color-amber);
+	}
+
+	.hero__work-title,
+	.hero__work-tagline {
+		margin: 0;
+	}
+
+	.hero__work-title {
+		font-size: 1rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		line-height: 1.5;
+	}
+
+	.hero__work-tagline {
+		margin-top: 0.3rem;
+		color: var(--color-muted);
+		font-size: 0.86rem;
+		letter-spacing: 0.04em;
+		line-height: 1.65;
+	}
+
+	@media (max-width: 40rem) {
+		.hero__pair,
+		.hero__pair--start,
+		.hero__pair--end {
+			grid-template-columns: 1fr;
+			grid-template-areas: "copy" "window";
+			justify-self: stretch;
+			width: 100%;
+			justify-items: center;
+		}
+
+		.hero__copy,
+		.hero__pair--end .hero__copy {
+			text-align: center;
+		}
+
+		.hero__pair .window {
+			width: min(22rem, 100%);
+		}
+
+		.hero__mark {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__pair .window {
+			animation: hero-window-in 380ms ease-out backwards;
+		}
+
+		.hero__pair--end .window {
+			animation-delay: 90ms;
+		}
+	}
+
+	@keyframes hero-window-in {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+</style>

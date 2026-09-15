@@ -1,0 +1,64 @@
+# 张晓雪 · 个人求职站
+
+Astro 静态多页。首页做求职转化，两篇案例页讲口语陪练和面试系统。
+
+视觉以 `DESIGN.md` 为准（Kosmik 纸面语言：居中章节 + 窗口展柜）。改文案只动数据，不改组件逻辑。
+
+## 本地
+
+需要 Node `>=22.12`。
+
+```bash
+npm install
+npm run dev
+```
+
+| 命令 | 作用 |
+| --- | --- |
+| `npm run dev` | 本地预览 |
+| `npm test` | 源码断言测试 |
+| `npm run build` | 静态构建，产物在 `dist/` |
+| `npm run preview` | 预览构建结果 |
+
+路由：`/`、`/work/speaking`、`/work/interview`、`/resume.pdf`。没有 `/works`、没有 `/en`。
+
+## 部署
+
+任意静态 host（Cloudflare Pages / GitHub Pages / Vercel 等）：
+
+- 构建命令：`npm run build`
+- 发布目录：`dist/`
+
+上线前把 `astro.config.mjs` 里的 `site` 从 `https://example.com` 改成真实站点 URL（OG 图依赖它）。
+
+## 改内容（不要改组件）
+
+身份、联系、经历：`src/data/site.ts`
+
+| 字段 | 现在 |
+| --- | --- |
+| `name` | 张晓雪 |
+| `email` | chloechangzxx@outlook.com |
+| `resumeHref` / `resumeDownloadName` | `/resume.pdf` / `{name}-AI教育产品经理.pdf` |
+| `wechatQrSrc` / `avatarSrc` | `/wechat-qr.png` / `/avatar.jpg` |
+| `nav` | 首页、作品、经历 |
+
+作品正文和封面：`src/content/works/speaking.mdx`、`src/content/works/interview.mdx`
+
+- 口语 `productUrl`、`ctaLabel: 打开产品`、`access: public`
+- 面试无 `productUrl`、无演示账号；`access: demo` + `demoNotes`；主 CTA「看流程」指向页内画廊
+
+首页/案例短文案：`src/data/home.ts`、`src/data/case.ts`。英文字段（`headlineEn`、`statusEn`、`summaryEn`）只留在数据里，页面不展示。
+
+## public/
+
+| 路径 | 用途 |
+| --- | --- |
+| `resume.pdf` | 中文简历 |
+| `avatar.jpg` | 首页窗口头像 |
+| `wechat-qr.png` | 联系区微信码 |
+| `fonts/noto-serif-sc-title.woff2` | Hero 标题子集字体 |
+| `work/speaking/cover.jpg` + `gallery-1..3.jpg` | 口语封面与流程截图 |
+| `work/interview/cover.jpg` + `gallery-1..3.jpg` | 面试封面与脱敏流程截图 |
+
+截图不要包含真实学员、真实简历、可识别人脸。微信码若仍是占位图，替换 `public/wechat-qr.png` 即可。

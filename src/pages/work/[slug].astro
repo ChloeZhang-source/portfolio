@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseBar from '../../components/CaseBar.astro';
+import CaseHero from '../../components/CaseHero.astro';
+import Header from '../../components/Header.astro';
+import { site } from '../../data/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const works = await getCollection('works');
+	return works.map((entry) => ({
+		params: { slug: entry.data.slug },
+		props: { entry, works },
+	}));
+}
+
+const { entry, works } = Astro.props;
+const work = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${site.name} · ${work.title}`} description={work.tagline} ogImage={work.cover}>
+	<Header slot="header" />
+	<CaseHero work={work} />
+	<article class="case-body">
+		<Content />
+	</article>
+	<CaseBar slot="footer" work={work} works={works.map((item) => item.data)} />
+</BaseLayout>
+
+<style>
+	.case-body {
+		max-width: 42rem;
+		padding: 0 1.25rem 2.5rem;
+	}
+
+	.case-body :global(h2) {
+		margin: 1.75rem 0 0.75rem;
+		font-size: 1.25rem;
+		font-weight: 500;
+	}
+
+	.case-body :global(p),
+	.case-body :global(ol) {
+		margin: 0 0 0.85rem;
+	}
+
+	.case-body :global(a) {
+		color: var(--color-accent);
+	}
+</style>

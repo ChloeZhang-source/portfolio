@@ -1,0 +1,153 @@
+---
+import { site } from '../data/site';
+import { navCurrentHref } from '../lib/nav';
+
+const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
+---
+
+<div class="site-header">
+	<a class="site-header__name" href="/">{site.name}</a>
+	<nav class="site-header__nav" aria-label="页面导航">
+		{
+			site.nav.map((item) => (
+				<a
+					href={item.href}
+					class:list={[item.href === currentHref && 'nav-current']}
+					aria-current={item.href === currentHref ? 'page' : undefined}
+				>
+					{item.label}
+				</a>
+			))
+		}
+	</nav>
+	<a class="site-header__resume" href={site.resumeHref} download={site.resumeDownloadName}>
+		{site.resumeLabel}
+	</a>
+</div>
+
+<script>
+	import { navCurrentHref, navHrefForChapter } from '../lib/nav';
+	import {
+		SIDE_CHAPTERS,
+		SIDE_CHAPTER_SELECTORS,
+		resolveActiveChapter,
+		type ChapterBounds,
+	} from '../lib/side-atmosphere';
+
+	const nav = document.querySelector('.site-header__nav');
+
+	if (nav) {
+		const links = [...nav.querySelectorAll('a')];
+
+		const paint = (href: string) => {
+			for (const link of links) {
+				const on = link.getAttribute('href') === href;
+				link.classList.toggle('nav-current', on);
+				if (on) {
+					link.setAttribute('aria-current', 'page');
+				} else {
+					link.removeAttribute('aria-current');
+				}
+			}
+		};
+
+		const fromLocation = () => {
+			paint(navCurrentHref(location.pathname, location.hash));
+		};
+
+		const fromScroll = () => {
+			const header = document.querySelector('body > header');
+			const anchor = (header?.getBoundingClientRect().bottom ?? 72) + 8;
+			const chapters: ChapterBounds[] = [];
+
+			for (const id of SIDE_CHAPTERS) {
+				const el = document.querySelector(SIDE_CHAPTER_SELECTORS[id]);
+				if (!el) {
+					continue;
+				}
+
+				const rect = el.getBoundingClientRect();
+				chapters.push({ id, top: rect.top, bottom: rect.bottom });
+			}
+
+			if (chapters.length === 0) {
+				fromLocation();
+				return;
+			}
+
+			paint(navHrefForChapter(resolveActiveChapter(chapters, anchor)));
+		};
+
+		fromLocation();
+
+		if (document.querySelector('#home')) {
+			fromScroll();
+			requestAnimationFrame(fromScroll);
+			window.addEventListener('scroll', fromScroll, { passive: true });
+			window.addEventListener('resize', fromScroll);
+		}
+	}
+</script>
+
+<style>
+	.site-header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		align-items: center;
+		gap: 0.75rem 1.25rem;
+		padding: 0.85rem 1.25rem;
+	}
+
+	.site-header__name {
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		text-decoration: none;
+	}
+
+	.site-header__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.75rem 1.6rem;
+	}
+
+	.site-header__nav a {
+		position: relative;
+		color: var(--color-muted);
+		text-decoration: none;
+		font-size: 0.92rem;
+		padding-bottom: 3px;
+		transition: color 160ms ease;
+	}
+
+	.site-header__nav a:hover,
+	.site-header__nav a.nav-current {
+		color: var(--color-text);
+	}
+
+	.site-header__nav a.nav-current::after {
+		background: var(--color-amber);
+	}
+
+	.site-header__resume {
+		justify-self: end;
+		color: var(--color-muted);
+		font-size: 0.88rem;
+		text-decoration: none;
+	}
+
+	.site-header__resume:hover {
+		color: var(--color-text);
+	}
+
+	@media (max-width: 720px) {
+		.site-header {
+			grid-template-columns: 1fr auto;
+		}
+
+		.site-header__nav {
+			grid-column: 1 / -1;
+			order: 3;
+		}
+	}
+</style>

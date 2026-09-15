@@ -1,0 +1,16 @@
+---
+interface Props {
+	caption: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<div class="window__bar">
+	<span class="window__lights" aria-hidden="true">
+		<i></i>
+		<i></i>
+		<i></i>
+	</span>
+	<span>{caption}</span>
+</div>

@@ -1,0 +1,151 @@
+---
+import type { Work } from '../content/works-schema';
+import { caseCopy, resultFactsFor } from '../data/case';
+import { caseProductCta, showCaseDemo } from '../lib/work';
+import WindowBar from './WindowBar.astro';
+
+interface Props {
+	work: Work;
+}
+
+const { work } = Astro.props;
+const product = caseProductCta(work);
+const facts = resultFactsFor(work.slug, work.result);
+const demo = showCaseDemo(work);
+const shots = work.gallery.map((item) => {
+	if (typeof item === 'string') {
+		return { src: item, alt: work.title, caption: '' };
+	}
+
+	return { src: item.image, alt: item.alt, caption: item.caption };
+});
+---
+
+<section class="case-hero">
+	<div class="window case-hero__media">
+		<WindowBar caption={work.title} />
+		<div class="window__screen">
+			{
+				work.video ? (
+					<video src={work.video} poster={work.cover} muted loop playsinline controls></video>
+				) : (
+					<img src={work.cover} alt={work.title} />
+				)
+			}
+		</div>
+	</div>
+	<p class="muted case-hero__facts">{facts.join(' · ')}</p>
+	<div class="case-hero__cta">
+		{
+			product.external ? (
+				<a
+					class="btn"
+					href={product.href}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label={`${product.label}（新窗口）`}
+				>
+					{product.label}
+				</a>
+			) : (
+				<a class="btn" href={product.href}>
+					{product.label}
+				</a>
+			)
+		}
+	</div>
+	{
+		demo && (
+			<section id="demo" class="case-hero__demo">
+				<p>{caseCopy.accessTitle}</p>
+				<p>{work.demoNotes}</p>
+				<div class="case-hero__cta">
+					<a class="btn" href={caseCopy.walkthroughHref}>
+						{caseCopy.walkthroughLabel}
+					</a>
+					<a class="case-hero__resume" href={caseCopy.requestHref}>
+						{caseCopy.requestLabel}
+					</a>
+				</div>
+			</section>
+		)
+	}
+	{
+		shots.length > 0 && (
+			<section id="gallery" class="case-hero__gallery">
+				{
+					shots.map((shot) => (
+						<div class="window">
+							<WindowBar caption={shot.caption} />
+							<div class="window__screen">
+								<img src={shot.src} alt={shot.alt} />
+							</div>
+						</div>
+					))
+				}
+			</section>
+		)
+	}
+</section>
+
+<script>
+	if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+		for (const video of document.querySelectorAll<HTMLVideoElement>('.case-hero__media video')) {
+			video.autoplay = true;
+			void video.play();
+		}
+	}
+</script>
+
+<style>
+	.case-hero {
+		display: grid;
+		gap: 1rem;
+		padding: 2.25rem 1.25rem 2rem;
+	}
+
+	.case-hero__media {
+		width: 100%;
+	}
+
+	.case-hero__facts {
+		margin: 0;
+		max-width: 42rem;
+	}
+
+	.case-hero p {
+		margin: 0;
+	}
+
+	.case-hero__cta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+	}
+
+	.case-hero__resume {
+		color: var(--color-muted);
+		font-size: var(--font-size-muted);
+	}
+
+	.case-hero__demo {
+		display: grid;
+		gap: 0.6rem;
+		padding: 1rem 1.05rem;
+		scroll-margin-top: 4.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-surface);
+	}
+
+	.case-hero__demo p {
+		margin: 0;
+	}
+
+	.case-hero__gallery {
+		display: grid;
+		gap: 1rem;
+		scroll-margin-top: 4.5rem;
+	}
+</style>
