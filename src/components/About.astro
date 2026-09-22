@@ -6,32 +6,77 @@ import { withBase } from '../lib/paths';
 
 <section class="about">
 	<h2>{homeCopy.aboutTitle}</h2>
-	<p>{site.about}</p>
+	<div class="about__story">
+		{site.aboutStory.map((paragraph) => <p>{paragraph}</p>)}
+	</div>
 	<p class="about__resume">
 		<a href={withBase(site.resumeHref)} download={site.resumeDownloadName}>{site.resumeLabel}</a>
 	</p>
+
+	<section class="judgments">
+		<h2>{homeCopy.judgmentsTitle}</h2>
+		<p class="judgments__note">{homeCopy.judgmentsNote}</p>
+		<ol class="judgments__list">
+			{
+				site.judgments.map((judgment, index) => (
+					<li>
+						<p class="judgments__what">
+							<span class="judgments__no">{String(index + 1).padStart(2, '0')}</span>
+							{judgment.what}
+						</p>
+						<p class="judgments__cost">代价：{judgment.cost}</p>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="now">
+		<h2>{homeCopy.nowTitle}</h2>
+		<dl>
+			<div>
+				<dt>在做</dt>
+				<dd>{site.now.doing}</dd>
+			</div>
+			<div>
+				<dt>在学</dt>
+				<dd>{site.now.learning}</dd>
+			</div>
+			<div>
+				<dt>在想</dt>
+				<dd>{site.now.thinking}</dd>
+			</div>
+		</dl>
+		<p class="now__updated">最近更新于 {site.updatedAt}</p>
+	</section>
 </section>
 
 <style>
 	.about {
 		scroll-margin-top: 4.5rem;
+		text-align: left;
 	}
 
 	.about h2 {
 		margin: 0 0 0.85rem;
-		font-size: 1.25rem;
+		font-size: var(--text-section);
 		font-weight: 500;
 		letter-spacing: 0.02em;
 	}
 
-	.about p {
-		margin: 0 0 1rem;
+	.about__story {
+		display: grid;
+		gap: 1rem;
 		max-width: 40rem;
+	}
+
+	.about__story p {
+		margin: 0;
 		color: var(--color-muted);
 	}
 
 	.about__resume {
-		margin: 0;
+		margin: 1.25rem 0 0;
 	}
 
 	.about__resume a {
@@ -43,5 +88,123 @@ import { withBase } from '../lib/paths';
 
 	.about__resume a:hover {
 		color: var(--color-text);
+	}
+
+	.judgments,
+	.now {
+		width: min(var(--window-max), 100%);
+		margin-top: 2.4rem;
+		padding: 0;
+		text-align: left;
+	}
+
+	.judgments__note {
+		margin: 0 0 1.6rem;
+		max-width: 34rem;
+		color: var(--color-muted);
+		font-size: 0.9rem;
+	}
+
+	.judgments__list {
+		position: relative;
+		max-width: 34rem;
+		margin: 0;
+		padding: 0 0 0 1.4rem;
+		list-style: none;
+	}
+
+	.judgments__list:before {
+		content: '';
+		position: absolute;
+		top: 0.5rem;
+		bottom: 0.6rem;
+		left: 4px;
+		width: 1px;
+		background: var(--color-rule);
+	}
+
+	.judgments__list li {
+		position: relative;
+		padding-bottom: 1.15rem;
+	}
+
+	.judgments__list li:last-child {
+		padding-bottom: 0;
+	}
+
+	.judgments__list li:before {
+		content: '';
+		position: absolute;
+		top: 0.55rem;
+		left: -1.4rem;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--color-amber-ink);
+	}
+
+	.judgments__what {
+		margin: 0 0 0.25rem;
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 1.65;
+		letter-spacing: 0.01em;
+	}
+
+	.judgments__no {
+		margin-right: 0.5rem;
+		color: var(--color-amber-ink);
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		font-weight: 400;
+		letter-spacing: 0.1em;
+	}
+
+	.judgments__cost {
+		margin: 0;
+		color: var(--color-muted);
+		font-size: 0.87rem;
+		line-height: 1.75;
+	}
+
+	.now dl {
+		display: grid;
+		gap: 0.85rem;
+		max-width: 34rem;
+		margin: 0;
+	}
+
+	.now dl > div {
+		display: grid;
+		grid-template-columns: 4.6rem 1fr;
+		gap: 0.9rem;
+		align-items: baseline;
+	}
+
+	.now dt {
+		color: var(--color-amber-ink);
+		font-family: var(--font-mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.1em;
+	}
+
+	.now dd {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.8;
+	}
+
+	.now__updated {
+		margin: 1.4rem 0 0;
+		color: var(--color-muted);
+		font-family: var(--font-mono);
+		font-size: 0.74rem;
+	}
+
+	@media (width <= 520px) {
+		.now dl > div {
+			grid-template-columns: 1fr;
+			gap: 0.2rem;
+		}
 	}
 </style>

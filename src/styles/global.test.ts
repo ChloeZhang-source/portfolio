@@ -13,12 +13,15 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--color-surface:\s*#ffffff/);
 	assert.match(css, /--color-text:\s*#1c1c1c/);
 	assert.match(css, /--color-muted:/);
-	assert.match(css, /--color-accent:\s*#1c1c1c/);
+	assert.match(css, /--color-amber:\s*#c29857/);
+	assert.match(css, /--color-amber-ink:\s*#a87c3f/);
+	assert.match(css, /--color-accent:\s*var\(--color-amber-ink\)/);
 	assert.match(css, /--color-rule:\s*rgba\(27,\s*26,\s*23,\s*\.13\)/);
 	assert.match(css, /--color-node:\s*rgba\(27,\s*26,\s*23,\s*\.18\)/);
-	assert.match(css, /--color-amber:\s*#c29857/);
 	assert.match(css, /--color-border:\s*rgba\(27,\s*26,\s*23,\s*\.11\)/);
-	assert.match(css, /--color-window-bar:\s*#f0eee8/i);
+	assert.match(css, /--color-window-bar:\s*#e6e2d9/i);
+	assert.match(css, /--text-thesis:\s*1\.8rem/);
+	assert.match(css, /--text-section:\s*1\.8rem/);
 	assert.match(css, /--radius:\s*18px/);
 	assert.match(css, /--shadow:\s*0\s+24px\s+60px/);
 	assert.match(css, /--window-max:\s*52rem/);
@@ -35,6 +38,7 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.doesNotMatch(css, /--color-bg:\s*#0b0f14/);
 	assert.doesNotMatch(css, /--color-accent:\s*#f5b942/);
 	assert.doesNotMatch(css, /--color-accent:\s*#4a667a\b/i);
+	assert.doesNotMatch(css, /--color-accent:\s*#1c1c1c/);
 	assert.doesNotMatch(css, /@import|fonts\.google|@font-face/);
 	assert.doesNotMatch(css, /particle|parallax/i);
 
@@ -44,6 +48,15 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /\.muted\b/);
 	assert.match(css, /\.chapter\b/);
 	assert.match(css, /\.chapter__art\s*\{[^}]*width:\s*248px/s);
+	assert.match(css, /\.chapter\s*\{[^}]*align-items:\s*flex-start/s);
+	assert.match(css, /\.chapter\s*\{[^}]*text-align:\s*left/s);
+	assert.doesNotMatch(css, /\.chapter\s*\{[^}]*align-items:\s*center/s);
+	assert.doesNotMatch(css, /\.chapter\s*\{[^}]*text-align:\s*center/s);
+	assert.match(css, /\.chapter h1,\s*\n\s*\.chapter h2\s*\{[^}]*font-size:\s*var\(--text-section\)/s);
+	assert.match(css, /\.chapter__thesis\s*\{[^}]*font-size:\s*var\(--text-thesis\)/s);
+	assert.match(css, /\.chapter__thesis\s*\{[^}]*border-left:\s*2px\s+solid\s+var\(--color-amber-ink\)/s);
+	assert.match(css, /\.chapter__lede\s*\{[^}]*margin:\s*0\s+0\s+2\.25rem/s);
+	assert.doesNotMatch(css, /\.chapter__lede\s*\{[^}]*margin:\s*0\s+auto/s);
 	assert.doesNotMatch(css, /\.ink-wash\b/);
 	assert.match(css, /\.window\b/);
 
@@ -63,7 +76,7 @@ test('window chrome is a floating exhibit: 18px radius, soft shadow, gray lights
 	assert.doesNotMatch(css, /\.window__bar\s*\{[^}]*color:\s*#8a857a/s);
 	assert.match(css, /\.window__bar\s*\{[^}]*gap:/s);
 	assert.match(css, /\.nav-current::after\s*\{[^}]*height:\s*2px/s);
-	assert.match(css, /\.nav-current::after\s*\{[^}]*background:\s*var\(--color-amber\)/s);
+	assert.match(css, /\.nav-current::after\s*\{[^}]*background:\s*var\(--color-amber-ink\)/s);
 	assert.match(css, /\.window__screen\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
 	assert.doesNotMatch(css, /window--portrait/);
 	assert.match(css, /\.window__screen img,\s*\.window__screen video\s*\{[^}]*height:\s*100%/s);

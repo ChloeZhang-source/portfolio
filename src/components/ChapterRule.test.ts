@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('ChapterRule is a ruler divider: gray ends, hairline, one amber center', async () => {
+test('ChapterRule is a ruler divider: gray ends, hairline, one amber-ink center', async () => {
 	const source = await readFile(join(here, 'ChapterRule.astro'), 'utf8');
 
 	assert.match(source, /class=["']sep sep--ruler["']/);
@@ -16,7 +16,8 @@ test('ChapterRule is a ruler divider: gray ends, hairline, one amber center', as
 	assert.match(source, /sep__rule/);
 	assert.match(source, /var\(--color-rule\)/);
 	assert.match(source, /var\(--color-node\)/);
-	assert.match(source, /var\(--color-amber\)/);
+	assert.match(source, /var\(--color-amber-ink\)/);
+	assert.doesNotMatch(source, /\.sep__dot\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.doesNotMatch(source, /feTurbulence|InkWash|ink-wash|ink-amber/);
 	assert.doesNotMatch(source, /#f6d7a8|#e8b86a|#e9b37a/i);
 });

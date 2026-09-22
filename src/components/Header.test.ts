@@ -24,7 +24,8 @@ test('Header links the name home, renders site.nav, and has no resume CTA', asyn
 	assert.match(source, /SIDE_CHAPTER_SELECTORS/);
 	assert.match(source, /aria-current/);
 	assert.match(source, /nav-current/);
-	assert.match(source, /--color-amber/);
+	assert.match(source, /var\(--color-amber-ink\)/);
+	assert.doesNotMatch(source, /nav-current::after\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 	assert.doesNotMatch(source, /display:\s*none/);

@@ -11,6 +11,7 @@ const mailHref = mailtoHref(site.email);
 
 <section id="contact" class="contact">
 	<h2>联系</h2>
+	<p class="contact__invite">{site.contactInvite}</p>
 	<div class="contact__row">
 		<img
 			class="contact__avatar"
@@ -36,13 +37,21 @@ const mailHref = mailtoHref(site.email);
 <style>
 	.contact {
 		scroll-margin-top: 4.5rem;
+		text-align: left;
 	}
 
 	.contact h2 {
 		margin: 0 0 1rem;
-		font-size: 1.25rem;
+		font-size: var(--text-section);
 		font-weight: 500;
 		letter-spacing: 0.02em;
+	}
+
+	.contact__invite {
+		margin: 0 0 1.5rem;
+		max-width: 36rem;
+		color: var(--color-muted);
+		line-height: 1.75;
 	}
 
 	.contact__row {
@@ -67,6 +76,7 @@ const mailHref = mailtoHref(site.email);
 		align-items: baseline;
 		gap: 0.45rem 0.85rem;
 		min-width: 0;
+		color: var(--color-accent);
 		text-decoration: none;
 	}
 
@@ -75,7 +85,6 @@ const mailHref = mailtoHref(site.email);
 	}
 
 	.contact__email {
-		color: var(--color-muted);
 		font-family: var(--font-mono);
 		font-size: 0.92rem;
 		overflow-wrap: anywhere;

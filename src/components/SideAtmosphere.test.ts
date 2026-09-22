@@ -18,6 +18,11 @@ test('SideAtmosphere is a chapter spine with a scroll-following caret', async ()
 	assert.match(source, /data-chapter=\{id\}/);
 	assert.match(source, /data-caret/);
 	assert.match(source, /spineCaretY/);
+	assert.match(source, /\.side-atmosphere__caret\s*\{[^}]*background:\s*var\(--color-amber-ink\)/s);
+	assert.doesNotMatch(
+		source,
+		/\.side-atmosphere__caret\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s,
+	);
 	assert.match(source, /scrollHeight|offsetHeight/);
 	assert.match(source, /prefers-reduced-motion/);
 	assert.match(source, /matchMedia\(\s*['"]\(prefers-reduced-motion:\s*reduce\)['"]/);
@@ -31,4 +36,21 @@ test('SideAtmosphere is a chapter spine with a scroll-following caret', async ()
 	assert.doesNotMatch(source, /mask-image/);
 	assert.doesNotMatch(source, /particle|parallax/i);
 	assert.doesNotMatch(source, /hello@example\.com/);
+});
+
+test('narrow viewports degrade the rail to a top --scroll-progress line', async () => {
+	const source = await readFile(join(here, 'SideAtmosphere.astro'), 'utf8');
+
+	assert.match(source, /side-atmosphere__progress/);
+	assert.match(source, /--scroll-progress/);
+	assert.match(source, /setProperty\(\s*['"]--scroll-progress['"]/);
+	assert.match(source, /scaleX\(\s*var\(\s*--scroll-progress/);
+	assert.match(source, /background:\s*var\(--color-amber-ink\)/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*1100px\s*\)/);
+	assert.match(source, /\.side-atmosphere__rail[^{]*\{[^}]*display:\s*none/s);
+	assert.doesNotMatch(
+		source,
+		/@media\s*\(\s*max-width:\s*1100px\s*\)\s*\{\s*\.side-atmosphere\s*\{[^}]*display:\s*none/s,
+	);
+	assert.match(source, /reduceMotion\.matches/);
 });

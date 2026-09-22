@@ -23,6 +23,9 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	assert.match(source, /\.work-card__lede\s*\{[^}]*color:\s*var\(--color-muted\)/s);
 	assert.match(source, /\.work-card h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
 	assert.doesNotMatch(source, /\.work-card h2\s*\{[^}]*font-family:/s);
+	assert.match(source, /\.work-card\s*\{[^}]*text-align:\s*left/s);
+	assert.doesNotMatch(source, /\.work-card\s*\{[^}]*justify-items:\s*center/s);
+	assert.doesNotMatch(source, /\.work-card\s*\{[^}]*text-align:\s*center/s);
 
 	const order = ['work.title', 'work.tagline', 'workCaseHref', 'work.cover', 'work.result'];
 	let cursor = -1;

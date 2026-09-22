@@ -3,18 +3,21 @@
 	--color-surface: #ffffff;
 	--color-text: #1c1c1c;
 	--color-muted: #6f6c66;
-	--color-accent: #1c1c1c;
+	--color-amber: #c29857;
+	--color-amber-ink: #a87c3f;
+	--color-accent: var(--color-amber-ink);
 	--color-rule: rgba(27, 26, 23, .13);
 	--color-node: rgba(27, 26, 23, .18);
-	--color-amber: #c29857;
 	--color-border: rgba(27, 26, 23, .11);
-	--color-window-bar: #f0eee8;
+	--color-window-bar: #e6e2d9;
 	--radius: 18px;
 	--shadow: 0 24px 60px rgba(28, 28, 28, 0.1);
 	--font-sans: "Segoe UI", "PingFang SC", "Microsoft YaHei UI", "Hiragino Sans GB", ui-sans-serif, system-ui, sans-serif;
 	--font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
 	--font-mono: "Cascadia Code", "Cascadia Mono", "Sarasa Mono SC", "SF Mono", Consolas, ui-monospace, monospace;
 	--font-size-muted: 0.875rem;
+	--text-thesis: 1.8rem;
+	--text-section: 1.8rem;
 	--lede-max: 36rem;
 	--window-max: 52rem;
 }
@@ -120,7 +123,7 @@ code {
 	bottom: -1px;
 	height: 2px;
 	border-radius: 1px;
-	background: var(--color-amber);
+	background: var(--color-amber-ink);
 }
 
 .btn {
@@ -144,8 +147,8 @@ code {
 .chapter {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	text-align: center;
+	align-items: flex-start;
+	text-align: left;
 	padding: 6rem 1.25rem 4.5rem;
 	scroll-margin-top: 4.5rem;
 }
@@ -169,16 +172,34 @@ code {
 .chapter h2 {
 	margin: 0 0 1rem;
 	max-width: 36rem;
-	font-size: clamp(1.6rem, 3vw, 1.85rem);
+	font-size: var(--text-section);
 	font-weight: 500;
 	line-height: 1.25;
 	letter-spacing: 0.02em;
 }
 
+.chapter__thesis {
+	max-width: 30rem;
+	margin: 0 0 2.5rem;
+	padding-left: 1rem;
+	border-left: 2px solid var(--color-amber-ink);
+	font-family: var(--font-serif);
+	font-size: var(--text-thesis);
+	font-weight: 500;
+	line-height: 1.6;
+	letter-spacing: 0.02em;
+}
+
 .chapter__lede {
-	margin: 0 auto 2.25rem;
+	margin: 0 0 2.25rem;
 	max-width: var(--lede-max);
 	color: var(--color-body, var(--color-muted));
+}
+
+.about h2,
+.contact h2,
+.work-section h2 {
+	font-size: var(--text-section);
 }
 
 .window {

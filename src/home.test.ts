@@ -32,6 +32,8 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.match(aboutChapter[0], /id=["']about["']/);
 	assert.match(source, /\.chapter--about[^{]*\{[^}]*scroll-margin-top:\s*6rem/s);
 	assert.match(source, /chapter__kicker">作品</);
+	assert.match(source, /homeCopy\.workThesis/);
+	assert.match(source, /class=["']chapter__thesis["']/);
 	assert.match(source, /chapter__kicker">关于</);
 	assert.doesNotMatch(source, /chapter__kicker">Explore</);
 	assert.doesNotMatch(source, /chapter__kicker">Experience</);

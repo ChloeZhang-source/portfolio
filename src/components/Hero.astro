@@ -15,13 +15,6 @@ interface Props {
 }
 
 const { works } = Astro.props;
-const proofBreak = '做过';
-const proofAt = site.headlineProof.indexOf(proofBreak);
-const proofLead =
-	proofAt === -1
-		? site.headlineProof
-		: site.headlineProof.slice(0, proofAt + proofBreak.length);
-const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proofBreak.length);
 ---
 
 <section id="home" class="chapter hero">
@@ -30,18 +23,9 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 	</div>
 	<p class="chapter__kicker">{site.name}</p>
 	<h1>
+		<span class="hero__path">{site.headlinePath}</span>
 		<span class="hero__role">{site.headlineRole}</span>
-		<span class="hero__proof">
-			{proofLead}
-			{
-				proofRest ? (
-					<>
-						<wbr />
-						<span class="hero__proof-phrase">{proofRest}</span>
-					</>
-				) : null
-			}
-		</span>
+		<span class="hero__proof">{site.headlineProof}</span>
 	</h1>
 	<div class="hero__board">
 		{
@@ -82,7 +66,18 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 		line-height: 1.45;
 		letter-spacing: 0.04em;
 		text-wrap: balance;
-		text-align: center;
+		text-align: left;
+	}
+
+	.hero__path {
+		display: block;
+		margin-bottom: 0.8rem;
+		font-family: var(--font-mono);
+		font-size: 0.82rem;
+		font-weight: 400;
+		letter-spacing: 0.08em;
+		line-height: 1.7;
+		color: var(--color-muted);
 	}
 
 	.hero__role {
@@ -102,16 +97,6 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 		color: var(--color-muted);
 		text-wrap: wrap;
 		word-break: keep-all;
-	}
-
-	.hero__proof-phrase {
-		white-space: nowrap;
-	}
-
-	@media (max-width: 22rem) {
-		.hero__proof-phrase {
-			white-space: normal;
-		}
 	}
 
 	.hero__board {
@@ -194,7 +179,7 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 		width: 7px;
 		height: 7px;
 		border-radius: 50%;
-		background: var(--color-amber);
+		background: var(--color-amber-ink);
 	}
 
 	.hero__work-title,
@@ -225,12 +210,12 @@ const proofRest = proofAt === -1 ? '' : site.headlineProof.slice(proofAt + proof
 			grid-template-areas: "copy" "window";
 			justify-self: stretch;
 			width: 100%;
-			justify-items: center;
+			justify-items: start;
 		}
 
 		.hero__copy,
 		.hero__pair--end .hero__copy {
-			text-align: center;
+			text-align: left;
 		}
 
 		.hero__pair .window {

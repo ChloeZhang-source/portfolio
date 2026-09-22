@@ -13,19 +13,19 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /from\s+['"]\.\.\/lib\/work['"]/);
 	assert.match(source, /id=["']home["']/);
 	assert.match(source, /site\.name/);
+	assert.match(source, /site\.headlinePath/);
 	assert.match(source, /site\.headlineRole/);
 	assert.match(source, /site\.headlineProof/);
+	assert.match(source, /hero__path/);
 	assert.match(source, /hero__role/);
 	assert.match(source, /hero__proof/);
-	assert.match(source, /hero__proof-phrase/);
-	assert.match(source, /<wbr\s*\/>/);
-	assert.match(source, /proofBreak = ['"]做过['"]/);
+	assert.match(source, /\.hero__path\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
+	assert.match(source, /\.hero__path\s*\{[^}]*font-size:\s*0\.82rem/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*0\.02em/s);
 	assert.match(source, /\.hero__proof\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
 	assert.match(source, /\.hero__proof\s*\{[^}]*font-size:\s*0\.95rem/s);
 	assert.match(source, /\.hero__proof\s*\{[^}]*word-break:\s*keep-all/s);
-	assert.match(source, /\.hero__proof-phrase\s*\{[^}]*white-space:\s*nowrap/s);
 	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*Noto Serif SC/s);
 	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*font-size:\s*0\.72em/s);
 	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*text-wrap:\s*balance/s);
@@ -68,18 +68,20 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 
 	assert.doesNotMatch(source, /<h1>\{site\.headline\}<\/h1>/);
 	assert.match(source, /\.hero h1\s*\{/);
-	assert.match(source, /letter-spacing:\s*0\.04em/);
+	assert.match(source, /\.hero h1\s*\{[^}]*text-align:\s*left/s);
 	assert.match(source, /letter-spacing:\s*0\.28em/);
 	assert.match(source, /text-wrap:\s*balance/);
 	assert.doesNotMatch(source, /letter-spacing:\s*-0\.03em/);
+	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*text-align:\s*center/s);
 
 	assert.match(source, /<a class=["']window["']/);
 	assert.match(source, /index === 0 \? ['"]hero__pair hero__pair--start['"] : ['"]hero__pair hero__pair--end['"]/);
 
 	const order = [
 		'site.name',
+		'site.headlinePath',
 		'site.headlineRole',
-		'proofLead',
+		'site.headlineProof',
 		'workCaseHref',
 		'work.cover',
 		'work.tagline',
@@ -118,7 +120,8 @@ test('Hero opposite cells hold static 01/02 marks, not looping ornaments', async
 	assert.match(source, /padStart\(\s*2,\s*['"]0['"]\s*\)/);
 	assert.match(source, /font-family:\s*var\(--font-mono\)/);
 	assert.match(source, /var\(--color-rule\)/);
-	assert.match(source, /var\(--color-amber\)/);
+	assert.match(source, /var\(--color-amber-ink\)/);
+	assert.doesNotMatch(source, /\.hero__mark-dot\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.match(source, /\.hero__mark\s*\{[^}]*pointer-events:\s*none/s);
 	assert.match(source, /@media \(max-width:\s*40rem\)[\s\S]*\.hero__mark\s*\{[^}]*display:\s*none/);
 	assert.doesNotMatch(source, /\.hero__mark[^{]*\{[^}]*animation:/s);

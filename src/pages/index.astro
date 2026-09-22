@@ -9,6 +9,7 @@ import ChapterRule from '../components/ChapterRule.astro';
 import SideAtmosphere from '../components/SideAtmosphere.astro';
 import WorkCard from '../components/WorkCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { homeCopy } from '../data/home';
 
 const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -22,6 +23,7 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
 			<ChapterRule />
 		</div>
 		<p class="chapter__kicker">作品</p>
+		<p class="chapter__thesis">{homeCopy.workThesis}</p>
 		<div class="chapter__works">
 			{
 				works.map((entry) => (

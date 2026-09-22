@@ -106,7 +106,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(speaking.slug, 'speaking');
 	assert.equal(speaking.access, 'public');
 	assert.equal(speaking.ctaLabel, '打开产品');
-	assert.equal(speaking.tagline, '开口就能练完一轮');
+	assert.equal(speaking.tagline, '练口语卡在开口之前——所以我把注册墙拆了，让第一轮先成立。');
 	assert.equal(speaking.result, '公开内测中，无需登录即可试用');
 	assert.equal(speaking.transferable, '先做完一轮听—说—结束，比先搭账号体系更关键');
 	assert.match(speaking.summaryEn, /Public beta\. No login required\./);
@@ -117,6 +117,12 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(speakingRaw, /立即体验|Try now|免费注册/);
 	assert.doesNotMatch(speakingRaw, /可迁移到/);
 	assert.match(speakingRaw, /做到能用时我学到的/);
+	assert.match(speakingRaw, /我做的第一个判断是/);
+	assert.match(speakingRaw, /先把「进入 → 开口 → 回应 → 离开」这一轮做完/);
+	assert.match(speakingRaw, /没有账号就拿不到留存数据/);
+	assert.match(speakingRaw, /第二个判断是\*\*演示尺度\*\*/);
+	assert.match(speakingRaw, /代价是展示的说服力打了折/);
+	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
 		['进入练习', '开口对话', '即时反馈'],
@@ -133,7 +139,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(interview.slug, 'interview');
 	assert.equal(interview.access, 'demo');
 	assert.equal(interview.ctaLabel, '看流程');
-	assert.equal(interview.tagline, '教师招聘面试，做成可复评流程');
+	assert.equal(interview.tagline, '口口相传的标准没法复评——所以我把它做成了一轮可以打分的工作流。');
 	assert.equal(interview.result, '已完成 50+ 场教师招聘面试');
 	assert.equal(interview.transferable, '把一轮面试做成可复评流程，比堆更多环节更管用');
 	assert.equal(interview.productUrl, undefined);
@@ -160,6 +166,11 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.match(interviewRaw, /做到能用时我学到的/);
 	assert.match(interviewRaw, /应聘老师一条分环节面试/);
 	assert.match(interviewRaw, /对照 AI 参考分的评分台/);
+	assert.match(interviewRaw, /不是让 AI 判分，是给面试官一个参照点/);
+	assert.match(interviewRaw, /先写了权限和候选人隐私，再做后台功能/);
+	assert.match(interviewRaw, /前几十场只能半人工兜底/);
+	assert.match(interviewRaw, /作品集只用脱敏截图说明「指引 → 面试 → 评分」/);
+	assert.doesNotMatch(interviewRaw, /独立把评测逻辑写成 AI 参考分，接到管理端人工复核/);
 	assert.deepEqual(
 		interview.gallery.map((item) => item.caption),
 		['面试指引', '正式面试', '管理端评分'],

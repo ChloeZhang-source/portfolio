@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Contact is the #contact closer: likeness, mail text, email, WeChat window — no resume pill', async () => {
+test('Contact leads with invite copy, then likeness, mail, and WeChat — no resume pill', async () => {
 	const source = await readFile(join(here, 'Contact.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
@@ -14,6 +14,8 @@ test('Contact is the #contact closer: likeness, mail text, email, WeChat window 
 	assert.match(source, /WindowBar/);
 	assert.match(source, /mailtoHref/);
 	assert.match(source, /id=["']contact["']/);
+	assert.match(source, /site\.contactInvite/);
+	assert.match(source, /contact__invite/);
 	assert.match(source, /withBase\(site\.avatarSrc\)/);
 	assert.match(source, /site\.avatarSrc/);
 	assert.match(source, /contact__avatar/);
@@ -30,6 +32,8 @@ test('Contact is the #contact closer: likeness, mail text, email, WeChat window 
 	assert.match(source, /--font-mono/);
 	assert.match(source, /\.contact h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
 	assert.doesNotMatch(source, /\.contact h2\s*\{[^}]*font-family:/s);
+	assert.match(source, /text-align:\s*left/);
+	assert.match(source, /var\(--color-accent\)/);
 	assert.doesNotMatch(source, /class=["']btn["']/);
 	assert.doesNotMatch(source, /site\.resumeHref/);
 	assert.doesNotMatch(source, /site\.resumeDownloadName/);
@@ -37,7 +41,7 @@ test('Contact is the #contact closer: likeness, mail text, email, WeChat window 
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 
-	const order = ['site.avatarSrc', 'site.email', 'site.wechatQrSrc', 'site.wechatHint'];
+	const order = ['site.contactInvite', 'site.avatarSrc', 'site.email', 'site.wechatQrSrc', 'site.wechatHint'];
 	let cursor = -1;
 	for (const token of order) {
 		const at = source.indexOf(token, cursor + 1);
