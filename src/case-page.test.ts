@@ -19,7 +19,11 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /slot=["']footer["']/);
 	assert.match(source, /work\.title/);
 	assert.match(source, /work\.tagline/);
-	assert.match(source, /work\.cover/);
+	assert.match(source, /og-speaking\.jpg/);
+	assert.match(source, /og-interview\.jpg/);
+	assert.match(source, /ogImage=\{ogImage\}/);
+	assert.match(source, /ogImageAlt=\{work\.title\}/);
+	assert.doesNotMatch(source, /ogImage=\{work\.cover\}/);
 	assert.match(source, /max-width:\s*42rem/);
 	assert.match(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-weight:\s*500/s);
 	assert.doesNotMatch(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-family:/s);

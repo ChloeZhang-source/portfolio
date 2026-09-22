@@ -15,6 +15,7 @@ export const site = {
 	wechatQrSrc: '/wechat-qr.png',
 	wechatHint: '微信',
 	avatarSrc: '/avatar.jpg',
+	ogImage: '/og-home.png',
 	aboutStory: [
 		'翻硕出身，做过互联网教育主管。没上过计算机课，也没写过一行正式代码。',
 		'2025年11月之后，我做的第一件事不是学技术，是学怎么把话说清楚——因为 AI 只会照着你说的做，说不清楚的地方，它会自己编一个。',

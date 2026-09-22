@@ -79,9 +79,23 @@ test('site contact media files exist in public/', async () => {
 	await assertPublicFile(site.resumeHref);
 	await assertPublicFile(site.wechatQrSrc);
 	await assertPublicFile(site.avatarSrc);
+	await assertPublicFile(site.ogImage);
 
 	const resume = await readFile(toPublicFile(site.resumeHref));
 	assert.equal(resume.subarray(0, 5).toString('ascii'), '%PDF-');
+});
+
+test('Open Graph share images are 1200×630 and live in public/', async () => {
+	const { site } = await import('./site.ts');
+	const hrefs = [site.ogImage, '/og-speaking.jpg', '/og-interview.jpg'] as const;
+
+	for (const href of hrefs) {
+		await assertPublicFile(href);
+		const file = await readFile(toPublicFile(href));
+		const size = href.endsWith('.png') ? pngSize(file) : jpegSize(file);
+		assert.equal(size.width, 1200, `${href} width`);
+		assert.equal(size.height, 630, `${href} height`);
+	}
 });
 
 test('WeChat QR is exported at display size, not a full-resolution scan', async () => {

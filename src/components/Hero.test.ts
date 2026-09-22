@@ -18,9 +18,15 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /site\.headlinePath/);
 	assert.match(source, /site\.headlineRole/);
 	assert.match(source, /site\.headlineProof/);
-	assert.match(source, /hero__path/);
-	assert.match(source, /hero__role/);
-	assert.match(source, /hero__proof/);
+	assert.match(source, /<p class=["']hero__path["']>\{site\.headlinePath\}<\/p>/);
+	assert.match(source, /<h1 class=["']hero__role["']>\{site\.headlineRole\}<\/h1>/);
+	assert.match(source, /<p class=["']hero__proof["']>\{site\.headlineProof\}<\/p>/);
+	{
+		const h1 = source.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/);
+		assert.ok(h1, 'expected a single Hero h1');
+		assert.match(h1[1], /site\.headlineRole/);
+		assert.doesNotMatch(h1[1], /headlinePath|headlineProof|hero__path|hero__proof/);
+	}
 	assert.match(source, /\.hero__path\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
 	assert.match(source, /\.hero__path\s*\{[^}]*font-size:\s*0\.82rem/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);

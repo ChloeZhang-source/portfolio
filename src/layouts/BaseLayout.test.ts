@@ -16,13 +16,23 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 	assert.match(source, /withBase/);
 	assert.match(source, /site\.name/);
 	assert.match(source, /site\.headline/);
-	assert.match(source, /site\.avatarSrc/);
+	assert.match(source, /site\.ogImage/);
+	assert.match(source, /site\.headlineRole/);
+	assert.doesNotMatch(source, /ogImage\s*=\s*site\.avatarSrc/);
 
 	assert.match(source, /content=["']width=device-width,\s*initial-scale=1["']/);
 	assert.match(source, /name=["']description["']/);
 	assert.match(source, /property=["']og:title["']/);
 	assert.match(source, /property=["']og:description["']/);
 	assert.match(source, /property=["']og:image["']/);
+	assert.match(source, /property=["']og:image:width["']/);
+	assert.match(source, /property=["']og:image:height["']/);
+	assert.match(source, /property=["']og:image:alt["']/);
+	assert.match(source, /content=\{ogImageWidth\}/);
+	assert.match(source, /content=\{ogImageHeight\}/);
+	assert.match(source, /content=\{ogImageAlt\}/);
+	assert.match(source, /ogImageWidth\s*=\s*['"]1200['"]/);
+	assert.match(source, /ogImageHeight\s*=\s*['"]630['"]/);
 	assert.match(source, /property=["']og:url["']/);
 	assert.match(source, /property=["']og:type["']/);
 	assert.match(source, /content=["']website["']/);

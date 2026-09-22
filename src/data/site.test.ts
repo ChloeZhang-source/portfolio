@@ -35,6 +35,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.wechatHint, '微信');
 	assert.equal(typeof site.wechatQrSrc, 'string');
 	assert.equal(typeof site.avatarSrc, 'string');
+	assert.equal(site.ogImage, '/og-home.png');
 
 	assert.equal('about' in site, false);
 	assert.equal(site.aboutStory.length, 4);

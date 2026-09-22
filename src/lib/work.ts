@@ -3,7 +3,7 @@ import { withBase } from './paths.ts';
 export type WorkAccess = 'public' | 'demo';
 
 export function workCaseHref(slug: string, baseUrl?: string): string {
-	return withBase(`/work/${slug}`, baseUrl);
+	return withBase(`/work/${slug}/`, baseUrl);
 }
 
 export function showCaseDemo(work: {

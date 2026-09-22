@@ -17,9 +17,24 @@ export async function getStaticPaths() {
 const { entry, works } = Astro.props;
 const work = entry.data;
 const { Content } = await render(entry);
+
+const caseOgImages = {
+	speaking: '/og-speaking.jpg',
+	interview: '/og-interview.jpg',
+} as const;
+
+const ogImage =
+	work.slug in caseOgImages
+		? caseOgImages[work.slug as keyof typeof caseOgImages]
+		: site.ogImage;
 ---
 
-<BaseLayout title={`${site.name} · ${work.title}`} description={work.tagline} ogImage={work.cover}>
+<BaseLayout
+	title={`${site.name} · ${work.title}`}
+	description={work.tagline}
+	ogImage={ogImage}
+	ogImageAlt={work.title}
+>
 	<Header slot="header" />
 	<CaseHero work={work} />
 	<article class="case-body">
