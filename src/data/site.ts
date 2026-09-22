@@ -8,6 +8,9 @@ export const site = {
 		'文科生，不写代码，我把两个 AI 产品推到了有人用。口语陪练公开内测，打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场。',
 	headlineEn:
 		"A liberal-arts graduate who doesn't write code. I shipped two AI products people actually use.",
+	documentTitle: '张晓雪 · 文科生转 AI 的作品集｜口语陪练与面试系统',
+	metaDescription:
+		'文科生，不写代码，我用 AI 当开发工具，把两个产品推到了有人用：口语陪练公开内测、打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场真实招聘。这里写清每个判断的取舍。',
 	email: 'chloechangzxx@outlook.com',
 	resumeHref: '/resume.pdf',
 	resumeDownloadName: '张晓雪.pdf',

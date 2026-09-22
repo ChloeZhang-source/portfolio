@@ -5,6 +5,7 @@ export const worksSchema = z
 		title: z.string(),
 		slug: z.string(),
 		tagline: z.string(),
+		description: z.string(),
 		role: z.string(),
 		result: z.string(),
 		transferable: z.string(),

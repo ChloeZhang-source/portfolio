@@ -67,6 +67,14 @@ test('homepage mounts SideAtmosphere beside the existing Home / Explore / About 
 	assert.match(source, /chapter--about/);
 });
 
+test('homepage injects Person + WebSite + ItemList JSON-LD', async () => {
+	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
+
+	assert.match(source, /buildHomeJsonLd/);
+	assert.match(source, /jsonLd=\{/);
+	assert.doesNotMatch(source, /xiaohongshu|小红书/);
+});
+
 test('homepage chapters share the ruler divider, not ink-wash strokes', async () => {
 	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
 

@@ -5,6 +5,8 @@ import CaseHero from '../../components/CaseHero.astro';
 import Header from '../../components/Header.astro';
 import { site } from '../../data/site';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { absoluteOgImageUrl, buildCaseJsonLd } from '../../lib/seo';
+import { workCaseHref } from '../../lib/work';
 
 export async function getStaticPaths() {
 	const works = await getCollection('works');
@@ -23,17 +25,50 @@ const caseOgImages = {
 	interview: '/og-interview.jpg',
 } as const;
 
+const caseTitles = {
+	speaking: 'AI 口语陪练：打开就能练完一轮｜张晓雪作品',
+	interview: '教师招聘面试系统：50+ 场可复评流程｜张晓雪作品',
+} as const;
+
+const caseJsonLdMeta = {
+	speaking: {
+		name: 'AI 口语陪练',
+		description: '练口语卡在开口之前——所以我拆了注册墙，让第一轮先成立。',
+	},
+	interview: {
+		name: '教师招聘面试系统',
+		description: '口口相传的标准没法复评——所以我把它做成了一轮可以打分的工作流。',
+	},
+} as const;
+
 const ogImage =
 	work.slug in caseOgImages
 		? caseOgImages[work.slug as keyof typeof caseOgImages]
 		: site.ogImage;
+
+const title =
+	work.slug in caseTitles
+		? caseTitles[work.slug as keyof typeof caseTitles]
+		: `${site.name} · ${work.title}`;
+
+const structured =
+	work.slug in caseJsonLdMeta
+		? caseJsonLdMeta[work.slug as keyof typeof caseJsonLdMeta]
+		: { name: work.title, description: work.tagline };
+
+const jsonLd = buildCaseJsonLd({
+	name: structured.name,
+	description: structured.description,
+	url: absoluteOgImageUrl(Astro.site, workCaseHref(work.slug)),
+});
 ---
 
 <BaseLayout
-	title={`${site.name} · ${work.title}`}
-	description={work.tagline}
+	title={title}
+	description={work.description}
 	ogImage={ogImage}
 	ogImageAlt={work.title}
+	jsonLd={jsonLd}
 >
 	<Header slot="header" />
 	<CaseHero work={work} />

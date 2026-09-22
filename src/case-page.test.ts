@@ -18,7 +18,11 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /slot=["']header["']/);
 	assert.match(source, /slot=["']footer["']/);
 	assert.match(source, /work\.title/);
-	assert.match(source, /work\.tagline/);
+	assert.match(source, /work\.description/);
+	assert.match(source, /AI 口语陪练：打开就能练完一轮｜张晓雪作品/);
+	assert.match(source, /教师招聘面试系统：50\+ 场可复评流程｜张晓雪作品/);
+	assert.doesNotMatch(source, /description=\{work\.tagline\}/);
+	assert.doesNotMatch(source, /title=\{`\$\{site\.name\} · \$\{work\.title\}`\}/);
 	assert.match(source, /og-speaking\.jpg/);
 	assert.match(source, /og-interview\.jpg/);
 	assert.match(source, /ogImage=\{ogImage\}/);
@@ -32,4 +36,6 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /DEMO_ACCOUNT|DEMO_PASSWORD/);
 	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);
+	assert.match(source, /buildCaseJsonLd/);
+	assert.match(source, /jsonLd=\{/);
 });

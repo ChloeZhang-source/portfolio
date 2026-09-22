@@ -10,11 +10,13 @@ import SideAtmosphere from '../components/SideAtmosphere.astro';
 import WorkCard from '../components/WorkCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { homeCopy } from '../data/home';
+import { buildHomeJsonLd } from '../lib/seo';
 
 const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+const jsonLd = buildHomeJsonLd();
 ---
 
-<BaseLayout>
+<BaseLayout jsonLd={jsonLd}>
 	<Header slot="header" />
 	<SideAtmosphere />
 	<Hero works={works.map((entry) => entry.data)} />

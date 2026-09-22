@@ -14,10 +14,12 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 	assert.match(source, /resolveDocumentTitle/);
 	assert.match(source, /absoluteOgImageUrl/);
 	assert.match(source, /withBase/);
-	assert.match(source, /site\.name/);
-	assert.match(source, /site\.headline/);
+	assert.match(source, /site\.documentTitle/);
+	assert.match(source, /site\.metaDescription/);
 	assert.match(source, /site\.ogImage/);
 	assert.match(source, /site\.headlineRole/);
+	assert.doesNotMatch(source, /description\s*=\s*site\.headline/);
+	assert.doesNotMatch(source, /resolveDocumentTitle\(\s*titleProp\s*,\s*site\.name\s*\)/);
 	assert.doesNotMatch(source, /ogImage\s*=\s*site\.avatarSrc/);
 
 	assert.match(source, /content=["']width=device-width,\s*initial-scale=1["']/);
@@ -36,6 +38,22 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 	assert.match(source, /property=["']og:url["']/);
 	assert.match(source, /property=["']og:type["']/);
 	assert.match(source, /content=["']website["']/);
+	assert.match(source, /property=["']og:site_name["']/);
+	assert.match(source, /content=["']张晓雪 · 作品集["']/);
+	assert.match(source, /property=["']og:locale["']/);
+	assert.match(source, /content=["']zh_CN["']/);
+	assert.match(source, /name=["']twitter:card["']/);
+	assert.match(source, /content=["']summary_large_image["']/);
+	assert.match(source, /name=["']twitter:title["']/);
+	assert.match(source, /content=\{ogTitle\}/);
+	assert.match(source, /name=["']twitter:description["']/);
+	assert.match(source, /content=\{ogDescription\}/);
+	assert.match(source, /name=["']twitter:image["']/);
+	assert.match(source, /content=\{ogImageAbsolute\}/);
+	assert.match(source, /name=["']author["']/);
+	assert.match(source, /content=\{site\.name\}/);
+	assert.match(source, /name=["']theme-color["']/);
+	assert.match(source, /content=["']#F4F3EF["']/);
 	assert.match(source, /rel=["']canonical["']/);
 	assert.match(source, /rel=["']icon["']/);
 	assert.match(source, /favicon\.svg/);
@@ -55,6 +73,10 @@ test('BaseLayout wires SEO helpers, named slots, and viewport scale', async () =
 
 	assert.doesNotMatch(source, /Header\.astro|Footer\.astro|Contact\.astro/);
 	assert.doesNotMatch(source, /hello@example\.com/);
+
+	assert.match(source, /jsonLd\?:/);
+	assert.match(source, /application\/ld\+json/);
+	assert.match(source, /JSON\.stringify\(jsonLd\)/);
 });
 
 test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {

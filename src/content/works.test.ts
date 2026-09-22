@@ -24,6 +24,8 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 		title: '口语陪练',
 		slug: 'speaking',
 		tagline: '公开内测的口语练习闭环',
+		description:
+			'想练一句口语，第一步就卡在注册墙上。我把注册拆掉，让「进入、开口、回应、离开」四个动作就能练完一轮；也放弃了打卡和排行榜——打卡只能证明坚持，证明不了进步。这是完整的取舍过程。',
 		role: '独立产品经理',
 		result: '公开内测中，无需登录即可试用',
 		transferable: '可迁移到其他对话式练习产品',
@@ -43,6 +45,8 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 		title: '面试系统',
 		slug: 'interview',
 		tagline: '多轮模拟面试闭环',
+		description:
+			'面试标准装在资深老师脑子里，录像没人复看，评分表对不齐。我把一轮面试拆成设备验证、指引、分环节作答、管理端评分，并放弃让 AI 直接给结论。50+ 场，全部发生在前司真实招聘里。',
 		role: '独立产品经理',
 		result: '已完成 50+ 场模拟面试',
 		transferable: '可迁移到多轮智能体工作流',
@@ -108,6 +112,11 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(speaking.access, 'public');
 	assert.equal(speaking.ctaLabel, '直接开练');
 	assert.equal(speaking.tagline, '练口语卡在开口之前——所以我把注册墙拆了，让第一轮先成立。');
+	assert.equal(
+		speaking.description,
+		'想练一句口语，第一步就卡在注册墙上。我把注册拆掉，让「进入、开口、回应、离开」四个动作就能练完一轮；也放弃了打卡和排行榜——打卡只能证明坚持，证明不了进步。这是完整的取舍过程。',
+	);
+	assert.notEqual(speaking.description, speaking.tagline);
 	assert.equal(speaking.result, '公开内测中 · 100+ 轮次 · 无需登录');
 	assert.equal(speaking.transferable, '先做完一轮听—说—结束，比先搭账号体系更关键');
 	assert.match(speaking.summaryEn, /Public beta\. No login required\./);
@@ -149,6 +158,11 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(interview.access, 'demo');
 	assert.equal(interview.ctaLabel, '看脱敏流程');
 	assert.equal(interview.tagline, '口口相传的标准没法复评——所以我把它做成了一轮可以打分的工作流。');
+	assert.equal(
+		interview.description,
+		'面试标准装在资深老师脑子里，录像没人复看，评分表对不齐。我把一轮面试拆成设备验证、指引、分环节作答、管理端评分，并放弃让 AI 直接给结论。50+ 场，全部发生在前司真实招聘里。',
+	);
+	assert.notEqual(interview.description, interview.tagline);
 	assert.equal(interview.result, '50+ 场 · 前司真实招聘');
 	assert.equal(interview.transferable, '把一轮面试做成可复评流程，比堆更多环节更管用');
 	assert.equal(interview.productUrl, undefined);

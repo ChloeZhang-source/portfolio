@@ -9,16 +9,18 @@ interface Props {
 	description?: string;
 	ogImage?: string;
 	ogImageAlt?: string;
+	jsonLd?: Record<string, unknown>;
 }
 
 const {
 	title: titleProp,
-	description = site.headline,
+	description = site.metaDescription,
 	ogImage = site.ogImage,
 	ogImageAlt = site.headlineRole,
+	jsonLd,
 } = Astro.props;
 
-const title = resolveDocumentTitle(titleProp, site.name);
+const title = resolveDocumentTitle(titleProp, site.documentTitle);
 const ogTitle = title;
 const ogDescription = description;
 const titleFontHref = withBase('/fonts/noto-serif-sc-title.woff2');
@@ -46,6 +48,8 @@ const fontFaceCss = `/* Noto Serif SC Medium subset (SIL OFL 1.1), glyphs for pa
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<meta name="author" content={site.name} />
+		<meta name="theme-color" content="#F4F3EF" />
 		<meta property="og:title" content={ogTitle} />
 		<meta property="og:description" content={ogDescription} />
 		<meta property="og:image" content={ogImageAbsolute} />
@@ -54,6 +58,12 @@ const fontFaceCss = `/* Noto Serif SC Medium subset (SIL OFL 1.1), glyphs for pa
 		<meta property="og:image:alt" content={ogImageAlt} />
 		<meta property="og:url" content={canonicalHref} />
 		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="张晓雪 · 作品集" />
+		<meta property="og:locale" content="zh_CN" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={ogDescription} />
+		<meta name="twitter:image" content={ogImageAbsolute} />
 		<link rel="canonical" href={canonicalHref} />
 		<link rel="icon" href={faviconHref} type="image/svg+xml" />
 		<link
@@ -64,6 +74,11 @@ const fontFaceCss = `/* Noto Serif SC Medium subset (SIL OFL 1.1), glyphs for pa
 			crossorigin
 		/>
 		<Fragment set:html={`<style>${fontFaceCss}</style>`} />
+		{
+			jsonLd ? (
+				<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+			) : null
+		}
 	</head>
 	<body>
 		<a class="skip-link" href="#main">跳到正文</a>
