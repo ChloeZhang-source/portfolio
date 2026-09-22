@@ -38,11 +38,11 @@ test('caseProductCta opens the product URL in a new tab with the work ctaLabel',
 		caseProductCta({
 			access: 'public',
 			productUrl: 'https://example.com/speaking',
-			ctaLabel: '打开产品',
+			ctaLabel: '直接开练',
 		}),
 		{
 			href: 'https://example.com/speaking',
-			label: '打开产品',
+			label: '直接开练',
 			external: true,
 		},
 	);
@@ -55,12 +55,12 @@ test('demo case product CTA stays on #gallery and never opens a live admin', asy
 		access: 'demo',
 		slug: 'interview',
 		productUrl: 'https://mianshi.zhan.com/#/admin',
-		ctaLabel: '看流程',
+		ctaLabel: '看脱敏流程',
 	});
 
 	assert.deepEqual(cta, {
 		href: '#gallery',
-		label: '看流程',
+		label: '看脱敏流程',
 		external: false,
 	});
 	assert.doesNotMatch(cta.href, /mianshi\.zhan\.com|https?:\/\//);

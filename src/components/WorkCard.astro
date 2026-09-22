@@ -29,7 +29,7 @@ const { work } = Astro.props;
 	</a>
 	<p class="result-number">{work.result}</p>
 	<div class="work-card__cta">
-		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabel}</a>
+		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabels[work.slug as keyof typeof homeCopy.workCaseLabels]}</a>
 	</div>
 </article>
 

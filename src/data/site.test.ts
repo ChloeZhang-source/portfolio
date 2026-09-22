@@ -83,10 +83,10 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 
 	assert.deepEqual(
 		site.nav.map((item) => item.label),
-		['首页', '作品', '关于'],
+		['首页', '作品', '关于', '联系'],
 	);
 	assert.deepEqual(
 		site.nav.map((item) => item.href),
-		['/#home', '/#work', '/#about'],
+		['/#home', '/#work', '/#about', '/#contact'],
 	);
 });

@@ -10,9 +10,11 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
+	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
 	assert.match(source, /from\s+['"]\.\.\/lib\/work['"]/);
 	assert.match(source, /id=["']home["']/);
-	assert.match(source, /site\.name/);
+	assert.match(source, /homeCopy\.heroKicker/);
+	assert.doesNotMatch(source, /chapter__kicker[^>]*>\{site\.name\}/);
 	assert.match(source, /site\.headlinePath/);
 	assert.match(source, /site\.headlineRole/);
 	assert.match(source, /site\.headlineProof/);
@@ -35,7 +37,6 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /exhibit/);
 	assert.doesNotMatch(source, /site\.facts/);
 	assert.doesNotMatch(source, /hero__facts/);
-	assert.doesNotMatch(source, /homeCopy/);
 	assert.doesNotMatch(source, /heroWorkHref|heroWorkLabel/);
 	assert.doesNotMatch(source, /heroContact/);
 	assert.doesNotMatch(source, /site\.resumeHref/);
@@ -47,7 +48,8 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
 	assert.match(source, /work\.title/);
-	assert.match(source, /work\.tagline/);
+	assert.match(source, /homeCopy\.heroPreviews/);
+	assert.doesNotMatch(source, /work\.tagline/);
 	assert.match(source, /workCaseHref\(work\.slug\)/);
 	assert.match(source, /caption=\{work\.title\}/);
 	assert.match(source, /window/);
@@ -78,13 +80,13 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /index === 0 \? ['"]hero__pair hero__pair--start['"] : ['"]hero__pair hero__pair--end['"]/);
 
 	const order = [
-		'site.name',
+		'homeCopy.heroKicker',
 		'site.headlinePath',
 		'site.headlineRole',
 		'site.headlineProof',
 		'workCaseHref',
 		'work.cover',
-		'work.tagline',
+		'homeCopy.heroPreviews',
 	];
 	let cursor = -1;
 	for (const token of order) {

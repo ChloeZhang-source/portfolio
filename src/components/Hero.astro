@@ -1,4 +1,5 @@
 ---
+import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { workCaseHref } from '../lib/work';
 import { withBase } from '../lib/paths';
@@ -10,7 +11,6 @@ interface Props {
 		slug: string;
 		title: string;
 		cover: string;
-		tagline: string;
 	}[];
 }
 
@@ -21,7 +21,7 @@ const { works } = Astro.props;
 	<div class="chapter__art" aria-hidden="true">
 		<ChapterRule />
 	</div>
-	<p class="chapter__kicker">{site.name}</p>
+	<p class="chapter__kicker">{homeCopy.heroKicker}</p>
 	<h1>
 		<span class="hero__path">{site.headlinePath}</span>
 		<span class="hero__role">{site.headlineRole}</span>
@@ -39,7 +39,9 @@ const { works } = Astro.props;
 					</a>
 					<div class="hero__copy">
 						<p class="hero__work-title">{work.title}</p>
-						<p class="hero__work-tagline">{work.tagline}</p>
+						<p class="hero__work-tagline">
+							{homeCopy.heroPreviews[work.slug as keyof typeof homeCopy.heroPreviews]}
+						</p>
 					</div>
 					<div class="hero__mark" aria-hidden="true">
 						<span class="hero__mark-folio">{String(index + 1).padStart(2, '0')}</span>

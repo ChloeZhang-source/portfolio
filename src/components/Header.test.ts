@@ -22,6 +22,8 @@ test('Header links the name home, renders site.nav, and has no resume CTA', asyn
 	assert.match(source, /navHrefForChapter/);
 	assert.match(source, /resolveActiveChapter/);
 	assert.match(source, /SIDE_CHAPTER_SELECTORS/);
+	assert.match(source, /#contact/);
+	assert.match(source, /navHrefForChapter\(['"]contact['"]\)/);
 	assert.match(source, /aria-current/);
 	assert.match(source, /nav-current/);
 	assert.match(source, /var\(--color-amber-ink\)/);

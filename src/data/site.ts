@@ -52,6 +52,7 @@ export const site = {
 		{ label: '首页', href: '/#home' },
 		{ label: '作品', href: '/#work' },
 		{ label: '关于', href: '/#about' },
+		{ label: '联系', href: '/#contact' },
 	],
 	updatedAt: '2026-09',
 } as const;

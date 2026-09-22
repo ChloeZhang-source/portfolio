@@ -10,7 +10,8 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	const source = await readFile(join(here, 'WorkCard.astro'), 'utf8');
 
 	assert.match(source, /workCaseHref/);
-	assert.match(source, /homeCopy\.workCaseLabel/);
+	assert.match(source, /homeCopy\.workCaseLabels\[work\.slug as keyof typeof homeCopy\.workCaseLabels\]/);
+	assert.doesNotMatch(source, /homeCopy\.workCaseLabel[^s]/);
 	assert.match(source, /work\.title/);
 	assert.match(source, /work\.tagline/);
 	assert.match(source, /work\.result/);

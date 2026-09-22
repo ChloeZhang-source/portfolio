@@ -73,6 +73,12 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 				return;
 			}
 
+			const contact = document.querySelector('#contact');
+			if (contact && contact.getBoundingClientRect().top <= anchor) {
+				paint(navHrefForChapter('contact'));
+				return;
+			}
+
 			paint(navHrefForChapter(resolveActiveChapter(chapters, anchor)));
 		};
 
