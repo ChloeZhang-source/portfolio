@@ -16,7 +16,9 @@ test('caseCopy locks result facts, demo English, and WeChat pointer', async () =
 	assert.equal(caseCopy.walkthroughHref, '#gallery');
 	assert.equal(caseCopy.requestLabel, '约 20 分钟讲解');
 	assert.equal(caseCopy.requestHref, '/#contact');
-	assert.equal(caseCopy.wechatSeeHome, '回首页看微信');
+	assert.equal(caseCopy.otherWorkPrefix, '看另一个作品：');
+	assert.equal(caseCopy.mailLabel, '邮件说两句');
+	assert.equal(caseCopy.wechatSeeHome, '首页有微信');
 	assert.equal(caseCopy.wechatHref, '/#contact');
 	assert.doesNotMatch(JSON.stringify(caseCopy), /立即体验|Try now|免费注册/);
 	assert.doesNotMatch(JSON.stringify(caseCopy), /复制密码|Demo account|演示可试用|题库生成|模拟面试/);

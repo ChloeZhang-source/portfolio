@@ -9,7 +9,9 @@ export const caseCopy = {
 	walkthroughHref: '#gallery',
 	requestLabel: '约 20 分钟讲解',
 	requestHref: '/#contact',
-	wechatSeeHome: '回首页看微信',
+	otherWorkPrefix: '看另一个作品：',
+	mailLabel: '邮件说两句',
+	wechatSeeHome: '首页有微信',
 	wechatHref: '/#contact',
 } as const;
 

@@ -11,11 +11,13 @@ test('CaseBar links the other case, mail, and home WeChat — no resume or statu
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /from\s+['"]\.\.\/data\/case['"]/);
-	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
+	assert.doesNotMatch(source, /from\s+['"]\.\.\/data\/home['"]/);
 	assert.match(source, /otherCaseWork/);
 	assert.match(source, /workCaseHref/);
 	assert.match(source, /mailtoHref/);
-	assert.match(source, /homeCopy\.contactMailLabel/);
+	assert.match(source, /caseCopy\.otherWorkPrefix/);
+	assert.match(source, /caseCopy\.mailLabel/);
+	assert.doesNotMatch(source, /homeCopy\.contactMailLabel/);
 	assert.match(source, /site\.email/);
 	assert.match(source, /caseCopy\.wechatSeeHome/);
 	assert.match(source, /withBase\(caseCopy\.wechatHref\)/);

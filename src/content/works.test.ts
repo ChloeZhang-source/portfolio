@@ -95,7 +95,8 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 
 test('speaking and interview MDX match locked copy and heading order', async () => {
 	const { worksSchema } = await import('./works-schema.ts');
-	const requiredHeadings = ['问题', '洞察', '方案', '我做了什么', '结果与反思'];
+	const speakingHeadings = ['问题', '我的判断', '怎么做的', '我放弃了什么', '结果'];
+	const interviewHeadings = ['问题', '我的判断', '怎么做的', '我放弃了什么', '结果'];
 
 	const speakingRaw = await readFile(join(here, 'works/speaking.mdx'), 'utf8');
 	const interviewRaw = await readFile(join(here, 'works/interview.mdx'), 'utf8');
@@ -116,12 +117,20 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(speaking.summaryEn, /transfer to other/i);
 	assert.doesNotMatch(speakingRaw, /立即体验|Try now|免费注册/);
 	assert.doesNotMatch(speakingRaw, /可迁移到/);
-	assert.match(speakingRaw, /做到能用时我学到的/);
-	assert.match(speakingRaw, /我做的第一个判断是/);
-	assert.match(speakingRaw, /先把「进入 → 开口 → 回应 → 离开」这一轮做完/);
-	assert.match(speakingRaw, /没有账号就拿不到留存数据/);
-	assert.match(speakingRaw, /第二个判断是\*\*演示尺度\*\*/);
-	assert.match(speakingRaw, /代价是展示的说服力打了折/);
+	assert.doesNotMatch(speakingRaw, /做到能用时我学到的/);
+	assert.doesNotMatch(speakingRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
+	assert.match(speakingRaw, /想练一句口语，第一步就卡住了：还没开口，先要注册。练完一轮，也没人告诉你哪里说错了。/);
+	assert.match(speakingRaw, /先给一轮能听、能说、能结束的练习。账号和档案，都可以等。/);
+	assert.match(
+		speakingRaw,
+		/开口就是对话。角色自选，难度随表现调，练完立刻给反馈。整条路径只有四个动作：进入、开口、回应、离开。/,
+	);
+	assert.match(speakingRaw, /我没有做打卡和排行榜。打卡只能证明坚持，证明不了进步。/);
+	assert.match(speakingRaw, /它现在是公开的，任何人都能打开试一轮。/);
+	assert.match(speakingRaw, /我原本以为要把功能补齐，做完才发现要补的是开头。/);
+	assert.match(speakingRaw, /第一轮对话能不能自己成立，比账号体系更重要。/);
+	assert.match(speakingRaw, /闭环放在注册墙前面，不是后面。/);
+	assert.match(speakingRaw, /演示只用已经得到的数据，不为展示去收集学员信息。/);
 	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
@@ -168,14 +177,31 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(interviewRaw, /模拟面试|题库生成到改进建议/);
 	assert.doesNotMatch(interviewRaw, /考生路径|#demo/);
 	assert.doesNotMatch(interviewRaw, /可迁移到/);
-	assert.match(interviewRaw, /做到能用时我学到的/);
-	assert.match(interviewRaw, /应聘老师一条分环节面试/);
-	assert.match(interviewRaw, /对照 AI 参考分的评分台/);
-	assert.match(interviewRaw, /不是让 AI 判分，是给面试官一个参照点/);
-	assert.match(interviewRaw, /先写了权限和候选人隐私，再做后台功能/);
-	assert.match(interviewRaw, /前几十场只能半人工兜底/);
-	assert.match(interviewRaw, /作品集只用脱敏截图说明「指引 → 面试 → 评分」/);
+	assert.doesNotMatch(interviewRaw, /做到能用时我学到的/);
+	assert.doesNotMatch(interviewRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
+	assert.match(
+		interviewRaw,
+		/面试标准装在资深老师的脑子里。录像留着没人复看，评分表之间对不齐，场次一多就排不过来。/,
+	);
+	assert.match(
+		interviewRaw,
+		/先把一轮面试变成可以检查的流程：设备验证、指引与评分标准、分环节作答、管理端人工评分。有检查点，复评才成立。/,
+	);
+	assert.match(
+		interviewRaw,
+		/给应聘老师一条分环节的面试路径，给面试官一张能打分的台子。评估维度和 Prompt 模板都按同一套标准写。/,
+	);
+	assert.match(
+		interviewRaw,
+		/我放弃了让 AI 直接给结论。它只出参考分和理由，最终分数由人填。慢一点，但这是这套系统能被一线面试官接受的前提。/,
+	);
+	assert.match(interviewRaw, /50\+ 场，全部发生在前司的真实招聘里。/);
+	assert.match(interviewRaw, /这套系统最后教会我的，是先把标准写下来。/);
+	assert.match(interviewRaw, /把一轮面试拆成可以检查的流程：指引、作答、评分。/);
+	assert.match(interviewRaw, /招聘数据和作品集分开；没有沙箱，就用脱敏流程代替公开账号。/);
+	assert.match(interviewRaw, /先写权限和候选人隐私，再决定后台能不能外链。/);
 	assert.doesNotMatch(interviewRaw, /独立把评测逻辑写成 AI 参考分，接到管理端人工复核/);
+	assert.doesNotMatch(interviewRaw, /我原本以为要把功能补齐/);
 	assert.deepEqual(
 		interview.gallery.map((item) => item.caption),
 		['面试指引', '正式面试', '管理端评分'],
@@ -192,6 +218,6 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.ok(speakingWords >= 80 && speakingWords <= 120, `speaking summaryEn words: ${speakingWords}`);
 	assert.ok(interviewWords >= 80 && interviewWords <= 120, `interview summaryEn words: ${interviewWords}`);
 
-	assert.deepEqual(headingOrder(speakingRaw.split(/---/)[2] ?? ''), requiredHeadings);
-	assert.deepEqual(headingOrder(interviewRaw.split(/---/)[2] ?? ''), requiredHeadings);
+	assert.deepEqual(headingOrder(speakingRaw.split(/---/)[2] ?? ''), speakingHeadings);
+	assert.deepEqual(headingOrder(interviewRaw.split(/---/)[2] ?? ''), interviewHeadings);
 });
