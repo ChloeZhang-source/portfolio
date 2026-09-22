@@ -54,3 +54,18 @@ test('narrow viewports degrade the rail to a top --scroll-progress line', async 
 	);
 	assert.match(source, /reduceMotion\.matches/);
 });
+
+test('rails sit outside the content shell using shared page tokens', async () => {
+	const source = await readFile(join(here, 'SideAtmosphere.astro'), 'utf8');
+
+	assert.match(source, /\.side-atmosphere__rail\s*\{[^}]*width:\s*var\(--rail-width\)/s);
+	assert.match(
+		source,
+		/\.side-atmosphere__rail--left\s*\{[^}]*left:\s*max\(\s*var\(--page-pad\)\s*,\s*calc\(\s*50%\s*-\s*\(\s*var\(--page-max\)\s*\/\s*2\s*\)\s*-\s*var\(--rail-width\)\s*\)\s*\)/s,
+	);
+	assert.match(
+		source,
+		/\.side-atmosphere__rail--right\s*\{[^}]*right:\s*max\(\s*var\(--page-pad\)\s*,\s*calc\(\s*50%\s*-\s*\(\s*var\(--page-max\)\s*\/\s*2\s*\)\s*-\s*var\(--rail-width\)\s*\)\s*\)/s,
+	);
+	assert.doesNotMatch(source, /38\.5rem/);
+});

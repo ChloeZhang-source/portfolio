@@ -185,15 +185,15 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 		position: absolute;
 		top: 3.5rem;
 		bottom: 3.5rem;
-		width: 4.25rem;
+		width: var(--rail-width);
 	}
 
 	.side-atmosphere__rail--left {
-		left: max(1.25rem, calc(50% - 38.5rem));
+		left: max(var(--page-pad), calc(50% - (var(--page-max) / 2) - var(--rail-width)));
 	}
 
 	.side-atmosphere__rail--right {
-		right: max(1.25rem, calc(50% - 38.5rem));
+		right: max(var(--page-pad), calc(50% - (var(--page-max) / 2) - var(--rail-width)));
 	}
 
 	.side-atmosphere__rule {

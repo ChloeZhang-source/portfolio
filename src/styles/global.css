@@ -20,6 +20,11 @@
 	--text-section: 1.8rem;
 	--lede-max: 36rem;
 	--window-max: 52rem;
+	--page-max: 72rem;
+	--rail-width: 4.25rem;
+	--spine-gap: 1.25rem;
+	--page-pad: 1.25rem;
+	--page-pad-wide: calc(var(--rail-width) + var(--spine-gap));
 }
 
 *,
@@ -149,7 +154,7 @@ code {
 	flex-direction: column;
 	align-items: flex-start;
 	text-align: left;
-	padding: 6rem 1.25rem 4.5rem;
+	padding: 6rem var(--page-pad) 4.5rem;
 	scroll-margin-top: 4.5rem;
 }
 
@@ -305,8 +310,14 @@ body > footer {
 body > header > *,
 body > main > *,
 body > footer > * {
-	max-width: 72rem;
+	max-width: var(--page-max);
 	margin-inline: auto;
+}
+
+@media (min-width: 1101px) {
+	.chapter {
+		padding-inline: var(--page-pad-wide);
+	}
 }
 
 @media (prefers-reduced-motion: no-preference) {

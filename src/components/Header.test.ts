@@ -30,3 +30,13 @@ test('Header links the name home, renders site.nav, and has no resume CTA', asyn
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 	assert.doesNotMatch(source, /display:\s*none/);
 });
+
+test('wide viewports inset the header with the shared spine page pad', async () => {
+	const source = await readFile(join(here, 'Header.astro'), 'utf8');
+
+	assert.match(source, /\.site-header\s*\{[^}]*padding:\s*0\.85rem\s+var\(--page-pad\)/s);
+	assert.match(
+		source,
+		/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{[^}]*\.site-header\s*\{[^}]*padding-inline:\s*var\(--page-pad-wide\)/s,
+	);
+});

@@ -25,6 +25,11 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--radius:\s*18px/);
 	assert.match(css, /--shadow:\s*0\s+24px\s+60px/);
 	assert.match(css, /--window-max:\s*52rem/);
+	assert.match(css, /--page-max:\s*72rem/);
+	assert.match(css, /--rail-width:\s*4\.25rem/);
+	assert.match(css, /--spine-gap:\s*1\.25rem/);
+	assert.match(css, /--page-pad:\s*1\.25rem/);
+	assert.match(css, /--page-pad-wide:\s*calc\(\s*var\(--rail-width\)\s*\+\s*var\(--spine-gap\)\s*\)/);
 	assert.doesNotMatch(css, /--color-window-screen/);
 	assert.match(css, /--font-sans:/);
 	assert.match(css, /--font-serif:/);
@@ -106,6 +111,21 @@ test('main is the positioning context for the chapter spine', async () => {
 	const css = await readFile(join(here, 'global.css'), 'utf8');
 
 	assert.match(css, /body\s*>\s*main\s*\{[^}]*position:\s*relative/s);
+});
+
+test('wide viewports keep chapter text inside the spine with shared page tokens', async () => {
+	const css = await readFile(join(here, 'global.css'), 'utf8');
+
+	assert.match(
+		css,
+		/body\s*>\s*header\s*>\s*\*,\s*\n\s*body\s*>\s*main\s*>\s*\*,\s*\n\s*body\s*>\s*footer\s*>\s*\*\s*\{[^}]*max-width:\s*var\(--page-max\)/s,
+	);
+	assert.match(css, /\.chapter\s*\{[^}]*padding:\s*6rem\s+var\(--page-pad\)\s+4\.5rem/s);
+	assert.match(
+		css,
+		/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{[^}]*\.chapter\s*\{[^}]*padding-inline:\s*var\(--page-pad-wide\)/s,
+	);
+	assert.doesNotMatch(css, /max-width:\s*72rem/);
 });
 
 test('html uses the paper background so an empty layout still fills the viewport', async () => {
