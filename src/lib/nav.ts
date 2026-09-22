@@ -3,13 +3,13 @@ import { stripBase, withBase } from './paths.ts';
 const NAV_PATH_BY_CHAPTER = {
 	home: '/#home',
 	work: '/#work',
-	experience: '/#experience',
+	about: '/#about',
 } as const;
 
 export const NAV_HREF_BY_CHAPTER = {
 	home: withBase(NAV_PATH_BY_CHAPTER.home),
 	work: withBase(NAV_PATH_BY_CHAPTER.work),
-	experience: withBase(NAV_PATH_BY_CHAPTER.experience),
+	about: withBase(NAV_PATH_BY_CHAPTER.about),
 } as const;
 
 export type NavChapter = keyof typeof NAV_PATH_BY_CHAPTER;
@@ -29,8 +29,8 @@ export function navCurrentHref(pathname: string, hash = '', baseUrl?: string): s
 		return navHrefForChapter('work', baseUrl);
 	}
 
-	if (section === 'experience' || section === 'contact') {
-		return navHrefForChapter('experience', baseUrl);
+	if (section === 'about' || section === 'contact' || section === 'experience') {
+		return navHrefForChapter('about', baseUrl);
 	}
 
 	return navHrefForChapter('home', baseUrl);

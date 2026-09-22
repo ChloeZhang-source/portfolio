@@ -6,15 +6,16 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('homepage hash picks Home / Explore / Experience, and case pages stay on Explore', async () => {
+test('homepage hash picks Home / Explore / About, and case pages stay on Explore', async () => {
 	const { navCurrentHref } = await import('./nav.ts');
 
 	assert.equal(navCurrentHref('/'), '/#home');
 	assert.equal(navCurrentHref('/', ''), '/#home');
 	assert.equal(navCurrentHref('/', '#home'), '/#home');
 	assert.equal(navCurrentHref('/', '#work'), '/#work');
-	assert.equal(navCurrentHref('/', '#experience'), '/#experience');
-	assert.equal(navCurrentHref('/', '#contact'), '/#experience');
+	assert.equal(navCurrentHref('/', '#about'), '/#about');
+	assert.equal(navCurrentHref('/', '#contact'), '/#about');
+	assert.equal(navCurrentHref('/', '#experience'), '/#about');
 	assert.equal(navCurrentHref('/work/speaking'), '/#work');
 	assert.equal(navCurrentHref('/work/interview', '#demo'), '/#work');
 	assert.equal(navCurrentHref('/work/speaking/'), '/#work');
@@ -24,10 +25,10 @@ test('nav hrefs share the homepage chapter ids used by side atmosphere', async (
 	const { navHrefForChapter } = await import('./nav.ts');
 	const { SIDE_CHAPTERS } = await import('./side-atmosphere.ts');
 
-	assert.deepEqual([...SIDE_CHAPTERS], ['home', 'work', 'experience']);
+	assert.deepEqual([...SIDE_CHAPTERS], ['home', 'work', 'about']);
 	assert.equal(navHrefForChapter('home'), '/#home');
 	assert.equal(navHrefForChapter('work'), '/#work');
-	assert.equal(navHrefForChapter('experience'), '/#experience');
+	assert.equal(navHrefForChapter('about'), '/#about');
 });
 
 test('nav strips the GitHub Pages base before matching case routes', async () => {
@@ -42,7 +43,7 @@ test('nav strips the GitHub Pages base before matching case routes', async () =>
 		withBase('/#work', '/portfolio/'),
 	);
 	assert.equal(
-		navCurrentHref('/portfolio/', '#experience', '/portfolio/'),
-		withBase('/#experience', '/portfolio/'),
+		navCurrentHref('/portfolio/', '#about', '/portfolio/'),
+		withBase('/#about', '/portfolio/'),
 	);
 });

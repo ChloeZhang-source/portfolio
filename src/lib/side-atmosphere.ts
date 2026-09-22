@@ -1,17 +1,17 @@
-export const SIDE_CHAPTERS = ['home', 'work', 'experience'] as const;
+export const SIDE_CHAPTERS = ['home', 'work', 'about'] as const;
 
 export type SideChapter = (typeof SIDE_CHAPTERS)[number];
 
 export const SIDE_CHAPTER_SELECTORS: Record<SideChapter, string> = {
 	home: '#home',
 	work: '#work',
-	experience: '.chapter--experience',
+	about: '.chapter--about',
 };
 
 export const SIDE_CHAPTER_FOLIOS: Record<SideChapter, string> = {
 	home: '01',
 	work: '02',
-	experience: '03',
+	about: '03',
 };
 
 export function spineNodeY(markerTop: number, pageTop: number, pageHeight: number): number {

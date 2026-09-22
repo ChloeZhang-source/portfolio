@@ -106,11 +106,17 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(speaking.slug, 'speaking');
 	assert.equal(speaking.access, 'public');
 	assert.equal(speaking.ctaLabel, '打开产品');
+	assert.equal(speaking.tagline, '开口就能练完一轮');
 	assert.equal(speaking.result, '公开内测中，无需登录即可试用');
+	assert.equal(speaking.transferable, '先做完一轮听—说—结束，比先搭账号体系更关键');
 	assert.match(speaking.summaryEn, /Public beta\. No login required\./);
 	assert.match(speaking.summaryEn, /public-beta product interface/);
+	assert.match(speaking.summaryEn, /What I learned getting it usable/);
 	assert.doesNotMatch(speaking.summaryEn, /placeholders/);
+	assert.doesNotMatch(speaking.summaryEn, /transfer to other/i);
 	assert.doesNotMatch(speakingRaw, /立即体验|Try now|免费注册/);
+	assert.doesNotMatch(speakingRaw, /可迁移到/);
+	assert.match(speakingRaw, /做到能用时我学到的/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
 		['进入练习', '开口对话', '即时反馈'],
@@ -127,29 +133,31 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(interview.slug, 'interview');
 	assert.equal(interview.access, 'demo');
 	assert.equal(interview.ctaLabel, '看流程');
-	assert.equal(interview.tagline, '前司用来招聘线上老师');
+	assert.equal(interview.tagline, '教师招聘面试，做成可复评流程');
 	assert.equal(interview.result, '已完成 50+ 场教师招聘面试');
-	assert.equal(
-		interview.transferable,
-		'结构化评测和 AI 辅助打分，可迁到其他招聘或多轮智能体流程',
-	);
+	assert.equal(interview.transferable, '把一轮面试做成可复评流程，比堆更多环节更管用');
 	assert.equal(interview.productUrl, undefined);
 	assert.match(interview.summaryEn, /50\+ teacher-hiring interviews completed\./);
 	assert.match(interview.summaryEn, /Built for teacher hiring at my previous company\./);
 	assert.match(interview.summaryEn, /Live environment\. No public login\./);
 	assert.match(interview.summaryEn, /Walkthrough on this page\./);
+	assert.match(interview.summaryEn, /What I learned getting it usable/);
 	assert.doesNotMatch(interview.summaryEn, /demo account|Demo account|credentials|mock interview/i);
+	assert.doesNotMatch(interview.summaryEn, /transfer to other/i);
 	assert.match(interview.demoNotes ?? '', /前司招聘线上老师/);
 	assert.match(interview.demoNotes ?? '', /面试指引/);
 	assert.match(interview.demoNotes ?? '', /管理端评分/);
 	assert.match(interview.demoNotes ?? '', /不提供登录|不提供公开账号/);
 	assert.match(interview.demoNotes ?? '', /脱敏/);
-	assert.match(interview.demoNotes ?? '', /预约|讲解/);
+	assert.match(interview.demoNotes ?? '', /需要演示时邮件或微信联系/);
+	assert.doesNotMatch(interview.demoNotes ?? '', /可约 10 分钟讲解/);
 	assert.doesNotMatch(interview.demoNotes ?? '', /Demo account|密码|账号位于|题库生成/);
 	assert.doesNotMatch(interviewRaw, /立即体验|Try now|免费注册/);
 	assert.doesNotMatch(interviewRaw, /DEMO_|mianshi\.zhan\.com|打开演示|可演示|demoAccount|demoPassword/);
 	assert.doesNotMatch(interviewRaw, /模拟面试|题库生成到改进建议/);
 	assert.doesNotMatch(interviewRaw, /考生路径|#demo/);
+	assert.doesNotMatch(interviewRaw, /可迁移到/);
+	assert.match(interviewRaw, /做到能用时我学到的/);
 	assert.match(interviewRaw, /应聘老师一条分环节面试/);
 	assert.match(interviewRaw, /对照 AI 参考分的评分台/);
 	assert.deepEqual(

@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Kosmik-getdesign-preview
-description: Layout and visual language taken from the getdesign.md Kosmik catalog preview — a near-white, centered, chaptered landing (Home / Explore / Experience). Each chapter is illustration → short title → narrow lede → a rounded browser window holding the artifact. Quiet ink on paper, no peach-chip moodboard, no dark résumé chrome. Not affiliated with Kosmik.
+description: Layout and visual language taken from the getdesign.md Kosmik catalog preview — a near-white, centered, chaptered landing (Home / Explore / About). Each chapter is illustration → short title → narrow lede → a rounded browser window holding the artifact. Quiet ink on paper, no peach-chip moodboard, no dark résumé chrome. Not affiliated with Kosmik.
 reference: https://getdesign.md/design-md/kosmik
 
 colors:
@@ -57,11 +57,11 @@ Source of truth for this site: the [getdesign Kosmik preview landing](https://ge
 
 Three stacked chapters, one vertical axis, centered.
 
-1. **Home** — line illustration; short centered identity (name, role, one proof); two smaller staggered windows as an index of both works (no CTA, no result numbers). Explore keeps the full catalog.
+1. **Home** — line illustration; short centered identity (name, headline, one proof); two smaller staggered windows as an index of both works (no CTA, no result numbers). Explore keeps the full catalog.
 2. **Explore** — same rhythm; each work is title + sentence + windowed cover.
-3. **Experience** — about, skills as plain text, experience notes, contact inside the same calm column. Contact shows a small circular likeness beside mail and WeChat.
+3. **About** — short about copy plus contact in the same calm column (no skills list, no timeline). Contact shows a small circular likeness beside mail and WeChat. Resume is only a quiet text link inside About.
 
-Top nav: wordmark left, `Home / Explore / Experience` centered, resume as a text link right.
+Top nav: wordmark left, `Home / Explore / About` centered; no resume CTA in the header.
 
 ## Color
 

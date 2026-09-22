@@ -63,9 +63,8 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 	assert.doesNotMatch(source, /fonts\.google|fonts\.gstatic|@import/);
 
 	const headingText = [
-		'AI 教育产品经理',
+		'从 0 做到能用',
 		'关于我',
-		'经历',
 		'联系',
 		'口语陪练',
 		'面试系统',

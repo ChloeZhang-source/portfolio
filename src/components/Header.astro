@@ -21,9 +21,6 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 			))
 		}
 	</nav>
-	<a class="site-header__resume" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>
-		{site.resumeLabel}
-	</a>
 </div>
 
 <script>
@@ -106,6 +103,7 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 	}
 
 	.site-header__nav {
+		grid-column: 2;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
@@ -130,24 +128,13 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 		background: var(--color-amber);
 	}
 
-	.site-header__resume {
-		justify-self: end;
-		color: var(--color-muted);
-		font-size: 0.88rem;
-		text-decoration: none;
-	}
-
-	.site-header__resume:hover {
-		color: var(--color-text);
-	}
-
 	@media (max-width: 720px) {
 		.site-header {
-			grid-template-columns: 1fr auto;
+			grid-template-columns: 1fr;
 		}
 
 		.site-header__nav {
-			grid-column: 1 / -1;
+			grid-column: 1;
 			order: 3;
 		}
 	}

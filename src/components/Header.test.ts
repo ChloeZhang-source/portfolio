@@ -6,19 +6,18 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Header links the name home, renders site.nav, and keeps resume download visible', async () => {
+test('Header links the name home, renders site.nav, and has no resume CTA', async () => {
 	const source = await readFile(join(here, 'Header.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /site\.name/);
 	assert.match(source, /withBase\(['"]\/['"]\)/);
 	assert.match(source, /withBase\(item\.href\)/);
-	assert.match(source, /withBase\(site\.resumeHref\)/);
 	assert.match(source, /site\.nav/);
-	assert.match(source, /site\.resumeHref/);
-	assert.match(source, /site\.resumeDownloadName/);
-	assert.match(source, /site\.resumeLabel/);
-	assert.match(source, /download=\{site\.resumeDownloadName\}/);
+	assert.doesNotMatch(source, /site\.resumeHref/);
+	assert.doesNotMatch(source, /site\.resumeDownloadName/);
+	assert.doesNotMatch(source, /site\.resumeLabel/);
+	assert.doesNotMatch(source, /site-header__resume/);
 	assert.match(source, /navCurrentHref/);
 	assert.match(source, /navHrefForChapter/);
 	assert.match(source, /resolveActiveChapter/);

@@ -1,6 +1,6 @@
-# 张晓雪 · 个人求职站
+# 张晓雪 · 个人作品集
 
-Astro 静态多页。首页做求职转化，两篇案例页讲口语陪练和面试系统。
+Astro 静态多页。首页放作品与一点自我介绍，两篇案例页讲口语陪练和面试系统。
 
 视觉以 `DESIGN.md` 为准（Kosmik 纸面语言：居中章节 + 窗口展柜）。改文案只动数据，不改组件逻辑。
 
@@ -37,28 +37,28 @@ push `main` 时 `.github/workflows/pages.yml` 会跑 `npm ci`、`npm test`、`np
 
 ## 改内容（不要改组件）
 
-身份、联系、经历：`src/data/site.ts`
+身份与联系：`src/data/site.ts`
 
 | 字段 | 现在 |
 | --- | --- |
 | `name` | 张晓雪 |
 | `email` | chloechangzxx@outlook.com |
-| `resumeHref` / `resumeDownloadName` | `/resume.pdf` / `{name}-AI教育产品经理.pdf` |
+| `resumeHref` / `resumeDownloadName` | `/resume.pdf` / `{name}.pdf` |
 | `wechatQrSrc` / `avatarSrc` | `/wechat-qr.png` / `/avatar.jpg` |
-| `nav` | 首页、作品、经历 |
+| `nav` | 首页、作品、关于 |
 
 作品正文和封面：`src/content/works/speaking.mdx`、`src/content/works/interview.mdx`
 
 - 口语 `productUrl`、`ctaLabel: 打开产品`、`access: public`
 - 面试无 `productUrl`、无演示账号；`access: demo` + `demoNotes`；主 CTA「看流程」指向页内画廊
 
-首页/案例短文案：`src/data/home.ts`、`src/data/case.ts`。英文字段（`headlineEn`、`statusEn`、`summaryEn`）只留在数据里，页面不展示。
+首页/案例短文案：`src/data/home.ts`、`src/data/case.ts`。英文字段（`headlineEn`、`summaryEn`）只留在数据里，页面不展示。
 
 ## public/
 
 | 路径 | 用途 |
 | --- | --- |
-| `resume.pdf` | 中文简历 |
+| `resume.pdf` | 中文简历（About 内小链下载） |
 | `favicon.svg` | 纸面风格站点图标 |
 | `avatar.jpg` | 首页窗口头像 |
 | `wechat-qr.png` | 联系区微信码 |

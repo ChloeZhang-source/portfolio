@@ -4,7 +4,7 @@ import { test } from 'node:test';
 test('withBase prefixes the GitHub Pages base onto public and hash paths', async () => {
 	const { withBase } = await import('./paths.ts');
 
-	assert.equal(withBase('/#experience', '/portfolio/'), '/portfolio/#experience');
+	assert.equal(withBase('/#about', '/portfolio/'), '/portfolio/#about');
 	assert.equal(withBase('/#home', '/portfolio/'), '/portfolio/#home');
 	assert.equal(withBase('/work/speaking', '/portfolio/'), '/portfolio/work/speaking');
 	assert.equal(withBase('/resume.pdf', '/portfolio/'), '/portfolio/resume.pdf');
@@ -16,12 +16,11 @@ test('withBase prefixes the GitHub Pages base onto public and hash paths', async
 test('withBase keeps root-relative paths when the site is served from /', async () => {
 	const { withBase } = await import('./paths.ts');
 
-	assert.equal(withBase('/#experience'), '/#experience');
+	assert.equal(withBase('/#about'), '/#about');
 	assert.equal(withBase('/work/interview'), '/work/interview');
 	assert.equal(withBase('/resume.pdf', '/'), '/resume.pdf');
 	assert.equal(withBase('/'), '/');
 });
-
 test('withBase leaves absolute http(s) URLs unchanged', async () => {
 	const { withBase } = await import('./paths.ts');
 

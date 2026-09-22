@@ -7,7 +7,7 @@ test('active chapter is the last section whose top has crossed the viewport anch
 	const chapters = [
 		{ id: 'home' as const, top: 80, bottom: 900 },
 		{ id: 'work' as const, top: 920, bottom: 1900 },
-		{ id: 'experience' as const, top: 1920, bottom: 2800 },
+		{ id: 'about' as const, top: 1920, bottom: 2800 },
 	];
 
 	assert.equal(resolveActiveChapter(chapters, 256), 'home');
@@ -16,7 +16,7 @@ test('active chapter is the last section whose top has crossed the viewport anch
 			[
 				{ id: 'home', top: -600, bottom: 280 },
 				{ id: 'work', top: 300, bottom: 1280 },
-				{ id: 'experience', top: 1300, bottom: 2180 },
+				{ id: 'about', top: 1300, bottom: 2180 },
 			],
 			256,
 		),
@@ -27,7 +27,7 @@ test('active chapter is the last section whose top has crossed the viewport anch
 			[
 				{ id: 'home', top: -700, bottom: 120 },
 				{ id: 'work', top: 140, bottom: 1120 },
-				{ id: 'experience', top: 1140, bottom: 2020 },
+				{ id: 'about', top: 1140, bottom: 2020 },
 			],
 			256,
 		),
@@ -38,20 +38,20 @@ test('active chapter is the last section whose top has crossed the viewport anch
 			[
 				{ id: 'home', top: -1800, bottom: -980 },
 				{ id: 'work', top: -960, bottom: 20 },
-				{ id: 'experience', top: 40, bottom: 920 },
+				{ id: 'about', top: 40, bottom: 920 },
 			],
 			256,
 		),
-		'experience',
+		'about',
 	);
 });
 
-test('experience is observed on the existing chapter wrapper, not a second id', async () => {
+test('about is observed on the existing chapter wrapper, not a second id', async () => {
 	const { SIDE_CHAPTER_SELECTORS } = await import('./side-atmosphere.ts');
 
 	assert.equal(SIDE_CHAPTER_SELECTORS.home, '#home');
 	assert.equal(SIDE_CHAPTER_SELECTORS.work, '#work');
-	assert.equal(SIDE_CHAPTER_SELECTORS.experience, '.chapter--experience');
+	assert.equal(SIDE_CHAPTER_SELECTORS.about, '.chapter--about');
 });
 
 test('missing chapters fall back to home', async () => {
