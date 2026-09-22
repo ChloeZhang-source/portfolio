@@ -18,29 +18,31 @@ test('homepage slots Header, Footer, and Contact without hardcoding contact data
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 });
 
-test('homepage chapters are Home → Explore #work → Experience (About + timeline + Contact)', async () => {
+test('homepage chapters are Home → Explore #work → About (About + Contact)', async () => {
 	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
 
 	assert.match(source, /Hero\.astro/);
 	assert.match(source, /WorkCard\.astro/);
 	assert.match(source, /About\.astro/);
-	assert.match(source, /Experience\.astro/);
+	assert.doesNotMatch(source, /Experience\.astro/);
 	assert.match(source, /getCollection\(['"]works['"]\)/);
 	assert.match(source, /id=["']work["']/);
-	const experienceChapter = source.match(/<section\b[^>]*chapter--experience[^>]*>/);
-	assert.ok(experienceChapter, 'experience chapter wrapper must exist');
-	assert.match(experienceChapter[0], /id=["']experience["']/);
-	assert.match(source, /\.chapter--experience[^{]*\{[^}]*scroll-margin-top:\s*6rem/s);
+	const aboutChapter = source.match(/<section\b[^>]*chapter--about[^>]*>/);
+	assert.ok(aboutChapter, 'about chapter wrapper must exist');
+	assert.match(aboutChapter[0], /id=["']about["']/);
+	assert.match(source, /\.chapter--about[^{]*\{[^}]*scroll-margin-top:\s*6rem/s);
 	assert.match(source, /chapter__kicker">作品</);
-	assert.match(source, /chapter__kicker">经历</);
+	assert.match(source, /chapter__kicker">关于</);
 	assert.doesNotMatch(source, /chapter__kicker">Explore</);
 	assert.doesNotMatch(source, /chapter__kicker">Experience</);
+	assert.doesNotMatch(source, /chapter__kicker">经历</);
+	assert.doesNotMatch(source, /chapter--experience/);
+	assert.doesNotMatch(source, /id=["']experience["']/);
 
 	const hero = source.indexOf('<Hero');
 	const work = source.indexOf('id="work"') >= 0 ? source.indexOf('id="work"') : source.indexOf("id='work'");
 	const cards = source.indexOf('<WorkCard');
 	const about = source.indexOf('<About');
-	const experience = source.indexOf('<Experience');
 	const contact = source.indexOf('<Contact');
 
 	assert.match(source, /<Hero\s+works=\{works\.map/);
@@ -49,19 +51,18 @@ test('homepage chapters are Home → Explore #work → Experience (About + timel
 	assert.ok(hero >= 0 && work > hero, 'Hero must precede #work');
 	assert.ok(cards > work, 'WorkCard must render inside #work');
 	assert.ok(about > cards, 'About must follow work cards');
-	assert.ok(experience > about, 'Experience must follow About');
-	assert.ok(contact > experience, 'Contact must follow Experience');
+	assert.ok(contact > about, 'Contact must follow About');
 
 	assert.doesNotMatch(source, /demoAccount|demoPassword|DEMO_ACCOUNT|DEMO_PASSWORD/);
 	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);
 });
 
-test('homepage mounts SideAtmosphere beside the existing Home / Explore / Experience chapters', async () => {
+test('homepage mounts SideAtmosphere beside the existing Home / Explore / About chapters', async () => {
 	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
 
 	assert.match(source, /SideAtmosphere\.astro/);
 	assert.match(source, /<SideAtmosphere\s*\/>/);
-	assert.match(source, /chapter--experience/);
+	assert.match(source, /chapter--about/);
 });
 
 test('homepage chapters share the ruler divider, not ink-wash strokes', async () => {

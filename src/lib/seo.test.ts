@@ -6,10 +6,10 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('default document title is {name} · AI 教育产品经理', async () => {
+test('default document title is {name} · 从 0 做到能用', async () => {
 	const { resolveDocumentTitle } = await import('./seo.ts');
 
-	assert.equal(resolveDocumentTitle(undefined, '姓名'), '姓名 · AI 教育产品经理');
+	assert.equal(resolveDocumentTitle(undefined, '姓名'), '姓名 · 从 0 做到能用');
 });
 
 test('custom title overrides the default document title', async () => {
@@ -24,8 +24,8 @@ test('custom title overrides the default document title', async () => {
 test('blank custom title falls back to the default document title', async () => {
 	const { resolveDocumentTitle } = await import('./seo.ts');
 
-	assert.equal(resolveDocumentTitle('', '姓名'), '姓名 · AI 教育产品经理');
-	assert.equal(resolveDocumentTitle('   ', '姓名'), '姓名 · AI 教育产品经理');
+	assert.equal(resolveDocumentTitle('', '姓名'), '姓名 · 从 0 做到能用');
+	assert.equal(resolveDocumentTitle('   ', '姓名'), '姓名 · 从 0 做到能用');
 });
 
 test('absolute OG image URL is resolved against the GitHub Pages origin plus base', async () => {

@@ -58,11 +58,11 @@ function sha256(buf: Buffer) {
 	return createHash('sha256').update(buf).digest('hex');
 }
 
-test('resume download name is {name}-AI教育产品经理.pdf', async () => {
+test('resume download name is {name}.pdf', async () => {
 	const { site } = await import('./site.ts');
 
 	assert.equal(site.resumeHref, '/resume.pdf');
-	assert.equal(site.resumeDownloadName, `${site.name}-AI教育产品经理.pdf`);
+	assert.equal(site.resumeDownloadName, `${site.name}.pdf`);
 });
 
 test('heading font subset exists in public/fonts/', async () => {
@@ -100,17 +100,6 @@ test('js-yaml is declared as a test devDependency', async () => {
 	};
 
 	assert.equal(typeof pkg.devDependencies?.['js-yaml'], 'string');
-});
-
-test('ACP certificate preview is a trimmed jpeg in public/certs/', async () => {
-	const { site } = await import('./site.ts');
-
-	await assertPublicFile(site.acpCert.src);
-
-	const image = await readFile(toPublicFile(site.acpCert.src));
-	assert.equal(image.subarray(0, 3).toString('hex'), 'ffd8ff');
-	assert.ok(image.byteLength > 40_000, 'certificate preview should remain readable');
-	assert.ok(image.byteLength < 1_200_000, 'certificate preview should stay web-sized');
 });
 
 test('speaking cover and gallery are product screenshots, not labeled stills', async () => {

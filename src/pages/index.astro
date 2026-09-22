@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
-import Experience from '../components/Experience.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
@@ -31,13 +30,12 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
 			}
 		</div>
 	</section>
-	<section id="experience" class="chapter chapter--experience">
+	<section id="about" class="chapter chapter--about">
 		<div class="chapter__art" aria-hidden="true">
 			<ChapterRule />
 		</div>
-		<p class="chapter__kicker">经历</p>
+		<p class="chapter__kicker">关于</p>
 		<About />
-		<Experience />
 		<Contact />
 	</section>
 	<Footer slot="footer" />
@@ -50,21 +48,19 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
 		gap: 3.5rem;
 	}
 
-	.chapter--experience {
+	.chapter--about {
 		scroll-margin-top: 6rem;
 	}
 
-	.chapter--experience :global(.about),
-	.chapter--experience :global(.experience),
-	.chapter--experience :global(.contact) {
+	.chapter--about :global(.about),
+	.chapter--about :global(.contact) {
 		width: min(var(--window-max), 100%);
 		padding: 1.25rem 0;
 		text-align: left;
 	}
 
-	.chapter--experience :global(.about h2),
-	.chapter--experience :global(.experience h2),
-	.chapter--experience :global(.contact h2) {
+	.chapter--about :global(.about h2),
+	.chapter--about :global(.contact h2) {
 		max-width: none;
 		text-align: left;
 	}

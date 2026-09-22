@@ -1,4 +1,4 @@
-const DEFAULT_TITLE_SUFFIX = 'AI 教育产品经理';
+const DEFAULT_TITLE_SUFFIX = '从 0 做到能用';
 
 export function resolveDocumentTitle(customTitle: string | undefined, name: string): string {
 	const trimmed = customTitle?.trim();
