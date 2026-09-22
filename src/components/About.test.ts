@@ -11,7 +11,7 @@ test('About renders path story, judgments timeline, and now from site/home data'
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
 	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
-	assert.match(source, /homeCopy\.aboutTitle/);
+	assert.doesNotMatch(source, /homeCopy\.aboutTitle/);
 	assert.match(source, /homeCopy\.judgmentsTitle/);
 	assert.match(source, /homeCopy\.judgmentsNote/);
 	assert.match(source, /homeCopy\.nowTitle/);
