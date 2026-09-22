@@ -17,6 +17,8 @@ test('ChapterRule is a ruler divider: gray ends, hairline, one amber-ink center'
 	assert.match(source, /var\(--color-rule\)/);
 	assert.match(source, /var\(--color-node\)/);
 	assert.match(source, /var\(--color-amber-ink\)/);
+	assert.match(source, /\.sep\s*\{[^}]*width:\s*100%/s);
+	assert.match(source, /margin:\s*0\s+10px/);
 	assert.doesNotMatch(source, /\.sep__dot\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.doesNotMatch(source, /feTurbulence|InkWash|ink-wash|ink-amber/);
 	assert.doesNotMatch(source, /#f6d7a8|#e8b86a|#e9b37a/i);

@@ -16,8 +16,9 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--color-amber:\s*#c29857/);
 	assert.match(css, /--color-amber-ink:\s*#a87c3f/);
 	assert.match(css, /--color-accent:\s*var\(--color-amber-ink\)/);
-	assert.match(css, /--color-rule:\s*rgba\(27,\s*26,\s*23,\s*\.13\)/);
-	assert.match(css, /--color-node:\s*rgba\(27,\s*26,\s*23,\s*\.18\)/);
+	assert.match(css, /--color-rule:\s*rgba\(27,\s*26,\s*23,\s*\.18\)/);
+	assert.match(css, /--color-node:\s*rgba\(27,\s*26,\s*23,\s*\.22\)/);
+	assert.match(css, /--chapter-rule-width:\s*clamp\(12rem,\s*42vw,\s*15\.5rem\)/);
 	assert.match(css, /--color-border:\s*rgba\(27,\s*26,\s*23,\s*\.11\)/);
 	assert.match(css, /--color-window-bar:\s*#e6e2d9/i);
 	assert.match(css, /--text-thesis:\s*1\.8rem/);
@@ -52,7 +53,9 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /\.nav-current\b/);
 	assert.match(css, /\.muted\b/);
 	assert.match(css, /\.chapter\b/);
-	assert.match(css, /\.chapter__art\s*\{[^}]*width:\s*248px/s);
+	assert.match(css, /\.chapter__art\s*\{[^}]*align-self:\s*center/s);
+	assert.match(css, /\.chapter__art\s*\{[^}]*width:\s*var\(--chapter-rule-width\)/s);
+	assert.match(css, /\.chapter__art\s*\{[^}]*margin:\s*0\s+auto\s+1\.75rem/s);
 	assert.match(css, /\.chapter\s*\{[^}]*align-items:\s*flex-start/s);
 	assert.match(css, /\.chapter\s*\{[^}]*text-align:\s*left/s);
 	assert.doesNotMatch(css, /\.chapter\s*\{[^}]*align-items:\s*center/s);
