@@ -99,8 +99,20 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 
 test('speaking and interview MDX match locked copy and heading order', async () => {
 	const { worksSchema } = await import('./works-schema.ts');
-	const speakingHeadings = ['问题', '我的判断', '怎么做的', '我放弃了什么', '结果'];
-	const interviewHeadings = ['问题', '我的判断', '怎么做的', '我放弃了什么', '结果'];
+	const speakingHeadings = [
+		'问题：想练一句口语，第一步先要注册',
+		'我的判断：先让第一轮练习能自己成立',
+		'怎么做的：四个动作走完一轮',
+		'我放弃了什么：打卡和排行榜',
+		'结果：公开内测中，以及我学到的变化',
+	];
+	const interviewHeadings = [
+		'问题：面试标准装在资深老师脑子里',
+		'我的判断：先把一轮面试变成可检查流程',
+		'怎么做的：分环节路径和能打分的台子',
+		'我放弃了什么：不让 AI 直接给结论',
+		'结果：50+ 场真实招聘，以及标准先写下来',
+	];
 
 	const speakingRaw = await readFile(join(here, 'works/speaking.mdx'), 'utf8');
 	const interviewRaw = await readFile(join(here, 'works/interview.mdx'), 'utf8');
@@ -143,7 +155,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
-		['进入练习', '开口对话', '即时反馈'],
+		['开口对话', '即时反馈'],
 	);
 	assert.equal(new Set(speaking.gallery.map((item) => item.alt)).size, speaking.gallery.length);
 	for (const item of speaking.gallery) {

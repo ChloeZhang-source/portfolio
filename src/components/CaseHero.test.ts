@@ -19,6 +19,11 @@ test('CaseHero is visible h1 → media → caption facts → product CTA → opt
 	assert.doesNotMatch(source, /\.case-hero h1\s*\{[^}]*font-family:/s);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
+	assert.match(source, /workImageSize/);
+	assert.match(source, /width=\{coverSize\.width\}/);
+	assert.match(source, /height=\{coverSize\.height\}/);
+	assert.match(source, /decoding=["']async["']/);
+	assert.match(source, /loading=["']lazy["']/);
 	assert.match(source, /withBase\(work\.video\)/);
 	assert.match(source, /work\.video/);
 	assert.match(source, /id=["']demo["']/);
@@ -29,6 +34,8 @@ test('CaseHero is visible h1 → media → caption facts → product CTA → opt
 	assert.match(source, /caption=\{shot\.caption\}/);
 	assert.match(source, /alt=\{shot\.alt\}/);
 	assert.match(source, /src=\{withBase\(shot\.src\)\}/);
+	assert.match(source, /width=\{shot\.width\}/);
+	assert.match(source, /height=\{shot\.height\}/);
 	assert.match(source, /work\.demoNotes/);
 	assert.match(source, /caseCopy\.accessTitle/);
 	assert.match(source, /caseCopy\.walkthroughLabel/);

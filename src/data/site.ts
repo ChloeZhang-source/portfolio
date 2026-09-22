@@ -15,7 +15,7 @@ export const site = {
 	resumeHref: '/resume.pdf',
 	resumeDownloadName: '张晓雪.pdf',
 	resumeLabel: '简历',
-	wechatQrSrc: '/wechat-qr.png',
+	wechatQrSrc: '/wechat-qr.webp',
 	wechatHint: '微信',
 	avatarSrc: '/avatar.jpg',
 	ogImage: '/og-home.png',

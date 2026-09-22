@@ -17,6 +17,9 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	assert.match(source, /work\.result/);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
+	assert.match(source, /workImageSize/);
+	assert.match(source, /loading=["']lazy["']/);
+	assert.match(source, /decoding=["']async["']/);
 	assert.match(source, /withBase\(work\.video\)/);
 	assert.match(source, /work\.video/);
 	assert.match(source, /WindowBar/);

@@ -1,6 +1,7 @@
 ---
 import { homeCopy } from '../data/home';
 import { workCaseHref } from '../lib/work';
+import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
 import type { Work } from '../content/works-schema';
 import WindowBar from './WindowBar.astro';
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const { work } = Astro.props;
+const coverSize = workImageSize(work.cover);
 ---
 
 <article class="work-card">
@@ -22,7 +24,14 @@ const { work } = Astro.props;
 				work.video ? (
 					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline></video>
 				) : (
-					<img src={withBase(work.cover)} alt={work.title} />
+					<img
+						src={withBase(work.cover)}
+						alt={work.title}
+						width={coverSize.width}
+						height={coverSize.height}
+						loading="lazy"
+						decoding="async"
+					/>
 				)
 			}
 		</div>

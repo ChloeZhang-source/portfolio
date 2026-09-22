@@ -2,6 +2,7 @@
 import type { Work } from '../content/works-schema';
 import { caseCopy, resultFactsFor } from '../data/case';
 import { caseProductCta, showCaseDemo } from '../lib/work';
+import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
 import WindowBar from './WindowBar.astro';
 
@@ -13,12 +14,13 @@ const { work } = Astro.props;
 const product = caseProductCta(work);
 const facts = resultFactsFor(work.slug, work.result);
 const demo = showCaseDemo(work);
+const coverSize = workImageSize(work.cover);
 const shots = work.gallery.map((item) => {
 	if (typeof item === 'string') {
-		return { src: item, alt: work.title, caption: '' };
+		return { src: item, alt: work.title, caption: '', ...workImageSize(item) };
 	}
 
-	return { src: item.image, alt: item.alt, caption: item.caption };
+	return { src: item.image, alt: item.alt, caption: item.caption, ...workImageSize(item.image) };
 });
 ---
 
@@ -31,7 +33,13 @@ const shots = work.gallery.map((item) => {
 				work.video ? (
 					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline controls></video>
 				) : (
-					<img src={withBase(work.cover)} alt={work.title} />
+					<img
+						src={withBase(work.cover)}
+						alt={work.title}
+						width={coverSize.width}
+						height={coverSize.height}
+						decoding="async"
+					/>
 				)
 			}
 		</div>
@@ -84,7 +92,14 @@ const shots = work.gallery.map((item) => {
 						<div class="window">
 							<WindowBar caption={shot.caption} />
 							<div class="window__screen">
-								<img src={withBase(shot.src)} alt={shot.alt} />
+								<img
+									src={withBase(shot.src)}
+									alt={shot.alt}
+									width={shot.width}
+									height={shot.height}
+									loading="lazy"
+									decoding="async"
+								/>
 							</div>
 						</div>
 					))

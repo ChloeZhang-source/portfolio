@@ -20,6 +20,8 @@ test('Contact leads with invite copy, then likeness, mail, and WeChat — no res
 	assert.match(source, /site\.avatarSrc/);
 	assert.match(source, /contact__avatar/);
 	assert.match(source, /alt=\{site\.name\}/);
+	assert.match(source, /loading=["']lazy["']/);
+	assert.match(source, /decoding=["']async["']/);
 	assert.match(source, /border-radius:\s*50%/);
 	assert.doesNotMatch(source, /window--portrait/);
 	assert.match(source, /homeCopy\.contactMailLabel/);

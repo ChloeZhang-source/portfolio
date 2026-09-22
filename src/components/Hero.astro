@@ -2,6 +2,7 @@
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { workCaseHref } from '../lib/work';
+import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
 import ChapterRule from './ChapterRule.astro';
 import WindowBar from './WindowBar.astro';
@@ -32,7 +33,13 @@ const { works } = Astro.props;
 					<a class="window" href={workCaseHref(work.slug)}>
 						<WindowBar caption={work.title} />
 						<div class="window__screen">
-							<img src={withBase(work.cover)} alt={work.title} />
+							<img
+								src={withBase(work.cover)}
+								alt={work.title}
+								width={workImageSize(work.cover).width}
+								height={workImageSize(work.cover).height}
+								decoding="async"
+							/>
 						</div>
 					</a>
 					<div class="hero__copy">

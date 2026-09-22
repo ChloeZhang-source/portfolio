@@ -54,6 +54,32 @@ function jpegSize(buf: Buffer) {
 	throw new Error('JPEG SOF not found');
 }
 
+function webpSize(buf: Buffer) {
+	assert.equal(buf.subarray(0, 4).toString('ascii'), 'RIFF');
+	assert.equal(buf.subarray(8, 12).toString('ascii'), 'WEBP');
+	const chunk = buf.subarray(12, 16).toString('ascii');
+	if (chunk === 'VP8 ') {
+		return {
+			width: buf[26] + ((buf[27] & 63) << 8),
+			height: buf[28] + ((buf[29] & 63) << 8),
+		};
+	}
+	if (chunk === 'VP8L') {
+		const bits = buf[21] | (buf[22] << 8) | (buf[23] << 16) | (buf[24] << 24);
+		return {
+			width: (bits & 0x3fff) + 1,
+			height: ((bits >> 14) & 0x3fff) + 1,
+		};
+	}
+	if (chunk === 'VP8X') {
+		return {
+			width: 1 + buf[24] + (buf[25] << 8) + (buf[26] << 16),
+			height: 1 + buf[27] + (buf[28] << 8) + (buf[29] << 16),
+		};
+	}
+	throw new Error(`unsupported webp chunk ${chunk}`);
+}
+
 function sha256(buf: Buffer) {
 	return createHash('sha256').update(buf).digest('hex');
 }
@@ -100,8 +126,9 @@ test('Open Graph share images are 1200×630 and live in public/', async () => {
 
 test('WeChat QR is exported at display size, not a full-resolution scan', async () => {
 	const { site } = await import('./site.ts');
+	assert.match(site.wechatQrSrc, /\.webp$/);
 	const image = await readFile(toPublicFile(site.wechatQrSrc));
-	const { width, height } = pngSize(image);
+	const { width, height } = webpSize(image);
 
 	assert.ok(width >= 120 && width <= 240, `QR width should be 120–240px, got ${width}`);
 	assert.ok(height >= 120 && height <= 240, `QR height should be 120–240px, got ${height}`);
@@ -119,7 +146,6 @@ test('js-yaml is declared as a test devDependency', async () => {
 test('speaking cover and gallery are product screenshots, not labeled stills', async () => {
 	const hrefs = [
 		'/work/speaking/cover.jpg',
-		'/work/speaking/gallery-1.jpg',
 		'/work/speaking/gallery-2.jpg',
 		'/work/speaking/gallery-3.jpg',
 	];
@@ -167,7 +193,6 @@ test('work cover, gallery, and optional video files exist in public/', async () 
 test('work screenshots are capped near 1600px wide', async () => {
 	const hrefs = [
 		'/work/speaking/cover.jpg',
-		'/work/speaking/gallery-1.jpg',
 		'/work/speaking/gallery-2.jpg',
 		'/work/speaking/gallery-3.jpg',
 		'/work/interview/cover.jpg',
@@ -181,6 +206,20 @@ test('work screenshots are capped near 1600px wide', async () => {
 		const { width } = jpegSize(file);
 		assert.ok(width <= 1600, `${href} width should be ≤1600, got ${width}`);
 		assert.ok(file.byteLength < 600_000, `${href} should stay web-sized`);
+	}
+});
+
+test('speaking cover is not duplicated in the gallery', async () => {
+	const { worksSchema } = await import('../content/works-schema.ts');
+	const raw = await readFile(join(here, '../content/works/speaking.mdx'), 'utf8');
+	const work = worksSchema.parse(parseFrontmatter(raw));
+	const cover = await readFile(toPublicFile(work.cover));
+	const coverHash = sha256(cover);
+
+	assert.ok(!work.gallery.some((item) => item.image === work.cover));
+	for (const item of work.gallery) {
+		const shot = await readFile(toPublicFile(item.image));
+		assert.notEqual(sha256(shot), coverHash, `${item.image} must differ from cover`);
 	}
 });
 

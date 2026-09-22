@@ -53,6 +53,9 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /works\.map/);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
+	assert.match(source, /workImageSize/);
+	assert.match(source, /decoding=["']async["']/);
+	assert.doesNotMatch(source, /loading=["']lazy["']/);
 	assert.match(source, /work\.title/);
 	assert.match(source, /homeCopy\.heroPreviews/);
 	assert.doesNotMatch(source, /work\.tagline/);
