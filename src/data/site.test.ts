@@ -45,12 +45,19 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.ogImage, '/og-home.png');
 
 	assert.equal('about' in site, false);
-	assert.equal(site.aboutStory.length, 5);
-	assert.match(site.aboutStory[0], /^我是 Chloe/);
-	assert.ok(site.aboutStory[1].includes('最小闭环'));
-	assert.ok(site.aboutStory[2].includes('主动做取舍'));
-	assert.ok(site.aboutStory[3].includes('Prompt 工程'));
-	assert.ok(site.aboutStory[4].includes('完整简历'));
+	assert.equal(site.aboutStory.length, 3);
+	assert.equal(
+		site.aboutStory[0],
+		'翻硕背景，曾负责互联网教育相关业务。如今我不写业务代码，工作方式是定义规则、梳理流程，借助 AI 工具完成产品落地。',
+	);
+	assert.equal(
+		site.aboutStory[1],
+		'AI 会严格执行指令，因此一旦提示词不够清晰，它就会自行补全假设。这个观察，慢慢构成我做产品的底层逻辑：先验证完整闭环，再考虑架构与扩张。',
+	);
+	assert.equal(
+		site.aboutStory[2],
+		'比起一次性搭建完备系统，我更倾向先交付最小可用版本，用真实使用反馈修正假设。口语陪练最初没有账号体系，面试系统起步也只是一套简易评分表。我的重心，是把抽象想法推进到可被他人使用的状态。',
+	);
 
 	assert.equal(site.judgments.length, 4);
 	assert.deepEqual(site.judgments[0], {
