@@ -8,14 +8,14 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 		site.headlinePath,
 		'翻硕出身 · 前互联网教育主管 · 不写代码 · 现在用 AI 当开发工具',
 	);
-	assert.equal(site.headlineRole, '文科生，不写代码，我把两个 AI 产品推到了有人用。');
+	assert.equal(site.headlineRole, '把想法，跑成闭环');
 	assert.equal(
 		site.headlineProof,
-		'口语陪练公开内测，打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场。',
+		'Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',
 	);
 	assert.equal(
 		site.headline,
-		'文科生，不写代码，我把两个 AI 产品推到了有人用。口语陪练公开内测，打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场。',
+		'把想法，跑成闭环Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',
 	);
 	assert.equal(site.headline, `${site.headlineRole}${site.headlineProof}`);
 	assert.equal(

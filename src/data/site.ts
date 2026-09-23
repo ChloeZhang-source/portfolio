@@ -1,11 +1,9 @@
 export const site = {
 	name: '张晓雪',
 	headlinePath: '翻硕出身 · 前互联网教育主管 · 不写代码 · 现在用 AI 当开发工具',
-	headlineRole: '文科生，不写代码，我把两个 AI 产品推到了有人用。',
-	headlineProof:
-		'口语陪练公开内测，打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场。',
-	headline:
-		'文科生，不写代码，我把两个 AI 产品推到了有人用。口语陪练公开内测，打开就能练完一轮；教师招聘面试系统已在前司跑完 50+ 场。',
+	headlineRole: '把想法，跑成闭环',
+	headlineProof: 'Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',
+	headline: '把想法，跑成闭环Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',
 	headlineEn:
 		"A liberal-arts graduate who doesn't write code. I shipped two AI products people actually use.",
 	documentTitle: '张晓雪 · 文科生转 AI 的作品集｜口语陪练与面试系统',

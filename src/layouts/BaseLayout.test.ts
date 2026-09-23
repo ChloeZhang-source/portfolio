@@ -95,7 +95,7 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 	assert.doesNotMatch(source, /fonts\.google|fonts\.gstatic|@import/);
 
 	const headingText = [
-		'文科生，不写代码，我把两个 AI 产品推到了有人用。',
+		'把想法，跑成闭环',
 		'两个作品，同一个判断：把走不完的流程，收敛成一轮能走完的闭环。',
 		'过程中的几个判断',
 		'现在',
