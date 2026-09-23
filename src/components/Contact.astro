@@ -11,7 +11,9 @@ const mailHref = mailtoHref(site.email);
 
 <section id="contact" class="contact">
 	<h2>联系</h2>
-	<p class="contact__invite">{site.contactInvite}</p>
+	<div class="contact__invite">
+		{site.contactInvite.map((paragraph) => <p>{paragraph}</p>)}
+	</div>
 	<div class="contact__row">
 		<img
 			class="contact__avatar"
@@ -57,8 +59,14 @@ const mailHref = mailtoHref(site.email);
 	}
 
 	.contact__invite {
+		display: grid;
+		gap: 0.85rem;
 		margin: 0 0 1.5rem;
 		max-width: 36rem;
+	}
+
+	.contact__invite p {
+		margin: 0;
 		color: var(--color-muted);
 		line-height: 1.75;
 	}

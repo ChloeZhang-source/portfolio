@@ -83,10 +83,10 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 		thinking: '非技术背景做产品，天花板到底在哪一层——我还没想清楚',
 	});
 
-	assert.equal(
-		site.contactInvite,
-		'如果你也在用 AI 做东西，或者想知道非技术背景怎么把想法推到能用——直接发邮件给我，我很想听你卡在哪一步。',
-	);
+	assert.deepEqual(site.contactInvite, [
+		'我乐于和同样在用AI搭建系统、思考边界与取舍的人交流。',
+		'欢迎来信，聊聊项目实践里那些卡在逻辑或资源方面的问题。',
+	]);
 
 	assert.equal(site.status, undefined);
 	assert.equal(site.statusLines, undefined);

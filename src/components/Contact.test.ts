@@ -14,8 +14,9 @@ test('Contact leads with invite copy, then likeness, mail, and WeChat — no res
 	assert.match(source, /WindowBar/);
 	assert.match(source, /mailtoHref/);
 	assert.match(source, /id=["']contact["']/);
-	assert.match(source, /site\.contactInvite/);
+	assert.match(source, /site\.contactInvite\.map/);
 	assert.match(source, /contact__invite/);
+	assert.doesNotMatch(source, /<p class=["']contact__invite["']>\{site\.contactInvite\}<\/p>/);
 	assert.match(source, /withBase\(site\.avatarSrc\)/);
 	assert.match(source, /site\.avatarSrc/);
 	assert.match(source, /contact__avatar/);
