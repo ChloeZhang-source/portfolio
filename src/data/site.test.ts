@@ -45,9 +45,12 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.ogImage, '/og-home.png');
 
 	assert.equal('about' in site, false);
-	assert.equal(site.aboutStory.length, 4);
-	assert.match(site.aboutStory[1], /^2025年11月之后/);
-	assert.ok(site.aboutStory[3].includes('从 0 推到能用'));
+	assert.equal(site.aboutStory.length, 5);
+	assert.match(site.aboutStory[0], /^我是 Chloe/);
+	assert.ok(site.aboutStory[1].includes('最小闭环'));
+	assert.ok(site.aboutStory[2].includes('主动做取舍'));
+	assert.ok(site.aboutStory[3].includes('Prompt 工程'));
+	assert.ok(site.aboutStory[4].includes('完整简历'));
 
 	assert.equal(site.judgments.length, 4);
 	assert.deepEqual(site.judgments[0], {
