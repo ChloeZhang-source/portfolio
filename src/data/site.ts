@@ -1,6 +1,6 @@
 export const site = {
 	name: '张晓雪',
-	headlinePath: '翻硕出身 · 前互联网教育主管 · 不写代码 · 现在用 AI 当开发工具',
+	headlinePath: '翻硕出身 · 前互联网教育主管 · 现在用 AI 当开发工具',
 	headlineRole: '把想法，跑成闭环',
 	headlineProof: 'Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',
 	headline: '把想法，跑成闭环Chloe Zhang｜在语言、规则与 AI 之间，搭建可用的系统',

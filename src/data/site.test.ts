@@ -6,7 +6,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 
 	assert.equal(
 		site.headlinePath,
-		'翻硕出身 · 前互联网教育主管 · 不写代码 · 现在用 AI 当开发工具',
+		'翻硕出身 · 前互联网教育主管 · 现在用 AI 当开发工具',
 	);
 	assert.equal(site.headlineRole, '把想法，跑成闭环');
 	assert.equal(

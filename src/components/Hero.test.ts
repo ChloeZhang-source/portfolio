@@ -29,6 +29,8 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	}
 	assert.match(source, /\.hero__path\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
 	assert.match(source, /\.hero__path\s*\{[^}]*font-size:\s*0\.82rem/s);
+	assert.match(source, /\.hero__path\s*\{[^}]*white-space:\s*nowrap/s);
+	assert.doesNotMatch(source, /\.hero__path\s*\{[^}]*max-width:/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*0\.02em/s);
 	assert.match(source, /\.hero__proof\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
