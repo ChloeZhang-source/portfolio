@@ -40,15 +40,7 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.match(source, /now__updated/);
 	assert.match(source, /最近更新于/);
 
-	assert.match(source, /site\.brandManifesto/);
-	assert.match(source, /class=["']about__manifesto["']/);
-	const nowIndex = source.indexOf('class="now"');
-	const manifestoIndex = source.indexOf('site.brandManifesto');
-	assert.ok(nowIndex >= 0 && manifestoIndex > nowIndex);
-	assert.doesNotMatch(
-		source,
-		/\.about__manifesto[^{]*\{[^}]*font-family:\s*var\(--font-serif\)/s,
-	);
+	assert.doesNotMatch(source, /brandManifesto|about__manifesto/);
 
 	assert.match(source, /site\.resumeHref/);
 	assert.match(source, /site\.resumeDownloadName/);

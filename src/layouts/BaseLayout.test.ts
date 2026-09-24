@@ -99,7 +99,6 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 		'两个产品都在做同一件事：把门槛拿掉，把标准写下来。',
 		'过程中的几个判断',
 		'现在',
-		'联系',
 		'口语陪练',
 		'面试系统',
 		'问题：想练一句口语，第一步先要注册',

@@ -83,15 +83,11 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 		thinking: '非技术背景做产品，天花板到底在哪一层——我还没想清楚',
 	});
 
-	assert.deepEqual(site.brandManifesto, [
-		'不设注册墙，不做打卡和排行榜，不拿别人的对话做演示。',
-		'三样都不靠，产品还站得住，才算做成。',
-		'站不站得住，看它能不能被复评。',
-	]);
+	assert.equal(site.brandManifesto, undefined);
 
 	assert.deepEqual(site.contactInvite, [
-		'如果你手上的流程卡在门口，或者标准只在几个人的脑子里，欢迎来信。',
-		'聊聊项目实践里那些卡在逻辑或资源上的问题。',
+		'我乐于和同样在用AI搭建系统、思考边界与取舍的人交流。',
+		'欢迎来信，聊聊项目实践里那些卡在逻辑或资源方面的问题。',
 	]);
 
 	assert.equal(site.status, undefined);

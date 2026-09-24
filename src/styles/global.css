@@ -204,7 +204,6 @@ code {
 }
 
 .about h2,
-.contact h2,
 .work-section h2 {
 	font-size: var(--text-section);
 }

@@ -33,8 +33,8 @@ test('Contact leads with invite copy, then likeness, mail, and WeChat — no res
 	assert.match(source, /caption=["']微信["']/);
 	assert.match(source, /window/);
 	assert.match(source, /--font-mono/);
-	assert.match(source, /\.contact h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
-	assert.doesNotMatch(source, /\.contact h2\s*\{[^}]*font-family:/s);
+	assert.match(source, /class=["']chapter__kicker["']>\s*联系\s*</);
+	assert.doesNotMatch(source, /<h2/);
 	assert.match(source, /text-align:\s*left/);
 	assert.match(source, /var\(--color-accent\)/);
 	assert.doesNotMatch(source, /class=["']btn["']/);

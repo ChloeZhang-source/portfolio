@@ -10,7 +10,7 @@ const mailHref = mailtoHref(site.email);
 ---
 
 <section id="contact" class="contact">
-	<h2>联系</h2>
+	<p class="chapter__kicker">联系</p>
 	<div class="contact__invite">
 		{site.contactInvite.map((paragraph) => <p>{paragraph}</p>)}
 	</div>
@@ -49,13 +49,6 @@ const mailHref = mailtoHref(site.email);
 	.contact {
 		scroll-margin-top: 4.5rem;
 		text-align: left;
-	}
-
-	.contact h2 {
-		margin: 0 0 1rem;
-		font-size: var(--text-section);
-		font-weight: 500;
-		letter-spacing: 0.02em;
 	}
 
 	.contact__invite {
