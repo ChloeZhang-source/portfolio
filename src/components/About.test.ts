@@ -33,7 +33,8 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.match(source, /<dl\b/);
 	assert.match(source, /在做/);
 	assert.match(source, /在学/);
-	assert.match(source, /在想/);
+	assert.match(source, /在思考/);
+	assert.doesNotMatch(source, /<dt>在想<\/dt>/);
 	assert.match(source, /now\.doing/);
 	assert.match(source, /now\.learning/);
 	assert.match(source, /now\.thinking/);

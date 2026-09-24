@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-const HOME_DOCUMENT_TITLE = '张晓雪 · 文科生转 AI 的作品集｜口语陪练与面试系统';
+const HOME_DOCUMENT_TITLE = '张晓雪 · 先闭环可用，再迭代完美｜口语陪练与面试系统';
 
 test('default document title is SEO option A homepage title', async () => {
 	const { resolveDocumentTitle } = await import('./seo.ts');
@@ -86,7 +86,7 @@ test('home JSON-LD is Person + WebSite + ItemList with locked sameAs', async () 
 	assert.equal(person.jobTitle, 'AI 产品设计');
 	assert.equal(
 		person.description,
-		'文科生，不写代码，我用 AI 当开发工具，把两个产品推到了有人用。',
+		'张晓雪 Chloe。翻硕背景，不写业务代码，以 AI 为工具把想法落地成可复用产品闭环。',
 	);
 	assert.equal(person.url, 'https://chloezhang-source.github.io/portfolio/');
 	assert.deepEqual(person.sameAs, [
@@ -113,7 +113,7 @@ test('home JSON-LD is Person + WebSite + ItemList with locked sameAs', async () 
 		itemList.itemListElement[0].item.url,
 		'https://chloezhang-source.github.io/portfolio/work/speaking/',
 	);
-	assert.equal(itemList.itemListElement[1].item.name, '教师招聘面试系统');
+	assert.equal(itemList.itemListElement[1].item.name, '标准化可复评面试系统');
 	assert.equal(
 		itemList.itemListElement[1].item.url,
 		'https://chloezhang-source.github.io/portfolio/work/interview/',
@@ -126,7 +126,8 @@ test('case JSON-LD is CreativeWork pointing at the shared Person @id', async () 
 	const speaking = buildCaseJsonLd({
 		name: 'AI 口语陪练',
 		url: 'https://chloezhang-source.github.io/portfolio/work/speaking/',
-		description: '练口语卡在开口之前——所以我拆了注册墙，让第一轮先成立。',
+		description:
+			'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计 100+ 轮真实对话训练。',
 	});
 
 	assert.equal(speaking['@context'], 'https://schema.org');

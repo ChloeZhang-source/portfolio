@@ -34,7 +34,7 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.match(source, /chapter__kicker">作品</);
 	assert.match(source, /homeCopy\.workThesis/);
 	assert.match(source, /class=["']chapter__thesis["']/);
-	assert.match(source, /homeCopy\.workLede/);
+	assert.match(source, /homeCopy\.workLede\.map/);
 	assert.match(source, /class=["']chapter__lede["']/);
 	assert.match(source, /chapter__kicker">关于</);
 	assert.doesNotMatch(source, /chapter__kicker">Explore</);

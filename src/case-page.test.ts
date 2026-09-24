@@ -19,8 +19,8 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /slot=["']footer["']/);
 	assert.match(source, /work\.title/);
 	assert.match(source, /work\.description/);
-	assert.match(source, /AI 口语陪练：打开就能练完一轮｜张晓雪作品/);
-	assert.match(source, /教师招聘面试系统：50\+ 场可复评流程｜张晓雪作品/);
+	assert.match(source, /AI 口语陪练：打开即用，无需注册｜张晓雪作品/);
+	assert.match(source, /标准化可复评面试系统：50\+ 场真实招聘｜张晓雪作品/);
 	assert.doesNotMatch(source, /description=\{work\.tagline\}/);
 	assert.doesNotMatch(source, /title=\{`\$\{site\.name\} · \$\{work\.title\}`\}/);
 	assert.match(source, /og-speaking\.jpg/);

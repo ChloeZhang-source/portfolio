@@ -15,30 +15,22 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.match(source, /id=["']home["']/);
 	assert.match(source, /homeCopy\.heroKicker/);
 	assert.doesNotMatch(source, /chapter__kicker[^>]*>\{site\.name\}/);
-	assert.match(source, /site\.headlinePath/);
+	assert.doesNotMatch(source, /headlinePath|headlineProof|hero__path|hero__proof/);
 	assert.match(source, /site\.headlineRole/);
-	assert.match(source, /site\.headlineProof/);
-	assert.match(source, /<p class=["']hero__path["']>\{site\.headlinePath\}<\/p>/);
+	assert.match(source, /site\.headlineSub/);
 	assert.match(source, /<h1 class=["']hero__role["']>\{site\.headlineRole\}<\/h1>/);
-	assert.match(source, /<p class=["']hero__proof["']>\{site\.headlineProof\}<\/p>/);
+	assert.match(source, /<p class=["']hero__sub["']>\{site\.headlineSub\}<\/p>/);
 	{
 		const h1 = source.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/);
 		assert.ok(h1, 'expected a single Hero h1');
 		assert.match(h1[1], /site\.headlineRole/);
-		assert.doesNotMatch(h1[1], /headlinePath|headlineProof|hero__path|hero__proof/);
+		assert.doesNotMatch(h1[1], /headlineSub|headlinePath|headlineProof/);
 	}
-	assert.match(source, /\.hero__path\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
-	assert.match(source, /\.hero__path\s*\{[^}]*font-size:\s*0\.82rem/s);
-	assert.match(source, /\.hero__path\s*\{[^}]*white-space:\s*nowrap/s);
-	assert.doesNotMatch(source, /\.hero__path\s*\{[^}]*max-width:/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
 	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*0\.02em/s);
-	assert.match(source, /\.hero__proof\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
-	assert.match(source, /\.hero__proof\s*\{[^}]*font-size:\s*0\.95rem/s);
-	assert.match(source, /\.hero__proof\s*\{[^}]*word-break:\s*keep-all/s);
-	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*Noto Serif SC/s);
-	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*font-size:\s*0\.72em/s);
-	assert.doesNotMatch(source, /\.hero__proof\s*\{[^}]*text-wrap:\s*balance/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*font-size:\s*0\.95rem/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*word-break:\s*keep-all/s);
 	assert.doesNotMatch(source, /site\.statusLines/);
 	assert.doesNotMatch(source, /site\.avatarSrc/);
 	assert.doesNotMatch(source, /width=["']480["']\s+height=["']600["']/);
@@ -92,9 +84,8 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 
 	const order = [
 		'homeCopy.heroKicker',
-		'site.headlinePath',
 		'site.headlineRole',
-		'site.headlineProof',
+		'site.headlineSub',
 		'workCaseHref',
 		'work.cover',
 		'homeCopy.heroPreviews',

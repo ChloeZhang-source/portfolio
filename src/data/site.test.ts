@@ -4,28 +4,22 @@ import { test } from 'node:test';
 test('site.ts exports the locked portfolio copy and required fields', async () => {
 	const { site } = await import('./site.ts');
 
+	assert.equal(site.headlineRole, '先闭环可用，再迭代完美');
 	assert.equal(
-		site.headlinePath,
-		'翻硕出身 · 前互联网教育主管 · 现在用 AI 当开发工具',
+		site.headlineSub,
+		'翻硕背景 / 前互联网教育行业主管。依托 AI 为生产工具，将模糊需求固化为可执行规则，把想法落地成可复用的产品闭环。',
 	);
-	assert.equal(site.headlineRole, '把想法，跑成闭环');
-	assert.equal(
-		site.headlineProof,
-		'张晓雪 Chloe｜把模糊的需求写成规则，让 AI 去执行',
-	);
-	assert.equal(
-		site.headline,
-		'把想法，跑成闭环张晓雪 Chloe｜把模糊的需求写成规则，让 AI 去执行',
-	);
-	assert.equal(site.headline, `${site.headlineRole}${site.headlineProof}`);
+	assert.equal(site.headline, `${site.headlineRole}${site.headlineSub}`);
+	assert.equal(site.headlinePath, undefined);
+	assert.equal(site.headlineProof, undefined);
 	assert.equal(
 		site.headlineEn,
-		"A liberal-arts graduate who doesn't write code. I shipped two AI products people actually use.",
+		"A liberal-arts graduate who doesn't write code. I ship usable product loops with AI as the production tool.",
 	);
-	assert.equal(site.documentTitle, '张晓雪 · 文科生转 AI 的作品集｜口语陪练与面试系统');
+	assert.equal(site.documentTitle, '张晓雪 · 先闭环可用，再迭代完美｜口语陪练与面试系统');
 	assert.equal(
 		site.metaDescription,
-		'文科生，不写代码，我用 AI 当开发工具把两个产品做出来。做的事只有一件：把门槛拿掉，把标准写下来。口语陪练打开就能练；面试系统在前司跑完 50+ 场，评分可复评。',
+		'翻硕背景，前互联网教育人。依托 AI 将模糊需求固化为可执行规则。作品解决同一件事：让私有经验与口头标准，变成可复现、可落地的系统。口语陪练 100+ 轮；面试系统 50+ 场真实招聘。',
 	);
 	assert.notEqual(site.metaDescription, site.headline);
 	assert.notEqual(site.metaDescription, site.headlineRole);
@@ -45,49 +39,54 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.ogImage, '/og-home.png');
 
 	assert.equal('about' in site, false);
-	assert.equal(site.aboutStory.length, 3);
-	assert.equal(
-		site.aboutStory[0],
-		'翻硕背景，曾负责互联网教育相关业务。如今我不写业务代码，工作方式是定义规则、梳理流程，借助 AI 工具完成产品落地。',
-	);
+	assert.equal(site.aboutStory.length, 5);
+	assert.equal(site.aboutStory[0], '张晓雪 Chloe，翻硕背景，前互联网教育人。');
 	assert.equal(
 		site.aboutStory[1],
-		'AI 会严格执行指令，因此一旦提示词不够清晰，它就会自行补全假设。这个观察，慢慢构成我做产品的底层逻辑：先验证完整闭环，再考虑架构与扩张。',
+		'我不写业务代码，核心工作是拆解复杂需求、定义执行规则、搭建落地流程、验证产品闭环，以 AI 为核心工具完成从想法到产品的完整落地。',
 	);
 	assert.equal(
 		site.aboutStory[2],
-		'比起一次搭完整系统，我更倾向先交出能被人用的一版，再用真实使用反馈改假设。口语陪练最初没有账号体系，面试系统起步也只是一套简易评分表。我做的是把想法推到别人能用。',
+		'我的产品底层逻辑源于对 AI 的长期观察：机器精准执行指令，所有混乱、偏差与失效，皆来自人类需求的模糊与规则的缺失。',
+	);
+	assert.equal(
+		site.aboutStory[3],
+		'因此我坚持先验证最小闭环，再搭建完整架构。优先交付可用产品，用真实反馈修正假设，再逐层迭代、扩张能力。',
+	);
+	assert.equal(
+		site.aboutStory[4],
+		'我的核心优势，是把模糊的业务经验，变成清晰、可执行、可复用的产品系统。',
 	);
 
 	assert.equal(site.judgments.length, 4);
 	assert.deepEqual(site.judgments[0], {
-		what: '先做闭环，后做账号',
-		cost: '拿不到留存数据，也做不了用户画像。迭代只能靠我自己一轮一轮试。',
+		what: '先闭环，后账号',
+		cost: '牺牲数据沉淀与用户画像，换取更低的落地门槛与更快的场景验证。',
 	});
 	assert.deepEqual(site.judgments[1], {
-		what: '演示只用脱敏数据',
-		cost: '展示的说服力打了折。我没法用真实对话证明效果，只能用界面说明流程。',
+		what: '演示仅用脱敏数据',
+		cost: '适度降低演示说服力，始终将用户安全置于展示效果之上。',
 	});
 	assert.deepEqual(site.judgments[2], {
-		what: '先写权限和隐私，再做后台功能',
-		cost: '上线更慢。前几十场只能半人工兜底，我没法一次交出一个完整的系统。',
+		what: '先立规则，后做功能',
+		cost: '拉长上线周期，以局部人工兜底，换取系统长期合规性与稳定性。',
 	});
 	assert.deepEqual(site.judgments[3], {
-		what: '不做打卡和排行榜',
-		cost: '少了一条「坚持练下去」的激励，用户走完一轮就离开了。',
+		what: '放弃功利化激励体系',
+		cost: '舍弃短期留存抓手。拒绝用攀比机制驱动行为，保留学习与练习的纯粹性。',
 	});
 
 	assert.deepEqual(site.now, {
-		doing: '在把面试系统的评分标准整理成一套可复用的模板',
-		learning: '在补基础的产品分析方法，也在学怎么把 prompt 写清楚、改得动',
-		thinking: '非技术背景做产品，天花板到底在哪一层——我还没想清楚',
+		doing: '沉淀面试评分体系，打磨可通用、可复用的标准化产品模板。',
+		learning: '系统化产品分析方法，精进精准、可控、可迭代的 AI 指令设计能力。',
+		thinking:
+			'非技术背景创作者，如何以规则、逻辑与落地力，构建长期不可替代的产品竞争力。',
 	});
 
 	assert.equal(site.brandManifesto, undefined);
 
 	assert.deepEqual(site.contactInvite, [
-		'我乐于和同样在用AI搭建系统、思考边界与取舍的人交流。',
-		'欢迎来信，聊聊项目实践里那些卡在逻辑或资源方面的问题。',
+		'欢迎与深耕 AI 落地、产品流程搭建、系统逻辑打磨的同行交流，探讨项目落地中的瓶颈、取舍与解法。',
 	]);
 
 	assert.equal(site.status, undefined);

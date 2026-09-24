@@ -11,14 +11,16 @@ export const homeCopy = {
 		interview: '看脱敏流程 →',
 	},
 	workDemoLabel: '查看访问说明',
-	workThesis: '两个产品都在做同一件事：把门槛拿掉，把标准写下来。',
-	workLede:
-		'如果你手上的流程卡在门口，或者标准只在几个人的脑子里，下面这两个也许对你有用。',
+	workThesis: '多数产品重在搭建架构，我重在拆除门槛。',
+	workLede: [
+		'我的作品统一解决一个核心问题：让私有的经验、零散的流程、口头的标准，变成公开、可复现、可落地的系统。',
+		'我优先交付最小可用版本，以真实场景验证假设，再逐步迭代扩张。不做无人使用的完美架构，只做能持续落地的有效产品。',
+	],
 	workInvite: {
 		speaking: '你现在就能打开试一轮。',
 	},
-	judgmentsTitle: '过程中的几个判断',
-	judgmentsNote: '每条都付了代价。你可能不同意其中一条。',
+	judgmentsTitle: '产品决策｜四项取舍原则',
+	judgmentsNote: '每一次产品选择，都是主动取舍。我接受优势，也承担对应的代价。',
 	nowTitle: '现在',
 	aboutTitle: '关于',
 	contactMailLabel: '发邮件',

@@ -23,9 +23,8 @@ const { works } = Astro.props;
 		<ChapterRule />
 	</div>
 	<p class="chapter__kicker">{homeCopy.heroKicker}</p>
-	<p class="hero__path">{site.headlinePath}</p>
 	<h1 class="hero__role">{site.headlineRole}</h1>
-	<p class="hero__proof">{site.headlineProof}</p>
+	<p class="hero__sub">{site.headlineSub}</p>
 	<div class="hero__board">
 		{
 			works.map((work, index) => (
@@ -76,25 +75,14 @@ const { works } = Astro.props;
 		text-align: left;
 	}
 
-	.hero__path {
-		margin: 0 0 0.8rem;
-		font-family: var(--font-mono);
-		font-size: 0.82rem;
-		font-weight: 400;
-		letter-spacing: 0.08em;
-		line-height: 1.7;
-		color: var(--color-muted);
-		white-space: nowrap;
-	}
-
 	.hero__role {
 		font-family: var(--font-serif);
 		letter-spacing: 0.02em;
 	}
 
-	.hero__proof {
+	.hero__sub {
 		margin: 0.55em 0 2.5rem;
-		max-width: 28rem;
+		max-width: 36rem;
 		font-family: var(--font-sans);
 		font-size: 0.95rem;
 		font-weight: 400;
