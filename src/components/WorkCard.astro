@@ -12,6 +12,7 @@ interface Props {
 
 const { work } = Astro.props;
 const coverSize = workImageSize(work.cover);
+const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite];
 ---
 
 <article class="work-card">
@@ -37,6 +38,7 @@ const coverSize = workImageSize(work.cover);
 		</div>
 	</a>
 	<p class="result-number">{work.result}</p>
+	{invite ? <p class="work-card__invite">{invite}</p> : null}
 	<div class="work-card__cta">
 		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabels[work.slug as keyof typeof homeCopy.workCaseLabels]}</a>
 	</div>
@@ -74,6 +76,11 @@ const coverSize = workImageSize(work.cover);
 
 	.work-card__lede {
 		color: var(--color-muted);
+	}
+
+	.work-card__invite {
+		color: var(--color-muted);
+		font-size: 0.9rem;
 	}
 
 	.work-card .window {

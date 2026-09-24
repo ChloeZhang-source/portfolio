@@ -15,6 +15,7 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	assert.match(source, /work\.title/);
 	assert.match(source, /work\.tagline/);
 	assert.match(source, /work\.result/);
+	assert.match(source, /homeCopy\.workInvite/);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
 	assert.match(source, /workImageSize/);
@@ -25,13 +26,14 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	assert.match(source, /WindowBar/);
 	assert.match(source, /caption=\{work\.title\}/);
 	assert.match(source, /\.work-card__lede\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.match(source, /\.work-card__invite\s*\{[^}]*color:\s*var\(--color-muted\)/s);
 	assert.match(source, /\.work-card h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
 	assert.doesNotMatch(source, /\.work-card h2\s*\{[^}]*font-family:/s);
 	assert.match(source, /\.work-card\s*\{[^}]*text-align:\s*left/s);
 	assert.doesNotMatch(source, /\.work-card\s*\{[^}]*justify-items:\s*center/s);
 	assert.doesNotMatch(source, /\.work-card\s*\{[^}]*text-align:\s*center/s);
 
-	const order = ['work.title', 'work.tagline', 'workCaseHref', 'work.cover', 'work.result'];
+	const order = ['work.title', 'work.tagline', 'workCaseHref', 'work.cover', 'work.result', 'work-card__invite'];
 	let cursor = -1;
 	for (const token of order) {
 		const at = source.indexOf(token, cursor + 1);
@@ -42,10 +44,12 @@ test('WorkCard keeps title, tagline, window, result, and one case CTA', async ()
 	const taglineAt = source.indexOf('work.tagline');
 	const videoAt = source.indexOf('work.video');
 	const resultAt = source.indexOf('work.result');
+	const inviteAt = source.indexOf('work-card__invite', resultAt);
 	const ctaHrefAt = source.indexOf('workCaseHref', resultAt);
 	assert.ok(videoAt > taglineAt, 'video must sit in the window below the tagline');
 	assert.ok(videoAt < resultAt, 'video must sit above the result line');
-	assert.ok(ctaHrefAt > resultAt, 'reading-case CTA stays after the result line');
+	assert.ok(inviteAt > resultAt, 'speaking invite stays after the result line');
+	assert.ok(ctaHrefAt > inviteAt, 'reading-case CTA stays after the invite');
 
 	assert.doesNotMatch(source, /workCardEnglish/);
 	assert.doesNotMatch(source, /work\.role/);

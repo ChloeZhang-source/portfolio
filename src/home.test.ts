@@ -34,6 +34,8 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.match(source, /chapter__kicker">作品</);
 	assert.match(source, /homeCopy\.workThesis/);
 	assert.match(source, /class=["']chapter__thesis["']/);
+	assert.match(source, /homeCopy\.workLede/);
+	assert.match(source, /class=["']chapter__lede["']/);
 	assert.match(source, /chapter__kicker">关于</);
 	assert.doesNotMatch(source, /chapter__kicker">Explore</);
 	assert.doesNotMatch(source, /chapter__kicker">Experience</);
@@ -43,6 +45,8 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 
 	const hero = source.indexOf('<Hero');
 	const work = source.indexOf('id="work"') >= 0 ? source.indexOf('id="work"') : source.indexOf("id='work'");
+	const thesis = source.indexOf('homeCopy.workThesis');
+	const lede = source.indexOf('homeCopy.workLede');
 	const cards = source.indexOf('<WorkCard');
 	const about = source.indexOf('<About');
 	const contact = source.indexOf('<Contact');
@@ -51,7 +55,9 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.doesNotMatch(source, /exhibit=\{works\[0\]/);
 
 	assert.ok(hero >= 0 && work > hero, 'Hero must precede #work');
-	assert.ok(cards > work, 'WorkCard must render inside #work');
+	assert.ok(thesis > work, 'work thesis must render inside #work');
+	assert.ok(lede > thesis, 'work lede must follow thesis');
+	assert.ok(cards > lede, 'WorkCard must follow work lede');
 	assert.ok(about > cards, 'About must follow work cards');
 	assert.ok(contact > about, 'Contact must follow About');
 

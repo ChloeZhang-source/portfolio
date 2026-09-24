@@ -19,13 +19,19 @@ test('homeCopy locks homepage chrome labels from the plan', async () => {
 	assert.equal(homeCopy.workDemoLabel, '查看访问说明');
 	assert.equal(
 		homeCopy.workThesis,
-		'两个作品，同一个判断：把走不完的流程，收敛成一轮能走完的闭环。',
+		'两个产品都在做同一件事：把门槛拿掉，把标准写下来。',
 	);
 	assert.equal(homeCopy.judgmentsTitle, '过程中的几个判断');
 	assert.equal(
 		homeCopy.judgmentsNote,
-		'决定这两个产品长什么样的，不是功能清单，是下面这几个取舍。',
+		'每条都付了代价。你可能不同意其中一条。',
 	);
+	assert.equal(
+		homeCopy.workLede,
+		'如果你手上的流程卡在门口，或者标准只在几个人的脑子里，下面这两个也许对你有用。',
+	);
+	assert.equal(homeCopy.workInvite.speaking, '你现在就能打开试一轮。');
+	assert.equal('interview' in homeCopy.workInvite, false);
 	assert.equal(homeCopy.nowTitle, '现在');
 	assert.equal(homeCopy.aboutTitle, '关于');
 	assert.equal('experienceTitle' in homeCopy, false);

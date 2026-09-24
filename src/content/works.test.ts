@@ -169,7 +169,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(interview.slug, 'interview');
 	assert.equal(interview.access, 'demo');
 	assert.equal(interview.ctaLabel, '看脱敏流程');
-	assert.equal(interview.tagline, '口口相传的标准没法复评——所以我把它做成了一轮可以打分的工作流。');
+	assert.equal(interview.tagline, '口口相传的标准没法复评，所以我把它做成了一轮可以打分、能复评的流程。');
 	assert.equal(
 		interview.description,
 		'面试标准装在资深老师脑子里，录像没人复看，评分表对不齐。我把一轮面试拆成设备验证、指引、分环节作答、管理端评分，并放弃让 AI 直接给结论。50+ 场，全部发生在前司真实招聘里。',

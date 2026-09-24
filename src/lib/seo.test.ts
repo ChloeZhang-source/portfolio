@@ -84,6 +84,10 @@ test('home JSON-LD is Person + WebSite + ItemList with locked sameAs', async () 
 	assert.equal(person.name, '张晓雪');
 	assert.equal(person.alternateName, 'Chloe');
 	assert.equal(person.jobTitle, 'AI 产品设计');
+	assert.equal(
+		person.description,
+		'文科生，不写代码，我用 AI 当开发工具，把两个产品推到了有人用。',
+	);
 	assert.equal(person.url, 'https://chloezhang-source.github.io/portfolio/');
 	assert.deepEqual(person.sameAs, [
 		'https://httpsaitalk.win/',

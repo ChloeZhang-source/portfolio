@@ -96,7 +96,7 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 
 	const headingText = [
 		'把想法，跑成闭环',
-		'两个作品，同一个判断：把走不完的流程，收敛成一轮能走完的闭环。',
+		'两个产品都在做同一件事：把门槛拿掉，把标准写下来。',
 		'过程中的几个判断',
 		'现在',
 		'联系',
