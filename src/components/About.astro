@@ -1,16 +1,14 @@
 ---
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
-import { withBase } from '../lib/paths';
+
+const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 ---
 
 <section class="about">
 	<div class="about__story">
 		{site.aboutStory.map((paragraph) => <p>{paragraph}</p>)}
 	</div>
-	<p class="about__resume">
-		<a href={withBase(site.resumeHref)} download={site.resumeDownloadName}>{site.resumeLabel}</a>
-	</p>
 
 	<section class="judgments">
 		<h2>{homeCopy.judgmentsTitle}</h2>
@@ -20,7 +18,7 @@ import { withBase } from '../lib/paths';
 				site.judgments.map((judgment, index) => (
 					<li>
 						<p class="judgments__what">
-							<span class="judgments__no">{String(index + 1).padStart(2, '0')}</span>
+							<span class="judgments__no">{judgmentMarks[index]}</span>
 							{judgment.what}
 						</p>
 						<p class="judgments__cost">代价：{judgment.cost}</p>
@@ -74,21 +72,6 @@ import { withBase } from '../lib/paths';
 		color: var(--color-muted);
 	}
 
-	.about__resume {
-		margin: 1.25rem 0 0;
-	}
-
-	.about__resume a {
-		color: var(--color-muted);
-		font-size: var(--font-size-muted);
-		text-decoration: underline;
-		text-underline-offset: 0.18em;
-	}
-
-	.about__resume a:hover {
-		color: var(--color-text);
-	}
-
 	.judgments,
 	.now {
 		width: min(var(--window-max), 100%);
@@ -136,8 +119,8 @@ import { withBase } from '../lib/paths';
 		position: absolute;
 		top: 0.55rem;
 		left: -1.4rem;
-		width: 7px;
-		height: 7px;
+		width: 8px;
+		height: 8px;
 		border-radius: 50%;
 		background: var(--color-amber-ink);
 	}

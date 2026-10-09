@@ -20,7 +20,7 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 	<p class="work-card__lede">{work.tagline}</p>
 	<a class="window" href={workCaseHref(work.slug)}>
 		<WindowBar caption={work.title} />
-		<div class="window__screen">
+		<div class={work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen'}>
 			{
 				work.video ? (
 					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline></video>

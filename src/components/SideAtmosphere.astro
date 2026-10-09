@@ -20,7 +20,7 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 					data-chapter={id}
 					style={`top: ${fallbackY[id]}`}
 				>
-					<span class="side-atmosphere__folio">{SIDE_CHAPTER_FOLIOS[id]}</span>
+					<a class="side-atmosphere__folio" href={`#${id}`}>{SIDE_CHAPTER_FOLIOS[id]}</a>
 					<span class="side-atmosphere__dot"></span>
 				</div>
 			))
@@ -253,6 +253,14 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 		font-size: 0.72rem;
 		letter-spacing: 0.1em;
 		color: var(--color-muted);
+		pointer-events: auto;
+		text-decoration: none;
+	}
+
+	.side-atmosphere__folio:focus-visible {
+		color: var(--color-text);
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
 	}
 
 	.side-atmosphere__node--now .side-atmosphere__folio {

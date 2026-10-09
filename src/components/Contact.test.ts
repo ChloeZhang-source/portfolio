@@ -6,11 +6,12 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Contact leads with invite copy, then likeness, mail, and WeChat — no resume pill', async () => {
+test('Contact puts a resume button and mail text link under the invite, then likeness and WeChat', async () => {
 	const source = await readFile(join(here, 'Contact.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
-	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
+	assert.match(source, /from\s+['"]\.\.\/data\/case['"]/);
+	assert.doesNotMatch(source, /from\s+['"]\.\.\/data\/home['"]/);
 	assert.match(source, /WindowBar/);
 	assert.match(source, /mailtoHref/);
 	assert.match(source, /id=["']contact["']/);
@@ -25,7 +26,8 @@ test('Contact leads with invite copy, then likeness, mail, and WeChat — no res
 	assert.match(source, /decoding=["']async["']/);
 	assert.match(source, /border-radius:\s*50%/);
 	assert.doesNotMatch(source, /window--portrait/);
-	assert.match(source, /homeCopy\.contactMailLabel/);
+	assert.match(source, /caseCopy\.mailLabel/);
+	assert.doesNotMatch(source, /homeCopy\.contactMailLabel/);
 	assert.match(source, /site\.email/);
 	assert.match(source, /withBase\(site\.wechatQrSrc\)/);
 	assert.match(source, /site\.wechatQrSrc/);
@@ -37,14 +39,22 @@ test('Contact leads with invite copy, then likeness, mail, and WeChat — no res
 	assert.doesNotMatch(source, /<h2/);
 	assert.match(source, /text-align:\s*left/);
 	assert.match(source, /var\(--color-accent\)/);
-	assert.doesNotMatch(source, /class=["']btn["']/);
-	assert.doesNotMatch(source, /site\.resumeHref/);
-	assert.doesNotMatch(source, /site\.resumeDownloadName/);
+	assert.match(source, /class=["']btn["']/);
+	assert.match(source, /下载简历 PDF/);
+	assert.match(source, /href=\{withBase\(site\.resumeHref\)\}/);
+	assert.match(source, /download=\{site\.resumeDownloadName\}/);
 	assert.doesNotMatch(source, /site\.resumeLabel/);
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 
-	const order = ['site.contactInvite', 'site.avatarSrc', 'site.email', 'site.wechatQrSrc', 'site.wechatHint'];
+	const order = [
+		'site.contactInvite',
+		'site.resumeHref',
+		'site.email',
+		'site.avatarSrc',
+		'site.wechatQrSrc',
+		'site.wechatHint',
+	];
 	let cursor = -1;
 	for (const token of order) {
 		const at = source.indexOf(token, cursor + 1);

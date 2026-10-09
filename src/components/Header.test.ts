@@ -42,3 +42,18 @@ test('wide viewports inset the header with the shared spine page pad', async () 
 		/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{[^}]*\.site-header\s*\{[^}]*padding-inline:\s*var\(--page-pad-wide\)/s,
 	);
 });
+
+test('narrow header shrinks nav type and gaps so four items stay on one line', async () => {
+	const source = await readFile(join(here, 'Header.astro'), 'utf8');
+	const narrow = source.match(/@media\s*\(\s*max-width:\s*640px\s*\)\s*\{([\s\S]*?)\n\t\}/);
+	assert.ok(narrow, 'expected a 640px header block');
+	const block = narrow[1];
+
+	assert.match(block, /\.site-header\s*\{[^}]*padding-block:\s*0\.4rem/s);
+	assert.match(block, /\.site-header\s*\{[^}]*gap:\s*0\.35rem\s+0\.5rem/s);
+	assert.match(block, /\.site-header__nav\s*\{[^}]*flex-wrap:\s*nowrap/s);
+	assert.match(block, /\.site-header__nav\s*\{[^}]*gap:\s*0\.4rem\s+0\.75rem/s);
+	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.85rem/s);
+	assert.doesNotMatch(source, /display:\s*none/);
+	assert.doesNotMatch(source, /联系/);
+});

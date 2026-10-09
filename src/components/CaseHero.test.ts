@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('CaseHero is visible h1 → media → caption facts → product CTA → optional #demo → gallery windows', async () => {
+test('CaseHero is visible h1 → tagline → media → caption facts → product CTA → optional #demo → gallery windows', async () => {
 	const source = await readFile(join(here, 'CaseHero.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/case['"]/);
@@ -14,7 +14,11 @@ test('CaseHero is visible h1 → media → caption facts → product CTA → opt
 	assert.match(source, /showCaseDemo/);
 	assert.match(source, /resultFactsFor/);
 	assert.match(source, /<h1>\{work\.title\}<\/h1>/);
-	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*1\.35rem/s);
+	assert.match(source, /<p class="case-hero__tagline">\{work\.tagline\}<\/p>/);
+	assert.match(source, /\.case-hero__tagline\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.doesNotMatch(source, /<h[1-6][^>]*>\{work\.tagline\}/);
+	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*var\(--text-section\)/s);
+	assert.match(source, /\.case-hero h1\s*\{[^}]*line-height:\s*1\.25/s);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*font-weight:\s*500/s);
 	assert.doesNotMatch(source, /\.case-hero h1\s*\{[^}]*font-family:/s);
 	assert.match(source, /withBase\(work\.cover\)/);
@@ -54,6 +58,8 @@ test('CaseHero is visible h1 → media → caption facts → product CTA → opt
 	const template = source.slice(source.lastIndexOf('---'));
 	const order = [
 		'<h1>{work.title}</h1>',
+		'work.tagline',
+		'case-hero__media',
 		'work.cover',
 		'case-hero__facts',
 		'product.href',

@@ -29,4 +29,10 @@ test('CaseBar links the other case, mail, and home WeChat — no resume or statu
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /DEMO_ACCOUNT|DEMO_PASSWORD/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
+	assert.match(source, /<a class=["']btn["'] href=\{workCaseHref\(other\.slug\)\}>/);
+	assert.equal(source.match(/class=["']btn["']/g)?.length, 1);
+	assert.match(source, /<a href=\{mailtoHref\(site\.email\)\}>\{caseCopy\.mailLabel\}<\/a>/);
+	assert.match(source, /<a href=\{withBase\(caseCopy\.wechatHref\)\}>\{caseCopy\.wechatSeeHome\}<\/a>/);
+	assert.match(source, /\.case-bar a:not\(\.btn\)\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.doesNotMatch(source, /color:\s*var\(--color-accent\)/);
 });

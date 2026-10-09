@@ -69,3 +69,18 @@ test('rails sit outside the content shell using shared page tokens', async () =>
 	);
 	assert.doesNotMatch(source, /38\.5rem/);
 });
+
+test('left rail folios jump to home, work, and about', async () => {
+	const source = await readFile(join(here, 'SideAtmosphere.astro'), 'utf8');
+
+	assert.match(
+		source,
+		/<a class=["']side-atmosphere__folio["'] href=\{`#\$\{id\}`\}>\{SIDE_CHAPTER_FOLIOS\[id\]\}<\/a>/,
+	);
+	assert.equal(source.match(/<a class=["']side-atmosphere__folio["']/g)?.length, 1);
+	assert.match(source, /\.side-atmosphere__folio\s*\{[^}]*pointer-events:\s*auto/s);
+	assert.match(source, /\.side-atmosphere__folio:focus-visible\s*\{/);
+	assert.match(source, /aria-hidden=["']true["']/);
+	assert.match(source, /pointer-events:\s*none/);
+	assert.match(source, /\.side-atmosphere__rail[^{]*\{[^}]*display:\s*none/s);
+});

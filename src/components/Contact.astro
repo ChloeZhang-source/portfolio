@@ -1,11 +1,11 @@
 ---
-import { homeCopy } from '../data/home';
+import { caseCopy } from '../data/case';
 import { site } from '../data/site';
 import { mailtoHref } from '../lib/contact';
 import { withBase } from '../lib/paths';
 import WindowBar from './WindowBar.astro';
 
-const sendLabel = homeCopy.contactMailLabel;
+const sendLabel = caseCopy.mailLabel;
 const mailHref = mailtoHref(site.email);
 ---
 
@@ -13,6 +13,13 @@ const mailHref = mailtoHref(site.email);
 	<p class="chapter__kicker">联系</p>
 	<div class="contact__invite">
 		{site.contactInvite.map((paragraph) => <p>{paragraph}</p>)}
+	</div>
+	<div class="contact__actions">
+		<a class="btn" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>下载简历 PDF</a>
+		<a class="contact__mail" href={mailHref}>
+			<span class="contact__send">{sendLabel}</span>
+			<span class="contact__email">{site.email}</span>
+		</a>
 	</div>
 	<div class="contact__row">
 		<img
@@ -24,10 +31,6 @@ const mailHref = mailtoHref(site.email);
 			loading="lazy"
 			decoding="async"
 		/>
-		<a class="contact__mail" href={mailHref}>
-			<span class="contact__send">{sendLabel}</span>
-			<span class="contact__email">{site.email}</span>
-		</a>
 		<div class="window contact__wechat">
 			<WindowBar caption="微信" />
 			<figure>
@@ -54,8 +57,16 @@ const mailHref = mailtoHref(site.email);
 	.contact__invite {
 		display: grid;
 		gap: 0.85rem;
-		margin: 0 0 1.5rem;
+		margin: 0 0 1.15rem;
 		max-width: 36rem;
+	}
+
+	.contact__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.85rem 1.35rem;
+		margin: 0 0 1.75rem;
 	}
 
 	.contact__invite p {

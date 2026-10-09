@@ -19,7 +19,7 @@ const other = otherCaseWork(works, work.slug);
 	{
 		other && (
 			<p>
-				<a href={workCaseHref(other.slug)}>{caseCopy.otherWorkPrefix}{other.title}</a>
+				<a class="btn" href={workCaseHref(other.slug)}>{caseCopy.otherWorkPrefix}{other.title}</a>
 			</p>
 		)
 	}
@@ -42,7 +42,7 @@ const other = otherCaseWork(works, work.slug);
 		margin: 0;
 	}
 
-	.case-bar a {
-		color: var(--color-accent);
+	.case-bar a:not(.btn) {
+		color: var(--color-muted);
 	}
 </style>

@@ -19,9 +19,15 @@ colors:
   on-accent: "#f4f3ef"
 
 typography:
+  hero:
+    fontFamily: "'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif"
+    fontSize: clamp(2.4rem, 4vw, 3.2rem)
+    fontWeight: 500
+    lineHeight: 1.2
+    letterSpacing: 0.02em
   display:
     fontFamily: "'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif"
-    fontSize: 1.8rem
+    fontSize: 2.1rem
     fontWeight: 500
     lineHeight: 1.25
     letterSpacing: 0.02em
@@ -67,13 +73,13 @@ Three stacked chapters on one **left** vertical axis (author stance, not catalog
 
 1. **Home** — path line + identity claim + proof; two staggered windows as an index of both works (no CTA, no result numbers). Explore keeps the full catalog.
 2. **Explore** — work thesis strip (left border in amber-ink); each work is title + judgment tagline + windowed cover, left-aligned.
-3. **About** — path story, decision timeline, and “现在”; contact invite sits below in the same left column. Resume is only a quiet text link inside About.
+3. **About** — path story, decision timeline, and “现在”; contact invite sits below in the same left column. Contact offers a solid resume download button and a mail text link.
 
 **Left axis applies to:** Hero, chapter titles / thesis, work cards, About, Contact.
 
 **Stay centered:** ChapterRule divider and Footer only. Do not leave `margin: auto` or `justify-items: center` centering on left-axis blocks.
 
-Top nav: wordmark left, `首页 / 作品 / 关于` on the right; no resume CTA in the header.
+Top nav: wordmark left, `首页 / 作品 / 关于 / 联系` on the right; no resume CTA in the header.
 
 Narrow viewports (≤1100px): hide the side rails; show a top 2px `--scroll-progress` line in amber-ink. Prefer `prefers-reduced-motion` static behavior.
 
@@ -95,7 +101,7 @@ No purple gradients, no apricot CTA chips, no dark navy résumé chrome.
 
 ## Type
 
-Chapter / section titles and thesis use Noto Serif SC (~1.8rem / 500, `letter-spacing: 0.02em`) — one serif face for headings, no mixed display stacks. Body and proof stay humanist system sans. Lede ~16px, max-width 36rem, left-aligned on the content axis.
+Hero claim uses Noto Serif SC at `clamp(2.4rem, 4vw, 3.2rem)` / 500, line-height 1.2. Chapter / section titles use the same face at 2.1rem / 500, line-height 1.25. Thesis stays 1.8rem so it sits under the section title. `letter-spacing: 0.02em` throughout — one serif face for headings, no mixed display stacks. Body and proof stay humanist system sans. Lede ~16px, max-width 36rem, left-aligned on the content axis.
 
 ## Window
 

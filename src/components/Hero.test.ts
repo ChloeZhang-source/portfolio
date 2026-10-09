@@ -73,6 +73,8 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 
 	assert.doesNotMatch(source, /<h1>\{site\.headline\}<\/h1>/);
 	assert.match(source, /\.hero h1\s*\{/);
+	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-hero\)/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*line-height:\s*1\.2/s);
 	assert.match(source, /\.hero h1\s*\{[^}]*text-align:\s*left/s);
 	assert.match(source, /letter-spacing:\s*0\.28em/);
 	assert.match(source, /text-wrap:\s*balance/);
@@ -100,6 +102,33 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /open to any AI role/i);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
+});
+
+test('Hero work titles link to the same case and pick up window hover', async () => {
+	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
+
+	assert.match(
+		source,
+		/<a class=["']hero__work-title["'] href=\{workCaseHref\(work\.slug\)\}>\{work\.title\} →<\/a>/,
+	);
+	assert.match(
+		source,
+		/\.hero__pair:has\(\.window:hover\) \.hero__work-title,\s*\n\s*\.hero__pair:has\(\.window:focus-visible\) \.hero__work-title\s*\{[^}]*color:\s*var\(--color-accent\)/s,
+	);
+	assert.doesNotMatch(source, /\.hero__work-title[^{]*\{[^}]*animation:/s);
+	assert.doesNotMatch(source, /@keyframes\s+hero-title/);
+});
+
+test('wide Hero pulls the second window screen at least a quarter into a 900px viewport', async () => {
+	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
+	const wide = source.match(/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{([\s\S]*?)\n\t\}/);
+	assert.ok(wide, 'expected a wide-screen Hero block');
+	const block = wide[1];
+
+	assert.match(block, /\.hero\s*\{[^}]*padding-top:\s*4rem/s);
+	assert.match(block, /\.hero__sub\s*\{[^}]*margin-bottom:\s*1\.25rem/s);
+	assert.match(block, /\.hero \.window__screen\s*\{[^}]*max-height:\s*16rem/s);
+	assert.doesNotMatch(block, /aspect-ratio:\s*16\s*\/\s*9/);
 });
 
 test('Hero windows enter once with a short stagger, then rest', async () => {

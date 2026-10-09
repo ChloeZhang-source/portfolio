@@ -21,8 +21,9 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--chapter-rule-width:\s*clamp\(12rem,\s*42vw,\s*15\.5rem\)/);
 	assert.match(css, /--color-border:\s*rgba\(27,\s*26,\s*23,\s*\.11\)/);
 	assert.match(css, /--color-window-bar:\s*#e6e2d9/i);
+	assert.match(css, /--text-hero:\s*clamp\(2\.4rem,\s*4vw,\s*3\.2rem\)/);
 	assert.match(css, /--text-thesis:\s*1\.8rem/);
-	assert.match(css, /--text-section:\s*1\.8rem/);
+	assert.match(css, /--text-section:\s*2\.1rem/);
 	assert.match(css, /--radius:\s*18px/);
 	assert.match(css, /--shadow:\s*0\s+24px\s+60px/);
 	assert.match(css, /--window-max:\s*52rem/);

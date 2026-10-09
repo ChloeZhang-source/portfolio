@@ -150,4 +150,20 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 			order: 3;
 		}
 	}
+
+	@media (max-width: 640px) {
+		.site-header {
+			gap: 0.35rem 0.5rem;
+			padding-block: 0.4rem;
+		}
+
+		.site-header__nav {
+			flex-wrap: nowrap;
+			gap: 0.4rem 0.75rem;
+		}
+
+		.site-header__nav a {
+			font-size: 0.85rem;
+		}
+	}
 </style>

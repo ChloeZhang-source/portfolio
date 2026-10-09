@@ -15,6 +15,7 @@ const product = caseProductCta(work);
 const facts = resultFactsFor(work.slug, work.result);
 const demo = showCaseDemo(work);
 const coverSize = workImageSize(work.cover);
+const screenClass = work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen';
 const shots = work.gallery.map((item) => {
 	if (typeof item === 'string') {
 		return { src: item, alt: work.title, caption: '', ...workImageSize(item) };
@@ -26,9 +27,10 @@ const shots = work.gallery.map((item) => {
 
 <section class="case-hero">
 	<h1>{work.title}</h1>
+	<p class="case-hero__tagline">{work.tagline}</p>
 	<div class="window case-hero__media">
 		<WindowBar caption={work.title} />
-		<div class="window__screen">
+		<div class={screenClass}>
 			{
 				work.video ? (
 					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline controls></video>
@@ -91,7 +93,7 @@ const shots = work.gallery.map((item) => {
 					shots.map((shot) => (
 						<div class="window">
 							<WindowBar caption={shot.caption} />
-							<div class="window__screen">
+							<div class={screenClass}>
 								<img
 									src={withBase(shot.src)}
 									alt={shot.alt}
@@ -128,10 +130,16 @@ const shots = work.gallery.map((item) => {
 	.case-hero h1 {
 		margin: 0;
 		max-width: 42rem;
-		font-size: 1.35rem;
+		font-size: var(--text-section);
 		font-weight: 500;
-		line-height: 1.6;
+		line-height: 1.25;
 		letter-spacing: 0.02em;
+	}
+
+	.case-hero__tagline {
+		max-width: 42rem;
+		color: var(--color-muted);
+		line-height: 1.65;
 	}
 
 	.case-hero__media {

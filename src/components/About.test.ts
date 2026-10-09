@@ -27,7 +27,16 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.match(source, /<ol\b/);
 	assert.match(source, /judgments__what/);
 	assert.match(source, /judgments__cost/);
-	assert.match(source, /padStart\s*\(\s*2\s*,\s*['"]0['"]\s*\)/);
+	assert.doesNotMatch(source, /padStart\s*\(\s*2\s*,\s*['"]0['"]\s*\)/);
+	assert.match(source, /判断一/);
+	assert.match(source, /判断二/);
+	assert.match(source, /判断三/);
+	assert.match(source, /判断四/);
+	assert.match(source, /\.judgments__list li:before\s*\{[^}]*width:\s*8px/s);
+	assert.match(source, /\.judgments__list li:before\s*\{[^}]*height:\s*8px/s);
+	assert.match(source, /\.judgments__list li:before\s*\{[^}]*background:\s*var\(--color-amber-ink\)/s);
+	assert.match(source, /\.judgments__list:before\s*\{[^}]*width:\s*1px/s);
+	assert.match(source, /\.judgments__list:before\s*\{[^}]*background:\s*var\(--color-rule\)/s);
 	assert.match(source, /代价：/);
 	assert.match(source, /class=["']now["']/);
 	assert.match(source, /<dl\b/);
@@ -43,10 +52,10 @@ test('About renders path story, judgments timeline, and now from site/home data'
 
 	assert.doesNotMatch(source, /brandManifesto|about__manifesto/);
 
-	assert.match(source, /site\.resumeHref/);
-	assert.match(source, /site\.resumeDownloadName/);
-	assert.match(source, /site\.resumeLabel/);
-	assert.match(source, /download=\{site\.resumeDownloadName\}/);
+	assert.doesNotMatch(source, /site\.resumeHref/);
+	assert.doesNotMatch(source, /site\.resumeDownloadName/);
+	assert.doesNotMatch(source, /site\.resumeLabel/);
+	assert.doesNotMatch(source, /about__resume/);
 
 	assert.doesNotMatch(source, /id=["']about["']/);
 	assert.doesNotMatch(source, /aboutSkillsPrimary|aboutSkillsSecondary|acpCert/);
@@ -60,8 +69,6 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.match(source, /text-align:\s*left/);
 	assert.match(source, /2\.4rem/);
 	assert.match(source, /var\(--color-amber-ink\)/);
-	assert.match(source, /\.about__resume a\s*\{[^}]*color:\s*var\(--color-muted\)/s);
-	assert.match(source, /\.about__resume a\s*\{[^}]*font-size:\s*var\(--font-size-muted\)/s);
 
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
