@@ -19,7 +19,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.documentTitle, '张晓雪 · 先闭环可用，再迭代完美｜口语陪练与面试系统');
 	assert.equal(
 		site.metaDescription,
-		'翻硕背景，前互联网教育人。依托 AI 将模糊需求固化为可执行规则。作品解决同一件事：让私有经验与口头标准，变成可复现、可落地的系统。口语陪练 100+ 轮；面试系统 50+ 场真实招聘。',
+		'翻硕背景，前互联网教育人。依托 AI 将模糊需求固化为可执行规则。作品解决同一件事：让私有经验与口头标准，变成可复现、可落地的系统。口语陪练约 300 人次体验；面试系统 50+ 场真实招聘。',
 	);
 	assert.notEqual(site.metaDescription, site.headline);
 	assert.notEqual(site.metaDescription, site.headlineRole);

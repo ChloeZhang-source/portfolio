@@ -104,7 +104,8 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 		'我的判断：打开即用，无需注册，一轮即成',
 		'怎么做的：专属陪练与中英切换',
 		'我放弃了什么：用户画像与留存数据',
-		'结果：公开内测，100+ 轮真实对话',
+		'结果：公开内测，约 300 人次体验',
+		'局限：这份数据能说明什么，不能说明什么',
 	];
 	const interviewHeadings = [
 		'问题：标准不可见、过程不可溯、结果不可评',
@@ -112,6 +113,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 		'怎么做的：专项考核与全程存档',
 		'我放弃了什么：用效率换规范',
 		'结果：50+ 场真实教师招聘',
+		'局限：这份数据能说明什么，不能说明什么',
 	];
 
 	const speakingRaw = await readFile(join(here, 'works/speaking.mdx'), 'utf8');
@@ -126,10 +128,10 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.equal(speaking.tagline, '口语练习卡在启动成本。打开即用，无需注册，一轮即成。');
 	assert.equal(
 		speaking.description,
-		'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计 100+ 轮真实对话训练。',
+		'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计约 300 人次体验，人均对话约 15 轮。',
 	);
 	assert.notEqual(speaking.description, speaking.tagline);
-	assert.equal(speaking.result, '公开内测 · 100+ 轮真实对话 · 无需注册');
+	assert.equal(speaking.result, '公开内测 · 约 300 人次体验 · 人均约 15 轮');
 	assert.equal(speaking.transferable, '先保证第一次表达发生，比先搭账号体系更关键');
 	assert.match(speaking.summaryEn, /Public beta\. No login required\./);
 	assert.match(speaking.summaryEn, /public-beta product interface/);
@@ -145,7 +147,9 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.match(speakingRaw, /搭载专属 AI 陪练角色，支持中英自由切换/);
 	assert.match(speakingRaw, /零门槛体验，意味着放弃用户画像与留存数据/);
 	assert.match(speakingRaw, /比起完整的数据体系，我更在意真实的使用发生。/);
-	assert.match(speakingRaw, /已公开内测，累计 100\+ 轮真实对话训练。/);
+	assert.match(speakingRaw, /已上线公开内测，累计约 300 人次体验、人均对话约 15 轮。/);
+	assert.match(speakingRaw, /口径说明：人次为免登录访问累计，含重复访问，非独立用户数/);
+	assert.match(speakingRaw, /## 局限：这份数据能说明什么，不能说明什么/);
 	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),

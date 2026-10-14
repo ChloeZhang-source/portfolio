@@ -4,7 +4,7 @@ import { test } from 'node:test';
 test('caseCopy locks result facts, demo English, and WeChat pointer', async () => {
 	const { caseCopy, resultFactsFor } = await import('./case.ts');
 
-	assert.deepEqual(caseCopy.resultFacts.speaking, ['公开内测中', '无需登录', '100+ 轮次']);
+	assert.deepEqual(caseCopy.resultFacts.speaking, ['公开内测中', '无需登录', '约 300 人次体验']);
 	assert.deepEqual(caseCopy.resultFacts.interview, [
 		'前司正式招聘流程',
 		'已完成 50+ 场',

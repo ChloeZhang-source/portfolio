@@ -1,6 +1,6 @@
 export const caseCopy = {
 	resultFacts: {
-		speaking: ['公开内测中', '无需登录', '100+ 轮次'],
+		speaking: ['公开内测中', '无需登录', '约 300 人次体验'],
 		interview: ['前司正式招聘流程', '已完成 50+ 场', '不开放登录'],
 	},
 	demoEn: 'Built for teacher hiring at my previous company. No public login.',

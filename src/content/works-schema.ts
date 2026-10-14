@@ -7,6 +7,7 @@ export const worksSchema = z
 		tagline: z.string(),
 		description: z.string(),
 		role: z.string(),
+		period: z.string().optional(),
 		result: z.string(),
 		transferable: z.string(),
 		summaryEn: z.string(),

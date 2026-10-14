@@ -50,7 +50,7 @@ export function buildHomeJsonLd() {
 							name: 'AI 口语陪练',
 							url: 'https://chloezhang-source.github.io/portfolio/work/speaking/',
 							description:
-								'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计 100+ 轮真实对话训练。',
+								'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计约 300 人次体验，人均对话约 15 轮。',
 							inLanguage: 'zh-CN',
 							author: { '@id': PERSON_ID },
 						},
