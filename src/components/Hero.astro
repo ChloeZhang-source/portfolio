@@ -19,12 +19,21 @@ const { works } = Astro.props;
 ---
 
 <section id="home" class="chapter hero">
+	<p class="running-head" aria-hidden="true">作品集 · {site.name}</p>
 	<div class="chapter__art" aria-hidden="true">
 		<ChapterRule />
 	</div>
-	<p class="chapter__kicker">{homeCopy.heroKicker}</p>
-	<h1 class="hero__role">{site.headlineRole}</h1>
-	<p class="hero__sub">{site.headlineSub}</p>
+	<p class="chapter__kicker">
+		{
+			homeCopy.heroKicker.split(/(\d[\d.-]*)/).map((part) =>
+				/^\d/.test(part) ? <span class="num">{part}</span> : part,
+			)
+		}
+	</p>
+	<h1 class="hero__role misprint" data-text={site.headlineRole}>{site.headlineRole}</h1>
+	<p class="hero__sub">
+		{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
+	</p>
 	<div class="hero__board">
 		{
 			works.map((work, index) => (
@@ -59,37 +68,40 @@ const { works } = Astro.props;
 </section>
 
 <style>
+	.hero {
+		position: relative;
+	}
+
 	.chapter__kicker {
-		letter-spacing: 0.28em;
+		letter-spacing: 0.04em;
 		text-transform: none;
 	}
 
 	.hero h1 {
 		margin: 0;
 		max-width: 28rem;
-		font-size: var(--text-hero);
+		font-size: var(--text-display-1);
 		font-weight: 500;
-		line-height: 1.2;
-		letter-spacing: 0.04em;
+		line-height: var(--leading-display-1);
+		letter-spacing: var(--tracking-display-1);
 		text-wrap: balance;
 		text-align: left;
 	}
 
 	.hero__role {
 		font-family: var(--font-serif);
-		letter-spacing: 0.02em;
+		letter-spacing: var(--tracking-display-1);
 	}
 
 	.hero__sub {
 		margin: 0.55em 0 2.5rem;
-		max-width: 36rem;
+		max-width: var(--measure);
 		font-family: var(--font-sans);
-		font-size: 0.95rem;
+		font-size: var(--text-lead);
 		font-weight: 400;
-		letter-spacing: 0.04em;
-		line-height: 1.7;
+		letter-spacing: var(--tracking-lead);
+		line-height: var(--leading-lead);
 		color: var(--color-muted);
-		text-wrap: wrap;
 		word-break: keep-all;
 	}
 
@@ -205,7 +217,7 @@ const { works } = Astro.props;
 		line-height: 1.65;
 	}
 
-	@media (max-width: 40rem) {
+	@media (max-width: 899px) {
 		.hero__pair,
 		.hero__pair--start,
 		.hero__pair--end {
@@ -222,11 +234,17 @@ const { works } = Astro.props;
 		}
 
 		.hero__pair .window {
-			width: min(22rem, 100%);
+			width: 100%;
 		}
 
 		.hero__mark {
 			display: none;
+		}
+	}
+
+	@media (max-width: 639px) {
+		.hero__pair .window {
+			width: min(22rem, 100%);
 		}
 	}
 
@@ -240,7 +258,7 @@ const { works } = Astro.props;
 		}
 	}
 
-	@media (min-width: 1101px) {
+	@media (min-width: 1100px) {
 		.hero {
 			padding-top: 4rem;
 		}

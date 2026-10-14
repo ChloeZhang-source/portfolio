@@ -30,7 +30,10 @@ test('Header links the name home, renders site.nav, and has no resume CTA', asyn
 	assert.doesNotMatch(source, /nav-current::after\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
-	assert.doesNotMatch(source, /display:\s*none/);
+	assert.doesNotMatch(source, /\.site-header(?:__nav)?\s*\{[^}]*display:\s*none/s);
+	assert.match(source, /\.site-header__nav a\s*\{[^}]*min-height:\s*44px/s);
+	assert.match(source, /\.site-header__nav a\s*\{[^}]*padding:\s*0\.85rem\s+0\.2rem/s);
+	assert.doesNotMatch(source, /720px/);
 });
 
 test('wide viewports inset the header with the shared spine page pad', async () => {
@@ -39,21 +42,23 @@ test('wide viewports inset the header with the shared spine page pad', async () 
 	assert.match(source, /\.site-header\s*\{[^}]*padding:\s*0\.85rem\s+var\(--page-pad\)/s);
 	assert.match(
 		source,
-		/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{[^}]*\.site-header\s*\{[^}]*padding-inline:\s*var\(--page-pad-wide\)/s,
+		/@media\s*\(\s*min-width:\s*1100px\s*\)\s*\{[^}]*\.site-header\s*\{[^}]*padding-inline:\s*var\(--page-pad-wide\)/s,
 	);
 });
 
-test('narrow header shrinks nav type and gaps so four items stay on one line', async () => {
+test('narrow header shrinks nav type, keeps one line, and hides the contact link', async () => {
 	const source = await readFile(join(here, 'Header.astro'), 'utf8');
-	const narrow = source.match(/@media\s*\(\s*max-width:\s*640px\s*\)\s*\{([\s\S]*?)\n\t\}/);
-	assert.ok(narrow, 'expected a 640px header block');
+	const narrow = source.match(/@media\s*\(\s*max-width:\s*639px\s*\)\s*\{([\s\S]*?)\n\t\}/);
+	assert.ok(narrow, 'expected a 639px header block');
 	const block = narrow[1];
 
 	assert.match(block, /\.site-header\s*\{[^}]*padding-block:\s*0\.4rem/s);
 	assert.match(block, /\.site-header\s*\{[^}]*gap:\s*0\.35rem\s+0\.5rem/s);
 	assert.match(block, /\.site-header__nav\s*\{[^}]*flex-wrap:\s*nowrap/s);
 	assert.match(block, /\.site-header__nav\s*\{[^}]*gap:\s*0\.4rem\s+0\.75rem/s);
-	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.85rem/s);
-	assert.doesNotMatch(source, /display:\s*none/);
+	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.8rem/s);
+	assert.match(block, /a\[href\$=["']#contact["']\]\s*\{[^}]*display:\s*none/s);
 	assert.doesNotMatch(source, /联系/);
+	assert.doesNotMatch(source, /max-width:\s*640px/);
+	assert.doesNotMatch(source, /max-width:\s*720px/);
 });

@@ -3,21 +3,48 @@ import { site } from '../data/site';
 import { updatedCaption } from '../lib/contact';
 ---
 
-<div class="site-footer">
-	<p class="muted">{updatedCaption(site.updatedAt)}</p>
+<div class="colophon">
+	<p><b>版本</b>{updatedCaption(site.updatedAt)}</p>
+	<p><b>字体</b>Noto Serif SC 500（子集）/ PingFang SC</p>
+	<p><b>规范</b>DESIGN-SYSTEM.md</p>
 </div>
 
 <style>
-	.site-footer {
+	.colophon {
 		display: grid;
-		justify-items: center;
-		text-align: center;
-		gap: 0.75rem;
-		padding: 2rem 1.25rem 2.5rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		padding: 32px var(--page-pad) 64px;
+		border-top: 1px solid var(--c-hairline);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 400;
+		line-height: 1.6;
+		color: var(--c-muted);
 	}
 
-	.site-footer p {
+	.colophon p {
 		margin: 0;
-		max-width: var(--lede-max);
+	}
+
+	.colophon b {
+		display: block;
+		margin-bottom: 0.3rem;
+		color: var(--c-body);
+		font-weight: 500;
+		letter-spacing: 0.12em;
+	}
+
+	@media (min-width: 1100px) {
+		.colophon {
+			padding-inline: var(--page-pad-wide);
+		}
+	}
+
+	@media (max-width: 899px) {
+		.colophon {
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
 	}
 </style>

@@ -16,6 +16,8 @@ test('CaseHero is visible h1 → tagline → media → caption facts → product
 	assert.match(source, /<h1>\{work\.title\}<\/h1>/);
 	assert.match(source, /<p class="case-hero__tagline">\{work\.tagline\}<\/p>/);
 	assert.match(source, /\.case-hero__tagline\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.match(source, /\.case-hero__meta\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.doesNotMatch(source, /\.case-hero__meta-sep\s*\{[^}]*opacity/s);
 	assert.doesNotMatch(source, /<h[1-6][^>]*>\{work\.tagline\}/);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*var\(--text-section\)/s);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*line-height:\s*1\.25/s);

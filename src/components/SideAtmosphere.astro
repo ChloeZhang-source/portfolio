@@ -259,7 +259,7 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 
 	.side-atmosphere__folio:focus-visible {
 		color: var(--color-text);
-		outline: 2px solid var(--color-accent);
+		outline: 2px solid var(--c-amber-ink);
 		outline-offset: 2px;
 	}
 
@@ -288,8 +288,14 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 		pointer-events: none;
 	}
 
-	@media (max-width: 1100px) {
-		.side-atmosphere__rail {
+	@media (max-width: 1099px) {
+		.side-atmosphere__rail--right {
+			display: none;
+		}
+	}
+
+	@media (max-width: 899px) {
+		.side-atmosphere__rail--left {
 			display: none;
 		}
 

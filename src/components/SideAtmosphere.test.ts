@@ -19,6 +19,7 @@ test('SideAtmosphere is a chapter spine with a scroll-following caret', async ()
 	assert.match(source, /data-caret/);
 	assert.match(source, /spineCaretY/);
 	assert.match(source, /\.side-atmosphere__caret\s*\{[^}]*background:\s*var\(--color-amber-ink\)/s);
+	assert.match(source, /\.side-atmosphere__folio:focus-visible\s*\{[^}]*outline:\s*2px\s+solid\s+var\(--c-amber-ink\)/s);
 	assert.doesNotMatch(
 		source,
 		/\.side-atmosphere__caret\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s,
@@ -46,11 +47,23 @@ test('narrow viewports degrade the rail to a top --scroll-progress line', async 
 	assert.match(source, /setProperty\(\s*['"]--scroll-progress['"]/);
 	assert.match(source, /scaleX\(\s*var\(\s*--scroll-progress/);
 	assert.match(source, /background:\s*var\(--color-amber-ink\)/);
-	assert.match(source, /@media\s*\(\s*max-width:\s*1100px\s*\)/);
+	assert.match(
+		source,
+		/@media\s*\(\s*max-width:\s*1099px\s*\)\s*\{\s*\.side-atmosphere__rail--right\s*\{[^}]*display:\s*none/s,
+	);
+	assert.match(
+		source,
+		/@media\s*\(\s*max-width:\s*899px\s*\)\s*\{[\s\S]*?\.side-atmosphere__rail--left\s*\{[^}]*display:\s*none/s,
+	);
+	assert.match(
+		source,
+		/@media\s*\(\s*max-width:\s*899px\s*\)\s*\{[\s\S]*?\.side-atmosphere__progress\s*\{[^}]*display:\s*block/s,
+	);
 	assert.match(source, /\.side-atmosphere__rail[^{]*\{[^}]*display:\s*none/s);
+	assert.doesNotMatch(source, /max-width:\s*1100px/);
 	assert.doesNotMatch(
 		source,
-		/@media\s*\(\s*max-width:\s*1100px\s*\)\s*\{\s*\.side-atmosphere\s*\{[^}]*display:\s*none/s,
+		/@media\s*\(\s*max-width:\s*899px\s*\)\s*\{\s*\.side-atmosphere\s*\{[^}]*display:\s*none/s,
 	);
 	assert.match(source, /reduceMotion\.matches/);
 });

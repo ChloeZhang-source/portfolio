@@ -144,7 +144,7 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(speakingRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
 	assert.match(speakingRaw, /口语练习的最大阻碍，从来不是能力不足，是过高的启动成本。/);
 	assert.match(speakingRaw, /剥离所有前置流程，去除账号体系，实现打开即用、无需注册、一轮即成。/);
-	assert.match(speakingRaw, /搭载专属 AI 陪练角色，支持中英自由切换/);
+	assert.match(speakingRaw, /搭载专属 <span class="lat">AI<\/span> 陪练角色，支持中英自由切换/);
 	assert.match(speakingRaw, /零门槛体验，意味着放弃用户画像与留存数据/);
 	assert.match(speakingRaw, /比起完整的数据体系，我更在意真实的使用发生。/);
 	assert.match(speakingRaw, /已上线公开内测，累计约 300 人次体验、人均对话约 15 轮。/);
@@ -212,6 +212,9 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.match(interviewRaw, /支持 15 分钟知识点专项考核、屏幕共享辅助授课/);
 	assert.match(interviewRaw, /效率让步于规范，速度让步于底线。/);
 	assert.match(interviewRaw, /已落地 50\+ 场真实教师招聘面试。/);
+	assert.match(interviewRaw, /对比 <span class="lat">AI<\/span> 初评/);
+	assert.match(interviewRaw, /<span class="lat">Excel<\/span>/);
+	assert.match(interviewRaw, /非对外 <span class="lat">SaaS<\/span>/);
 	assert.doesNotMatch(interviewRaw, /独立把评测逻辑写成 AI 参考分，接到管理端人工复核/);
 	assert.doesNotMatch(interviewRaw, /我原本以为要把功能补齐/);
 	assert.deepEqual(

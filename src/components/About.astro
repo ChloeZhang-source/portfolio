@@ -128,14 +128,14 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 	.judgments__what {
 		margin: 0 0 0.25rem;
 		font-size: 1rem;
-		font-weight: 600;
+		font-weight: 500;
 		line-height: 1.65;
 		letter-spacing: 0.01em;
 	}
 
 	.judgments__no {
 		margin-right: 0.5rem;
-		color: var(--color-amber-ink);
+		color: var(--c-amber-text);
 		font-family: var(--font-mono);
 		font-size: 0.7rem;
 		font-weight: 400;
@@ -158,13 +158,13 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 
 	.now dl > div {
 		display: grid;
-		grid-template-columns: 5.5rem 1fr;
+		grid-template-columns: var(--label-col) 1fr;
 		gap: 0.9rem;
 		align-items: baseline;
 	}
 
 	.now dt {
-		color: var(--color-amber-ink);
+		color: var(--c-amber-text);
 		font-family: var(--font-mono);
 		font-size: 0.74rem;
 		letter-spacing: 0.1em;
@@ -172,8 +172,8 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 
 	.now dd {
 		margin: 0;
-		font-size: 0.95rem;
-		line-height: 1.8;
+		font-size: var(--text-body);
+		line-height: var(--leading-body);
 	}
 
 	.now__updated {
@@ -183,7 +183,7 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		font-size: 0.74rem;
 	}
 
-	@media (width <= 520px) {
+	@media (max-width: 639px) {
 		.now dl > div {
 			grid-template-columns: 1fr;
 			gap: 0.2rem;

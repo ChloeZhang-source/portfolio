@@ -18,8 +18,15 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /headlinePath|headlineProof|hero__path|hero__proof/);
 	assert.match(source, /site\.headlineRole/);
 	assert.match(source, /site\.headlineSub/);
-	assert.match(source, /<h1 class=["']hero__role["']>\{site\.headlineRole\}<\/h1>/);
-	assert.match(source, /<p class=["']hero__sub["']>\{site\.headlineSub\}<\/p>/);
+	assert.match(
+		source,
+		/<h1 class=["']hero__role misprint["'] data-text=\{site\.headlineRole\}>\{site\.headlineRole\}<\/h1>/,
+	);
+	assert.match(source, /class=["']hero__sub["']/);
+	assert.match(source, /site\.headlineSub\.indexOf\(['"]AI['"]\)/);
+	assert.match(source, /<span class=["']lat["']>AI<\/span>/);
+	assert.match(source, /homeCopy\.heroKicker\.split/);
+	assert.match(source, /<span class=["']num["']>/);
 	{
 		const h1 = source.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/);
 		assert.ok(h1, 'expected a single Hero h1');
@@ -27,9 +34,11 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 		assert.doesNotMatch(h1[1], /headlineSub|headlinePath|headlineProof/);
 	}
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
-	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*0\.02em/s);
+	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
-	assert.match(source, /\.hero__sub\s*\{[^}]*font-size:\s*0\.95rem/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*font-size:\s*var\(--text-lead\)/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*line-height:\s*var\(--leading-lead\)/s);
+	assert.match(source, /\.hero__sub\s*\{[^}]*letter-spacing:\s*var\(--tracking-lead\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*word-break:\s*keep-all/s);
 	assert.doesNotMatch(source, /site\.statusLines/);
 	assert.doesNotMatch(source, /site\.avatarSrc/);
@@ -73,10 +82,13 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 
 	assert.doesNotMatch(source, /<h1>\{site\.headline\}<\/h1>/);
 	assert.match(source, /\.hero h1\s*\{/);
-	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-hero\)/s);
-	assert.match(source, /\.hero h1\s*\{[^}]*line-height:\s*1\.2/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-display-1\)/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*line-height:\s*var\(--leading-display-1\)/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
+	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*0\.04em/s);
 	assert.match(source, /\.hero h1\s*\{[^}]*text-align:\s*left/s);
-	assert.match(source, /letter-spacing:\s*0\.28em/);
+	assert.match(source, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*0\.04em/s);
+	assert.doesNotMatch(source, /letter-spacing:\s*0\.28em/);
 	assert.match(source, /text-wrap:\s*balance/);
 	assert.doesNotMatch(source, /letter-spacing:\s*-0\.03em/);
 	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*text-align:\s*center/s);
@@ -104,6 +116,17 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 });
 
+test('Hero title misprints in amber and the screen carries a vertical running head', async () => {
+	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
+
+	assert.match(source, /class=["']running-head["'][^>]*aria-hidden=["']true["']/);
+	assert.match(source, /作品集 · \{site\.name\}/);
+	assert.match(source, /\.hero\s*\{[^}]*position:\s*relative/s);
+	assert.doesNotMatch(source, /\.running-head\s*\{[^}]*font-style:\s*italic/s);
+	assert.doesNotMatch(source, /\.running-head\s*\{[^}]*box-shadow/s);
+	assert.doesNotMatch(source, /_serif500\.ttf/);
+});
+
 test('Hero work titles link to the same case and pick up window hover', async () => {
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
 
@@ -121,7 +144,7 @@ test('Hero work titles link to the same case and pick up window hover', async ()
 
 test('wide Hero pulls the second window screen at least a quarter into a 900px viewport', async () => {
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
-	const wide = source.match(/@media\s*\(\s*min-width:\s*1101px\s*\)\s*\{([\s\S]*?)\n\t\}/);
+	const wide = source.match(/@media\s*\(\s*min-width:\s*1100px\s*\)\s*\{([\s\S]*?)\n\t\}/);
 	assert.ok(wide, 'expected a wide-screen Hero block');
 	const block = wide[1];
 
@@ -156,7 +179,12 @@ test('Hero opposite cells hold static 01/02 marks, not looping ornaments', async
 	assert.match(source, /var\(--color-amber-ink\)/);
 	assert.doesNotMatch(source, /\.hero__mark-dot\s*\{[^}]*background:\s*var\(--color-amber\)\s*;/s);
 	assert.match(source, /\.hero__mark\s*\{[^}]*pointer-events:\s*none/s);
-	assert.match(source, /@media \(max-width:\s*40rem\)[\s\S]*\.hero__mark\s*\{[^}]*display:\s*none/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*899px\s*\)[\s\S]*grid-template-columns:\s*1fr/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*899px\s*\)[\s\S]*\.hero__pair \.window\s*\{[^}]*width:\s*100%/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*899px\s*\)[\s\S]*\.hero__mark\s*\{[^}]*display:\s*none/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*639px\s*\)[\s\S]*width:\s*min\(22rem,\s*100%\)/);
+	assert.doesNotMatch(source, /max-width:\s*40rem/);
+	assert.doesNotMatch(source, /1101px/);
 	assert.doesNotMatch(source, /\.hero__mark[^{]*\{[^}]*animation:/s);
 	assert.doesNotMatch(source, /lottie|particle|feTurbulence/i);
 });

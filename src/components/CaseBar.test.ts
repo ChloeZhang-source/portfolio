@@ -34,5 +34,6 @@ test('CaseBar links the other case, mail, and home WeChat — no resume or statu
 	assert.match(source, /<a href=\{mailtoHref\(site\.email\)\}>\{caseCopy\.mailLabel\}<\/a>/);
 	assert.match(source, /<a href=\{withBase\(caseCopy\.wechatHref\)\}>\{caseCopy\.wechatSeeHome\}<\/a>/);
 	assert.match(source, /\.case-bar a:not\(\.btn\)\s*\{[^}]*color:\s*var\(--color-muted\)/s);
+	assert.match(source, /\.case-bar\s*\{[^}]*border-top:\s*1px\s+solid\s+var\(--c-hairline\)/s);
 	assert.doesNotMatch(source, /color:\s*var\(--color-accent\)/);
 });

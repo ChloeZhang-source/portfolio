@@ -30,6 +30,9 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.doesNotMatch(source, /ogImage=\{work\.cover\}/);
 	assert.match(source, /max-width:\s*42rem/);
 	assert.match(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-weight:\s*500/s);
+	assert.match(source, /\.case-body\s+:global\(a\)\s*\{[^}]*color:\s*var\(--c-ink\)/s);
+	assert.match(source, /\.case-body\s+:global\(a\)\s*\{[^}]*text-decoration:\s*underline/s);
+	assert.doesNotMatch(source, /\.case-body\s+:global\(a\)\s*\{[^}]*color:\s*var\(--color-accent\)/s);
 	assert.doesNotMatch(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-family:/s);
 	assert.doesNotMatch(source, /font-weight:\s*600/);
 	assert.doesNotMatch(source, /Footer\.astro/);

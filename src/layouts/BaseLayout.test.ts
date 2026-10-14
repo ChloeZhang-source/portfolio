@@ -93,6 +93,7 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 	assert.match(source, /glyphs for page headings/);
 	assert.doesNotMatch(source, /hero role only/);
 	assert.doesNotMatch(source, /fonts\.google|fonts\.gstatic|@import/);
+	assert.doesNotMatch(source, /_serif500\.ttf/);
 
 	const headingText = [
 		'先闭环可用，再迭代完美',
@@ -112,6 +113,15 @@ test('BaseLayout self-hosts a heading Noto Serif SC subset', async () => {
 		'我放弃了什么：用效率换规范',
 		'结果：50+ 场真实教师招聘',
 		'未找到页面',
+		'作品集 · 张晓雪',
+		'先闭环，后账号',
+		'牺牲数据沉淀与用户画像，换取更低的落地门槛与更快的场景验证。',
+		'演示仅用脱敏数据',
+		'适度降低演示说服力，始终将用户安全置于展示效果之上。',
+		'先立规则，后做功能',
+		'拉长上线周期，以局部人工兜底，换取系统长期合规性与稳定性。',
+		'放弃功利化激励体系',
+		'舍弃短期留存抓手。拒绝用攀比机制驱动行为，保留学习与练习的纯粹性。',
 	].join('');
 	const range = [...new Set([...headingText].map((ch) => ch.codePointAt(0)))]
 		.sort((a, b) => a - b)
