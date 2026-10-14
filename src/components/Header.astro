@@ -28,7 +28,8 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 	import {
 		SIDE_CHAPTERS,
 		SIDE_CHAPTER_SELECTORS,
-		resolveActiveChapter,
+		pageScrolledToEnd,
+		resolveScrolledChapter,
 		type ChapterBounds,
 	} from '../lib/side-atmosphere';
 
@@ -74,12 +75,13 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 			}
 
 			const contact = document.querySelector('#contact');
-			if (contact && contact.getBoundingClientRect().top <= anchor) {
-				paint(navHrefForChapter('contact'));
-				return;
-			}
-
-			paint(navHrefForChapter(resolveActiveChapter(chapters, anchor)));
+			const contactTop = contact ? contact.getBoundingClientRect().top : null;
+			const atPageEnd = pageScrolledToEnd(
+				window.scrollY,
+				window.innerHeight,
+				document.documentElement.scrollHeight,
+			);
+			paint(navHrefForChapter(resolveScrolledChapter(chapters, anchor, contactTop, atPageEnd)));
 		};
 
 		fromLocation();

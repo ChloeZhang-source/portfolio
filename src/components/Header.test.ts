@@ -19,11 +19,12 @@ test('Header links the name home, renders site.nav, and has no resume CTA', asyn
 	assert.doesNotMatch(source, /site\.resumeLabel/);
 	assert.doesNotMatch(source, /site-header__resume/);
 	assert.match(source, /navCurrentHref/);
-	assert.match(source, /navHrefForChapter/);
-	assert.match(source, /resolveActiveChapter/);
+	assert.match(source, /navHrefForChapter\(/);
+	assert.match(source, /resolveScrolledChapter/);
+	assert.doesNotMatch(source, /resolveActiveChapter/);
 	assert.match(source, /SIDE_CHAPTER_SELECTORS/);
-	assert.match(source, /#contact/);
-	assert.match(source, /navHrefForChapter\(['"]contact['"]\)/);
+	assert.match(source, /querySelector\(['"]#contact['"]\)/);
+	assert.doesNotMatch(source, /navHrefForChapter\(['"]contact['"]\)/);
 	assert.match(source, /aria-current/);
 	assert.match(source, /nav-current/);
 	assert.match(source, /var\(--color-amber-ink\)/);

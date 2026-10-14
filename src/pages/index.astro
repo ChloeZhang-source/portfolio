@@ -5,7 +5,7 @@ import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-import ChapterRule from '../components/ChapterRule.astro';
+import ChapterRail from '../components/ChapterRail.astro';
 import SideAtmosphere from '../components/SideAtmosphere.astro';
 import WorkCard from '../components/WorkCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -19,11 +19,9 @@ const jsonLd = buildHomeJsonLd();
 <BaseLayout jsonLd={jsonLd}>
 	<Header slot="header" />
 	<SideAtmosphere />
+	<ChapterRail />
 	<Hero works={works.map((entry) => entry.data)} />
 	<section id="work" class="chapter">
-		<div class="chapter__art" aria-hidden="true">
-			<ChapterRule />
-		</div>
 		<p class="chapter__kicker">作品</p>
 		<p class="chapter__thesis">{homeCopy.workThesis}</p>
 		{
@@ -41,9 +39,6 @@ const jsonLd = buildHomeJsonLd();
 		<p class="folio">— <span class="num">01</span> —</p>
 	</section>
 	<section id="about" class="chapter chapter--about">
-		<div class="chapter__art" aria-hidden="true">
-			<ChapterRule />
-		</div>
 		<p class="chapter__kicker">关于</p>
 		<About />
 		<Contact />
@@ -63,7 +58,12 @@ const jsonLd = buildHomeJsonLd();
 		scroll-margin-top: 6rem;
 	}
 
-	.chapter--about :global(.about),
+	.chapter--about :global(.about) {
+		width: 100%;
+		padding: 1.25rem 0;
+		text-align: left;
+	}
+
 	.chapter--about :global(.contact) {
 		width: min(var(--window-max), 100%);
 		padding: 1.25rem 0;

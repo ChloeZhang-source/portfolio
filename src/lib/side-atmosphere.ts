@@ -74,3 +74,24 @@ export function resolveActiveChapter(
 	}
 	return active;
 }
+
+export type ScrolledChapter = SideChapter | 'contact';
+
+export function pageScrolledToEnd(scrollY: number, viewportHeight: number, scrollHeight: number): boolean {
+	const max = scrollHeight - viewportHeight;
+	if (max <= 0) return false;
+	return scrollY >= max - 2;
+}
+
+export function resolveScrolledChapter(
+	chapters: readonly ChapterBounds[],
+	viewportAnchor: number,
+	contactTop: number | null,
+	atPageEnd = false,
+): ScrolledChapter {
+	if (contactTop !== null && (atPageEnd || contactTop <= viewportAnchor)) {
+		return 'contact';
+	}
+
+	return resolveActiveChapter(chapters, viewportAnchor);
+}

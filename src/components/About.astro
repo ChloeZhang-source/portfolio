@@ -1,13 +1,24 @@
 ---
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
+import { aboutMarginNotes } from '../lib/marginalia';
+import Annotation from './Annotation.astro';
 
 const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 ---
 
 <section class="about">
-	<div class="about__story">
-		{site.aboutStory.map((paragraph) => <p>{paragraph}</p>)}
+	<div class="about__layout">
+		<div class="about__story">
+			{site.aboutStory.map((paragraph) => <p>{paragraph}</p>)}
+		</div>
+		<div class="about__notes">
+			{
+				aboutMarginNotes(site.judgments).map((note) => (
+					<Annotation tag={note.what} text={note.cost} />
+				))
+			}
+		</div>
 	</div>
 
 	<section class="judgments">
@@ -59,6 +70,18 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		font-size: var(--text-section);
 		font-weight: 500;
 		letter-spacing: 0.02em;
+	}
+
+	.about__layout {
+		display: grid;
+		gap: 1.4rem;
+		width: 100%;
+	}
+
+	.about__notes {
+		display: grid;
+		gap: 1.4rem;
+		align-content: start;
 	}
 
 	.about__story {
@@ -181,6 +204,14 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		color: var(--color-muted);
 		font-family: var(--font-mono);
 		font-size: 0.74rem;
+	}
+
+	@media (min-width: 900px) {
+		.about__layout {
+			grid-template-columns: minmax(0, var(--measure)) minmax(10rem, 1fr);
+			gap: 1.5rem 2rem;
+			align-items: start;
+		}
 	}
 
 	@media (max-width: 639px) {

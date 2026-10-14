@@ -12,7 +12,7 @@ test('SideAtmosphere is a chapter spine with a scroll-following caret', async ()
 	assert.match(source, /aria-hidden=["']true["']/);
 	assert.match(source, /pointer-events:\s*none/);
 	assert.match(source, /side-atmosphere__rail--left/);
-	assert.match(source, /side-atmosphere__rail--right/);
+	assert.doesNotMatch(source, /side-atmosphere__rail--right/);
 	assert.match(source, /SIDE_CHAPTERS/);
 	assert.match(source, /SIDE_CHAPTER_FOLIOS/);
 	assert.match(source, /data-chapter=\{id\}/);
@@ -47,10 +47,8 @@ test('narrow viewports degrade the rail to a top --scroll-progress line', async 
 	assert.match(source, /setProperty\(\s*['"]--scroll-progress['"]/);
 	assert.match(source, /scaleX\(\s*var\(\s*--scroll-progress/);
 	assert.match(source, /background:\s*var\(--color-amber-ink\)/);
-	assert.match(
-		source,
-		/@media\s*\(\s*max-width:\s*1099px\s*\)\s*\{\s*\.side-atmosphere__rail--right\s*\{[^}]*display:\s*none/s,
-	);
+	assert.doesNotMatch(source, /side-atmosphere__rail--right/);
+	assert.doesNotMatch(source, /max-width:\s*1099px/);
 	assert.match(
 		source,
 		/@media\s*\(\s*max-width:\s*899px\s*\)\s*\{[\s\S]*?\.side-atmosphere__rail--left\s*\{[^}]*display:\s*none/s,
@@ -76,10 +74,7 @@ test('rails sit outside the content shell using shared page tokens', async () =>
 		source,
 		/\.side-atmosphere__rail--left\s*\{[^}]*left:\s*max\(\s*var\(--page-pad\)\s*,\s*calc\(\s*50%\s*-\s*\(\s*var\(--page-max\)\s*\/\s*2\s*\)\s*-\s*var\(--rail-width\)\s*\)\s*\)/s,
 	);
-	assert.match(
-		source,
-		/\.side-atmosphere__rail--right\s*\{[^}]*right:\s*max\(\s*var\(--page-pad\)\s*,\s*calc\(\s*50%\s*-\s*\(\s*var\(--page-max\)\s*\/\s*2\s*\)\s*-\s*var\(--rail-width\)\s*\)\s*\)/s,
-	);
+	assert.doesNotMatch(source, /side-atmosphere__rail--right/);
 	assert.doesNotMatch(source, /38\.5rem/);
 });
 

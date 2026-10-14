@@ -1,10 +1,11 @@
 ---
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
+import { heroMarginNotes } from '../lib/marginalia';
 import { workCaseHref } from '../lib/work';
 import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
-import ChapterRule from './ChapterRule.astro';
+import Annotation from './Annotation.astro';
 import WindowBar from './WindowBar.astro';
 
 interface Props {
@@ -20,20 +21,28 @@ const { works } = Astro.props;
 
 <section id="home" class="chapter hero">
 	<p class="running-head" aria-hidden="true">作品集 · {site.name}</p>
-	<div class="chapter__art" aria-hidden="true">
-		<ChapterRule />
+	<div class="hero__head">
+		<div class="hero__lede">
+			<p class="chapter__kicker">
+				{
+					homeCopy.heroKicker.split(/(\d[\d.-]*)/).map((part) =>
+						/^\d/.test(part) ? <span class="num">{part}</span> : part,
+					)
+				}
+			</p>
+			<h1 class="hero__role misprint" data-text={site.headlineRole}>{site.headlineRole}</h1>
+			<p class="hero__sub">
+				{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
+			</p>
+		</div>
+		<div class="hero__notes">
+			{
+				heroMarginNotes(site.judgments).map((note) => (
+					<Annotation tag={note.what} text={note.cost} />
+				))
+			}
+		</div>
 	</div>
-	<p class="chapter__kicker">
-		{
-			homeCopy.heroKicker.split(/(\d[\d.-]*)/).map((part) =>
-				/^\d/.test(part) ? <span class="num">{part}</span> : part,
-			)
-		}
-	</p>
-	<h1 class="hero__role misprint" data-text={site.headlineRole}>{site.headlineRole}</h1>
-	<p class="hero__sub">
-		{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
-	</p>
 	<div class="hero__board">
 		{
 			works.map((work, index) => (
@@ -70,6 +79,18 @@ const { works } = Astro.props;
 <style>
 	.hero {
 		position: relative;
+	}
+
+	.hero__head {
+		display: grid;
+		gap: 1.4rem;
+		width: 100%;
+	}
+
+	.hero__notes {
+		display: grid;
+		gap: 1.4rem;
+		align-content: start;
 	}
 
 	.chapter__kicker {
@@ -215,6 +236,18 @@ const { works } = Astro.props;
 		font-size: 0.86rem;
 		letter-spacing: 0.04em;
 		line-height: 1.65;
+	}
+
+	@media (min-width: 900px) {
+		.hero__head {
+			grid-template-columns: minmax(0, var(--measure)) minmax(10rem, 1fr);
+			gap: 1.5rem 2rem;
+			align-items: start;
+		}
+
+		.hero__notes {
+			padding-top: 2.6rem;
+		}
 	}
 
 	@media (max-width: 899px) {

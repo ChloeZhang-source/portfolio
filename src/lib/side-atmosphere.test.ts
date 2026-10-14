@@ -60,6 +60,37 @@ test('missing chapters fall back to home', async () => {
 	assert.equal(resolveActiveChapter([], 256), 'home');
 });
 
+test('scrolled chapter prefers contact when its top has crossed the anchor', async () => {
+	const { resolveScrolledChapter } = await import('./side-atmosphere.ts');
+
+	assert.equal(typeof resolveScrolledChapter, 'function');
+
+	const chapters = [
+		{ id: 'home' as const, top: -400, bottom: 200 },
+		{ id: 'work' as const, top: 220, bottom: 800 },
+		{ id: 'about' as const, top: 820, bottom: 1600 },
+	];
+
+	assert.equal(resolveScrolledChapter(chapters, 100, null), 'home');
+	assert.equal(resolveScrolledChapter(chapters, 900, 1200), 'about');
+	assert.equal(resolveScrolledChapter(chapters, 900, 900), 'contact');
+	assert.equal(resolveScrolledChapter(chapters, 900, 400), 'contact');
+	assert.equal(resolveScrolledChapter([], 256, null), 'home');
+	assert.equal(resolveScrolledChapter([], 256, 100), 'contact');
+	assert.equal(resolveScrolledChapter(chapters, 80, 192, true), 'contact');
+	assert.equal(resolveScrolledChapter(chapters, 80, null, true), 'home');
+});
+
+test('page end is only true when the document can scroll and the viewport is at the bottom', async () => {
+	const { pageScrolledToEnd } = await import('./side-atmosphere.ts');
+
+	assert.equal(typeof pageScrolledToEnd, 'function');
+	assert.equal(pageScrolledToEnd(0, 900, 900), false);
+	assert.equal(pageScrolledToEnd(0, 900, 5002), false);
+	assert.equal(pageScrolledToEnd(4100, 900, 5002), true);
+	assert.equal(pageScrolledToEnd(4118, 900, 5002), true);
+});
+
 test('chapter folios are 01 02 03 in reading order', async () => {
 	const { SIDE_CHAPTERS, SIDE_CHAPTER_FOLIOS } = await import('./side-atmosphere.ts');
 

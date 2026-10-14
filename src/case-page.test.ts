@@ -36,6 +36,7 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.doesNotMatch(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-family:/s);
 	assert.doesNotMatch(source, /font-weight:\s*600/);
 	assert.doesNotMatch(source, /Footer\.astro/);
+	assert.doesNotMatch(source, /ChapterRail|SideAtmosphere|Annotation/);
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /DEMO_ACCOUNT|DEMO_PASSWORD/);
 	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);

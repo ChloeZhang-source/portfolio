@@ -68,7 +68,17 @@ test('Hero is a short identity plus a diagonal index of both works', async () =>
 	assert.doesNotMatch(source, /window--portrait/);
 	assert.match(source, /WindowBar/);
 	assert.doesNotMatch(source, /caption=["']首页["']/);
-	assert.match(source, /ChapterRule/);
+	assert.doesNotMatch(source, /ChapterRule/);
+	assert.doesNotMatch(source, /chapter__art/);
+	assert.match(source, /heroMarginNotes\(site\.judgments\)/);
+	assert.match(source, /Annotation/);
+	assert.match(source, /tag=\{note\.what\}/);
+	assert.match(source, /text=\{note\.cost\}/);
+	assert.match(source, /class=["']hero__notes["']/);
+	assert.match(
+		source,
+		/@media\s*\(\s*min-width:\s*900px\s*\)[\s\S]*grid-template-columns:\s*minmax\(0,\s*var\(--measure\)\)/,
+	);
 	assert.match(source, /hero__board/);
 	assert.match(source, /hero__pair--start/);
 	assert.match(source, /hero__pair--end/);

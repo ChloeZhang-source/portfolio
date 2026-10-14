@@ -26,21 +26,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 			))
 		}
 	</div>
-	<div class="side-atmosphere__rail side-atmosphere__rail--right">
-		<span class="side-atmosphere__rule"></span>
-		<span class="side-atmosphere__caret" data-caret style={`top: ${fallbackY.home}`}></span>
-		{
-			SIDE_CHAPTERS.map((id) => (
-				<div
-					class:list={['side-atmosphere__node', id === 'home' && 'side-atmosphere__node--now']}
-					data-chapter={id}
-					style={`top: ${fallbackY[id]}`}
-				>
-					<span class="side-atmosphere__dot"></span>
-				</div>
-			))
-		}
-	</div>
 </div>
 
 <script>
@@ -192,10 +177,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 		left: max(var(--page-pad), calc(50% - (var(--page-max) / 2) - var(--rail-width)));
 	}
 
-	.side-atmosphere__rail--right {
-		right: max(var(--page-pad), calc(50% - (var(--page-max) / 2) - var(--rail-width)));
-	}
-
 	.side-atmosphere__rule {
 		position: absolute;
 		top: 0;
@@ -206,10 +187,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 
 	.side-atmosphere__rail--left .side-atmosphere__rule {
 		right: 3px;
-	}
-
-	.side-atmosphere__rail--right .side-atmosphere__rule {
-		left: 3px;
 	}
 
 	.side-atmosphere__caret {
@@ -226,10 +203,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 		right: 0;
 	}
 
-	.side-atmosphere__rail--right .side-atmosphere__caret {
-		left: 0;
-	}
-
 	.side-atmosphere__node {
 		position: absolute;
 		left: 0;
@@ -242,10 +215,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 	.side-atmosphere__rail--left .side-atmosphere__node {
 		justify-content: flex-end;
 		gap: 0.7rem;
-	}
-
-	.side-atmosphere__rail--right .side-atmosphere__node {
-		justify-content: flex-start;
 	}
 
 	.side-atmosphere__folio {
@@ -286,12 +255,6 @@ const fallbackY: Record<(typeof SIDE_CHAPTERS)[number], string> = {
 	.side-atmosphere__progress {
 		display: none;
 		pointer-events: none;
-	}
-
-	@media (max-width: 1099px) {
-		.side-atmosphere__rail--right {
-			display: none;
-		}
 	}
 
 	@media (max-width: 899px) {

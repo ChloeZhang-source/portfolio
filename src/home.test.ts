@@ -94,11 +94,13 @@ test('homepage injects Person + WebSite + ItemList JSON-LD', async () => {
 	assert.doesNotMatch(source, /xiaohongshu|小红书/);
 });
 
-test('homepage chapters share the ruler divider, not ink-wash strokes', async () => {
+test('homepage drops the centered ruler and mounts the chapter scale', async () => {
 	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
 
-	assert.match(source, /ChapterRule\.astro/);
-	assert.match(source, /<ChapterRule/g);
-	assert.equal(source.match(/<ChapterRule/g)?.length, 2);
+	assert.doesNotMatch(source, /ChapterRule/);
+	assert.doesNotMatch(source, /chapter__art/);
+	assert.match(source, /ChapterRail\.astro/);
+	assert.match(source, /<ChapterRail\s*\/>/);
+	assert.match(source, /SideAtmosphere\.astro/);
 	assert.doesNotMatch(source, /InkWash|ink-wash/);
 });

@@ -83,6 +83,18 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.match(source, /2\.4rem/);
 	assert.match(source, /var\(--color-amber-ink\)/);
 
+	assert.match(source, /aboutMarginNotes\(site\.judgments\)/);
+	assert.match(source, /Annotation/);
+	assert.match(source, /tag=\{note\.what\}/);
+	assert.match(source, /text=\{note\.cost\}/);
+	assert.match(source, /class=["']about__notes["']/);
+	assert.match(source, /site\.judgments\.map/);
+	assert.match(
+		source,
+		/@media\s*\(\s*min-width:\s*900px\s*\)[\s\S]*grid-template-columns:\s*minmax\(0,\s*var\(--measure\)\)/,
+	);
+	assert.doesNotMatch(source, /heroMarginNotes/);
+
 	assert.doesNotMatch(source, /hello@example\.com/);
 	assert.doesNotMatch(source, /tel:|github\.com/i);
 	assert.doesNotMatch(source, /caie|CAIE\.jpg|identity|身份证|429005/i);
