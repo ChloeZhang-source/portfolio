@@ -57,7 +57,7 @@ test('narrow header shrinks nav type and keeps one line', async () => {
 	assert.match(block, /\.site-header\s*\{[^}]*gap:\s*0\.35rem\s+0\.5rem/s);
 	assert.match(block, /\.site-header__nav\s*\{[^}]*flex-wrap:\s*nowrap/s);
 	assert.match(block, /\.site-header__nav\s*\{[^}]*gap:\s*0\.25rem\s+0\.55rem/s);
-	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.75rem/s);
+	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*var\(--text-caption\)/s);
 	assert.doesNotMatch(block, /display:\s*none/);
 	assert.doesNotMatch(source, /max-width:\s*640px/);
 	assert.doesNotMatch(source, /max-width:\s*720px/);

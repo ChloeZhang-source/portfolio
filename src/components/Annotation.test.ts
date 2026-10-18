@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Annotation is a serif margin note with a muted mono tag and no card', async () => {
+test('Annotation is a sans-serif margin note with a muted mono tag and no card', async () => {
 	const source = await readFile(join(here, 'Annotation.astro'), 'utf8');
 
 	assert.match(source, /class=["']annotation["']/);
@@ -16,13 +16,13 @@ test('Annotation is a serif margin note with a muted mono tag and no card', asyn
 	assert.match(source, /\.annotation\s*\{[^}]*max-width:\s*var\(--measure-note\)/s);
 	assert.match(source, /\.annotation\s*\{[^}]*padding-left:\s*12px/s);
 	assert.match(source, /\.annotation\s*\{[^}]*border-left:\s*2px\s+solid\s+var\(--c-amber-ink\)/s);
-	assert.match(source, /\.annotation\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
-	assert.match(source, /\.annotation\s*\{[^}]*font-size:\s*14px/s);
+	assert.match(source, /\.annotation\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
+	assert.match(source, /\.annotation\s*\{[^}]*font-size:\s*var\(--text-small\)/s);
 	assert.match(source, /\.annotation\s*\{[^}]*font-weight:\s*400/s);
-	assert.match(source, /\.annotation\s*\{[^}]*line-height:\s*1\.75/s);
+	assert.match(source, /\.annotation\s*\{[^}]*line-height:\s*var\(--leading-body\)/s);
 	assert.match(source, /\.annotation\s*\{[^}]*color:\s*var\(--c-body\)/s);
 	assert.match(source, /\.annotation\s*\{[^}]*font-style:\s*normal/s);
-	assert.match(source, /\.annotation\s*\{[^}]*transform:\s*rotate\(-0\.8deg\)/s);
+	assert.doesNotMatch(source, /rotate\(/);
 	assert.doesNotMatch(source, /\.annotation\s*\{[^}]*font-style:\s*italic/s);
 	assert.doesNotMatch(source, /\.annotation[^{]*\{[^}]*box-shadow/s);
 	assert.doesNotMatch(source, /\.annotation\s*\{[^}]*background/s);

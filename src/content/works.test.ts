@@ -101,23 +101,23 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 	);
 });
 
-test('speaking and interview MDX match locked copy and heading order', async () => {
+test('speaking and interview MDX follow the case-study narrative and preserve evidence', async () => {
 	const { worksSchema } = await import('./works-schema.ts');
 	const speakingHeadings = [
-		'问题：口语练习的最大阻碍是启动成本',
-		'我的判断：打开即用，无需注册，一轮即成',
-		'怎么做的：专属陪练与中英切换',
-		'我放弃了什么：用户画像与留存数据',
-		'结果：公开内测，约 300 人次体验',
-		'局限：这份数据能说明什么，不能说明什么',
+		'背景与目标：减少开始练习前的阻力',
+		'我的职责：把练习目标拆成可用流程',
+		'关键判断与取舍：先验证一轮练习能否成立',
+		'方案落地：进入、表达、回应、反馈',
+		'结果与验证：公开内测约 300 人次',
+		'局限与复盘：补齐去重和分群观察',
 	];
 	const interviewHeadings = [
-		'问题：标准不可见、过程不可溯、结果不可评',
-		'我的判断：做成可录制、可打分、可复评、可复盘的体系',
-		'怎么做的：专项考核与全程存档',
-		'我放弃了什么：用效率换规范',
-		'结果：50+ 场真实教师招聘',
-		'局限：这份数据能说明什么，不能说明什么',
+		'背景与目标：让标准和过程都能被复核',
+		'我的职责：把口头标准变成可执行规则',
+		'关键判断与取舍：规范先于速度，AI 只提供参考',
+		'方案落地：从面试指引到归档复评',
+		'结果与验证：完成 50+ 场真实招聘面试',
+		'局限与复盘：先扩大验证，再判断能否通用',
 	];
 
 	const speakingRaw = await readFile(join(here, 'works/speaking.mdx'), 'utf8');
@@ -148,14 +148,13 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(speakingRaw, /可迁移到/);
 	assert.doesNotMatch(speakingRaw, /做到能用时我学到的/);
 	assert.doesNotMatch(speakingRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
-	assert.match(speakingRaw, /口语练习的最大阻碍，从来不是能力不足，是过高的启动成本。/);
-	assert.match(speakingRaw, /剥离所有前置流程，去除账号体系，实现打开即用、无需注册、一轮即成。/);
-	assert.match(speakingRaw, /搭载专属 <span class="lat">AI<\/span> 陪练角色，支持中英自由切换/);
-	assert.match(speakingRaw, /零门槛体验，意味着放弃用户画像与留存数据/);
-	assert.match(speakingRaw, /比起完整的数据体系，我更在意真实的使用发生。/);
-	assert.match(speakingRaw, /已上线公开内测，累计约 300 人次体验、人均对话约 15 轮。/);
-	assert.match(speakingRaw, /口径说明：人次为免登录访问累计，含重复访问，非独立用户数/);
-	assert.match(speakingRaw, /## 局限：这份数据能说明什么，不能说明什么/);
+	assert.match(speakingRaw, /注册、登录和配置/);
+	assert.match(speakingRaw, /暂时放弃用户画像与完整留存数据/);
+	assert.match(speakingRaw, /专属 AI 陪练角色对话，可在中文与英文间切换/);
+	assert.match(speakingRaw, /截至 2026 年 9 月，公开内测累计约 300 人次体验，人均对话约 15 轮/);
+	assert.match(speakingRaw, /不代表独立用户数/);
+	assert.match(speakingRaw, /7 日留存约 22%、单次会话成本约 0.35 元/);
+	assert.match(speakingRaw, /不能把结果归因于某个具体设计决策/);
 	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
@@ -216,13 +215,14 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 	assert.doesNotMatch(interviewRaw, /做到能用时我学到的/);
 	assert.doesNotMatch(interviewRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
 	assert.match(interviewRaw, /传统面试依赖个人经验，标准不可见、过程不可溯、结果不可评。/);
-	assert.match(interviewRaw, /可录制、可打分、可复评、可复盘的标准化面试体系/);
-	assert.match(interviewRaw, /支持 15 分钟知识点专项考核、屏幕共享辅助授课/);
-	assert.match(interviewRaw, /效率让步于规范，速度让步于底线。/);
-	assert.match(interviewRaw, /已落地 50\+ 场真实教师招聘面试。/);
-	assert.match(interviewRaw, /对比 <span class="lat">AI<\/span> 初评/);
-	assert.match(interviewRaw, /<span class="lat">Excel<\/span>/);
-	assert.match(interviewRaw, /非对外 <span class="lat">SaaS<\/span>/);
+	assert.match(interviewRaw, /流程覆盖身份校验、设备检测、面试指引、分段作答、管理端评分和归档反馈/);
+	assert.match(interviewRaw, /身份校验、权限和归档规则/);
+	assert.match(interviewRaw, /AI 只提供参考分，不直接决定候选人结果/);
+	assert.match(interviewRaw, /15 分钟知识点专项考核与屏幕共享辅助授课/);
+	assert.match(interviewRaw, /截至 2026 年 9 月，系统在单一企业内部支持了 50\+ 场真实教师招聘面试/);
+	assert.match(interviewRaw, /AI 初评与人工复核的最终建议一致率约 87%/);
+	assert.match(interviewRaw, /较原 Excel 加录像回看流程估算下降约 60%/);
+	assert.match(interviewRaw, /没有对外商业验证，不是 SaaS 产品/);
 	assert.doesNotMatch(interviewRaw, /独立把评测逻辑写成 AI 参考分，接到管理端人工复核/);
 	assert.doesNotMatch(interviewRaw, /我原本以为要把功能补齐/);
 	assert.deepEqual(
@@ -243,4 +243,9 @@ test('speaking and interview MDX match locked copy and heading order', async () 
 
 	assert.deepEqual(headingOrder(speakingRaw.split(/---/)[2] ?? ''), speakingHeadings);
 	assert.deepEqual(headingOrder(interviewRaw.split(/---/)[2] ?? ''), interviewHeadings);
+	for (const [raw, slug] of [[speakingRaw, 'speaking'], [interviewRaw, 'interview']] as const) {
+		const body = raw.split(/---/)[2] ?? '';
+		assert.ok(body.indexOf(`<CaseGallery slug="${slug}" />`) > body.indexOf('## 方案落地'));
+		assert.ok(body.indexOf(`<CaseGallery slug="${slug}" />`) < body.indexOf('## 结果与验证'));
+	}
 });

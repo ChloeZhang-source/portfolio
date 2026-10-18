@@ -105,14 +105,14 @@ const screenClass = work.slug === 'interview' ? 'window__screen window__screen--
 		max-width: 42rem;
 		font-size: var(--text-section);
 		font-weight: 500;
-		line-height: 1.25;
-		letter-spacing: 0.02em;
+		line-height: var(--leading-display-2);
+		letter-spacing: var(--tracking-display-2);
 	}
 
 	.case-hero__tagline {
 		max-width: 42rem;
 		color: var(--color-muted);
-		line-height: 1.65;
+		line-height: var(--leading-small);
 	}
 
 	.case-hero__summary {
@@ -139,7 +139,7 @@ const screenClass = work.slug === 'interview' ? 'window__screen window__screen--
 
 	.case-hero__summary dd {
 		margin: 0;
-		line-height: 1.5;
+		line-height: var(--leading-compact);
 	}
 
 	.case-hero__summary-result {

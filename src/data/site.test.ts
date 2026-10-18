@@ -7,7 +7,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.headlineRole, '先闭环可用，再迭代完美');
 	assert.equal(
 		site.headlineSub,
-		'前互联网教育行业主管，聚焦 AI 产品落地：拆解需求、定义规则、搭建流程，让想法先成为可用产品。',
+		'前互联网教育行业主管，专注 AI 产品落地与流程设计。',
 	);
 	assert.equal(site.headline, `${site.headlineRole}${site.headlineSub}`);
 	assert.equal(site.headlinePath, undefined);
@@ -23,7 +23,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	);
 	assert.notEqual(site.metaDescription, site.headline);
 	assert.notEqual(site.metaDescription, site.headlineRole);
-	assert.equal(site.updatedAt, '2026-09');
+	assert.equal(site.updatedAt, '2026-10');
 
 	assert.equal(typeof site.name, 'string');
 	assert.ok(site.name.length > 0);

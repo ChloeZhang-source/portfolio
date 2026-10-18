@@ -37,10 +37,10 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--color-border:\s*rgba\(27,\s*26,\s*23,\s*\.11\)/);
 	assert.match(css, /--c-window-bar:\s*#e6e2d9/i);
 	assert.match(css, /--color-window-bar:\s*var\(--c-window-bar\)/);
-	assert.match(css, /--text-display-1:\s*clamp\(2\.6rem,\s*5\.2vw,\s*3\.5rem\)/);
+	assert.match(css, /--text-display-1:\s*clamp\(2\.8rem,\s*5\.2vw,\s*4\.25rem\)/);
 	assert.match(css, /--leading-display-1:\s*1\.14/);
 	assert.match(css, /--tracking-display-1:\s*-0\.01em/);
-	assert.match(css, /--text-display-2:\s*2\.125rem/);
+	assert.match(css, /--text-display-2:\s*clamp\(1\.65rem,\s*4vw,\s*2\.125rem\)/);
 	assert.match(css, /--leading-display-2:\s*1\.3/);
 	assert.match(css, /--text-title:\s*1\.75rem/);
 	assert.match(css, /--leading-title:\s*1\.55/);
@@ -133,7 +133,7 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /body\s*\{[^}]*font-size:\s*var\(--text-body\)/s);
 	assert.match(css, /body\s*\{[^}]*line-height:\s*var\(--leading-body\)/s);
 	assert.doesNotMatch(css, /radial-gradient/);
-	assert.match(css, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*0\.04em/s);
+	assert.match(css, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*var\(--tracking-label\)/s);
 	assert.doesNotMatch(css, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*0\.08em/s);
 	assert.match(css, /\.chapter h1,\s*\n\s*\.chapter h2\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-2\)/s);
 	assert.match(css, /\.chapter h1,\s*\n\s*\.chapter h2\s*\{[^}]*line-height:\s*var\(--leading-display-2\)/s);

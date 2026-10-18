@@ -59,6 +59,17 @@ import WindowBar from './WindowBar.astro';
 		const session = createExhibitSession();
 		const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-step]')];
 		const caption = root.querySelector<HTMLElement>('[data-caption]');
+		const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+		let autoTimer: number | undefined;
+		let userSelected = false;
+
+		const cancelAutoPlayback = () => {
+			userSelected = true;
+			if (autoTimer !== undefined) {
+				window.clearTimeout(autoTimer);
+				autoTimer = undefined;
+			}
+		};
 
 		const render = () => {
 			const { step } = session.snapshot();
@@ -66,17 +77,49 @@ import WindowBar from './WindowBar.astro';
 				button.setAttribute('aria-pressed', String(button.dataset.step === step.key));
 			}
 			for (const image of root.querySelectorAll<HTMLImageElement>('[data-frame-image]')) {
-				image.hidden = image.dataset.frameImage !== step.key;
+				const active = image.dataset.frameImage === step.key;
+				image.hidden = !active;
+				image.classList.toggle('exhibit__frame-image--entering', active);
 			}
 			if (caption) caption.textContent = step.text;
 		};
 
 		for (const button of buttons) {
+			button.addEventListener('focus', cancelAutoPlayback);
 			button.addEventListener('click', () => {
+				cancelAutoPlayback();
 				const key = button.dataset.step;
 				if (!key) return;
 				session.select(key);
 				render();
+			});
+		}
+
+		if ('IntersectionObserver' in window && !motionPreference.matches) {
+			const observer = new IntersectionObserver((entries) => {
+				if (!entries.some((entry) => entry.isIntersecting)) return;
+				observer.disconnect();
+				if (userSelected || document.hidden) return;
+
+				autoTimer = window.setTimeout(() => {
+					if (userSelected || document.hidden) return;
+					session.select('speak');
+					render();
+
+					autoTimer = window.setTimeout(() => {
+						if (userSelected || document.hidden) return;
+						session.select('summary');
+						render();
+						autoTimer = undefined;
+					}, 1200);
+				}, 1100);
+			}, { threshold: 0.35 });
+
+			observer.observe(root);
+			motionPreference.addEventListener('change', (event) => {
+				if (!event.matches) return;
+				cancelAutoPlayback();
+				observer.disconnect();
 			});
 		}
 	}
@@ -117,8 +160,9 @@ import WindowBar from './WindowBar.astro';
 		color: var(--c-ink);
 		font-family: var(--font-sans);
 		font-size: var(--text-small);
-		line-height: 1.2;
+		line-height: var(--leading-control);
 		cursor: pointer;
+		transition: border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
 	}
 
 	.exhibit__chip[aria-pressed='true'] {
@@ -140,6 +184,10 @@ import WindowBar from './WindowBar.astro';
 		object-fit: cover;
 	}
 
+	.exhibit__frame-image--entering {
+		animation: exhibit-frame-in var(--dur-2) var(--ease-out) both;
+	}
+
 	.exhibit__frame [hidden] {
 		display: none;
 	}
@@ -150,7 +198,7 @@ import WindowBar from './WindowBar.astro';
 		min-height: 44px;
 		color: var(--c-ink);
 		font-size: var(--text-small);
-		line-height: 1.2;
+		line-height: var(--leading-control);
 		text-decoration: none;
 	}
 
@@ -167,8 +215,22 @@ import WindowBar from './WindowBar.astro';
 
 	@media (prefers-reduced-motion: reduce) {
 		.exhibit__chip,
-		.exhibit__frame img {
+		.exhibit__frame img,
+		.exhibit__frame-image--entering {
 			transition: none;
+			animation: none;
+		}
+	}
+
+	@keyframes exhibit-frame-in {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+
+		to {
+			opacity: 1;
+			transform: none;
 		}
 	}
 </style>

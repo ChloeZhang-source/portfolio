@@ -12,11 +12,10 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /getStaticPaths/);
 	assert.match(source, /getCollection\(['"]works['"]\)/);
 	assert.match(source, /CaseHero\.astro/);
-	assert.match(source, /CaseGallery\.astro/);
-	assert.match(source, /<CaseGallery work=\{work\} \/>/);
+	assert.doesNotMatch(source, /CaseGallery\.astro/);
 	assert.match(source, /CaseBar\.astro/);
 	assert.match(source, /Header\.astro/);
-	assert.match(source, /<Content/);
+	assert.match(source, /<Content \/>/);
 	assert.match(source, /slot=["']header["']/);
 	assert.match(source, /slot=["']footer["']/);
 	assert.match(source, /work\.title/);
@@ -30,7 +29,7 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /ogImage=\{ogImage\}/);
 	assert.match(source, /ogImageAlt=\{work\.title\}/);
 	assert.doesNotMatch(source, /ogImage=\{work\.cover\}/);
-	assert.match(source, /max-width:\s*42rem/);
+	assert.match(source, /max-width:\s*var\(--measure\)/);
 	assert.match(source, /\.case-body\s+:global\(h2\)\s*\{[^}]*font-weight:\s*500/s);
 	assert.match(source, /\.case-body\s+:global\(a\)\s*\{[^}]*color:\s*var\(--c-ink\)/s);
 	assert.match(source, /\.case-body\s+:global\(a\)\s*\{[^}]*text-decoration:\s*underline/s);

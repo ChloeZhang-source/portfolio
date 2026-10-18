@@ -1,10 +1,9 @@
 export const site = {
 	name: '张晓雪',
 	headlineRole: '先闭环可用，再迭代完美',
-	headlineSub:
-		'前互联网教育行业主管，聚焦 AI 产品落地：拆解需求、定义规则、搭建流程，让想法先成为可用产品。',
+	headlineSub: '前互联网教育行业主管，专注 AI 产品落地与流程设计。',
 	headline:
-		'先闭环可用，再迭代完美前互联网教育行业主管，聚焦 AI 产品落地：拆解需求、定义规则、搭建流程，让想法先成为可用产品。',
+		'先闭环可用，再迭代完美前互联网教育行业主管，专注 AI 产品落地与流程设计。',
 	headlineEn:
 		"A liberal-arts graduate who doesn't write code. I ship usable product loops with AI as the production tool.",
 	documentTitle: '张晓雪 · 先闭环可用，再迭代完美｜口语陪练与面试系统',
@@ -54,7 +53,7 @@ export const site = {
 		{ label: '关于', href: '/#about' },
 		{ label: '联系', href: '/#contact' },
 	],
-	updatedAt: '2026-09',
+	updatedAt: '2026-10',
 } as const;
 
 export type Site = typeof site;

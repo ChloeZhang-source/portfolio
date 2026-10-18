@@ -22,7 +22,7 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 		source,
 		/<h1 class=["']hero__role misprint hero__beat hero__beat--title["'] data-text=\{site\.headlineRole\}>\{site\.headlineRole\}<\/h1>/,
 	);
-	assert.match(source, /class=["']hero__sub["']/);
+	assert.match(source, /class=["'][^"']*\bhero__sub\b[^"']*["']/);
 	assert.match(source, /site\.headlineSub\.indexOf\(['"]AI['"]\)/);
 	assert.match(source, /<span class=["']lat["']>AI<\/span>/);
 	assert.match(source, /homeCopy\.heroKicker\.split/);
@@ -34,12 +34,12 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 		assert.doesNotMatch(h1[1], /headlineSub|headlinePath|headlineProof/);
 	}
 	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
-	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*-0\.02em/s);
+	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*font-size:\s*var\(--text-lead\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*line-height:\s*var\(--leading-lead\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*letter-spacing:\s*var\(--tracking-lead\)/s);
-	assert.match(source, /\.hero__sub\s*\{[^}]*word-break:\s*keep-all/s);
+	assert.doesNotMatch(source, /\.hero__sub\s*\{[^}]*word-break:\s*keep-all/s);
 	assert.doesNotMatch(source, /site\.statusLines/);
 	assert.doesNotMatch(source, /site\.avatarSrc/);
 	assert.doesNotMatch(source, /width=["']480["']\s+height=["']600["']/);
@@ -63,12 +63,12 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 		source,
 		/<a class=["']btn-ghost["'] href=\{withBase\(site\.resumeHref\)\} download=\{site\.resumeDownloadName\}>\{site\.resumeLabel\}<\/a>/,
 	);
-	assert.match(source, /class=["']hero__actions["']/);
+	assert.match(source, /class=["'][^"']*\bhero__actions\b[^"']*["']/);
 	assert.doesNotMatch(source, /\.hero__actions[^{]*\{[^}]*opacity:\s*0/s);
 	assert.doesNotMatch(source, /\.hero__actions:hover/);
 	assert.match(
 		source,
-		/口语陪练：约 <span class=["']num["']>300<\/span> 人次体验（含重复访问）<\/span>\s*<span>面试系统：教师招聘 <span class=["']num["']>50\+<\/span> 场（单一企业）/,
+		/口语陪练公开内测：约 <span class=["']num["']>300<\/span> 人次体验（含重复访问）<\/span>/,
 	);
 
 	assert.match(source, /heroMarginNotes\(site\.judgments\)/);
@@ -97,18 +97,16 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 
 	assert.doesNotMatch(source, /<h1>\{site\.headline\}<\/h1>/);
 	assert.match(source, /\.hero h1\s*\{/);
-	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*clamp\(3\.25rem,\s*6\.5vw,\s*5\.25rem\)/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-hero\)/s);
 	assert.match(source, /\.hero h1\s*\{[^}]*max-width:\s*100%/s);
 	assert.match(source, /\.hero h1\s*\{[^}]*line-height:\s*var\(--leading-display-1\)/s);
-	assert.match(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*-0\.02em/s);
+	assert.match(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
 	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*0\.04em/s);
-	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
-	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-display-1\)/s);
 	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*position:\s*absolute/s);
-	assert.doesNotMatch(source, /\.hero h1::after|\.hero__role::after/);
+	assert.doesNotMatch(source, /\.hero h1::after/);
 	assert.doesNotMatch(source, /clamp\(4rem,\s*18vw,\s*15rem\)/);
 	assert.match(source, /\.hero h1\s*\{[^}]*text-align:\s*left/s);
-	assert.match(source, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*0\.04em/s);
+	assert.match(source, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*var\(--tracking-label\)/s);
 	assert.doesNotMatch(source, /letter-spacing:\s*0\.28em/);
 	assert.match(source, /text-wrap:\s*balance/);
 	assert.doesNotMatch(source, /letter-spacing:\s*-0\.03em/);
@@ -120,7 +118,7 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 		'site.headlineSub',
 		'homeCopy.heroWorkHref',
 		'site.resumeHref',
-		'口语陪练：约',
+		'口语陪练公开内测：约',
 		'<SpeakingExhibit',
 		'heroMarginNotes',
 	];
@@ -164,16 +162,25 @@ test('Hero entrance plays once from kicker to exhibit and stays under 800ms', as
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
 
 	assert.match(source, /@keyframes\s+hero-rise/);
+	assert.match(source, /@keyframes\s+hero-misprint-align/);
+	assert.match(source, /\.hero__role::after\s*\{[^}]*animation:\s*hero-misprint-align\s+360ms\s+var\(--ease-out\)\s+120ms\s+both/s);
+	assert.match(source, /@keyframes\s+hero-misprint-align\s*\{[^}]*translate\(3px,\s*-2px\)[\s\S]*translate\(0,\s*0\)/s);
 	assert.match(source, /translateY\(12px\)/);
 	assert.match(source, /animation:\s*hero-rise\s+var\(--dur-3\)\s+var\(--ease-out\)\s+backwards/);
 	assert.match(source, /class=["']chapter__kicker hero__beat["']/);
 	assert.match(source, /hero__beat--title/);
-	assert.match(source, /hero__beat--arrive/);
+	assert.match(source, /hero__beat--intro/);
+	assert.match(source, /hero__beat--actions/);
+	assert.match(source, /hero__beat--facts/);
 	assert.match(source, /hero__beat--exhibit/);
 	assert.match(source, /\.hero__beat--title\s*\{[^}]*animation-delay:\s*120ms/s);
 	assert.match(source, /\.hero__beat--title\s*\{[^}]*animation-timing-function:\s*var\(--ease-quart\)/s);
-	assert.match(source, /\.hero__beat--arrive\s*\{[^}]*animation-delay:\s*300ms/s);
-	assert.match(source, /\.hero__beat--exhibit\s*\{[^}]*animation-delay:\s*400ms/s);
+	assert.match(source, /\.hero__beat--intro\s*\{[^}]*animation-delay:\s*300ms/s);
+	assert.match(source, /\.hero__beat--actions\s*\{[^}]*animation-delay:\s*380ms/s);
+	assert.match(source, /\.hero__beat--facts\s*\{[^}]*animation-delay:\s*460ms/s);
+	assert.match(source, /\.hero__beat--actions,\s*\.hero__beat--facts\s*\{[^}]*animation-duration:\s*300ms/s);
+	assert.match(source, /\.hero__beat--exhibit\s*\{[^}]*animation-delay:\s*500ms/s);
+	assert.match(source, /\.hero__beat--exhibit\s*\{[^}]*animation-duration:\s*300ms/s);
 	assert.match(source, /prefers-reduced-motion:\s*no-preference/);
 	assert.match(source, /@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[\s\S]*\.hero__beat\s*\{[^}]*animation:\s*none/s);
 	assert.match(source, /@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[\s\S]*opacity:\s*1/);
@@ -182,6 +189,6 @@ test('Hero entrance plays once from kicker to exhibit and stays under 800ms', as
 	assert.doesNotMatch(source, /hero-window-in/);
 
 	const delays = [...source.matchAll(/animation-delay:\s*(\d+)ms/g)].map((match) => Number(match[1]));
-	assert.deepEqual(delays, [120, 300, 400]);
-	assert.ok(Math.max(...delays) + 380 <= 800, 'entrance must finish within 800ms');
+	assert.deepEqual(delays, [120, 300, 380, 460, 500]);
+	assert.ok(Math.max(120 + 380, 300 + 380, 380 + 300, 460 + 300, 500 + 300) <= 800, 'entrance must finish within 800ms');
 });

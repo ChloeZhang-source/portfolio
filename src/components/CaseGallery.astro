@@ -1,21 +1,23 @@
 ---
-import type { Work } from '../content/works-schema';
+import { getEntry } from 'astro:content';
 import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
 import WindowBar from './WindowBar.astro';
 
 interface Props {
-	work: Work;
+	slug: string;
 }
 
-const { work } = Astro.props;
-const screenClass = work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen';
-const shots = work.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image) }));
+const { slug } = Astro.props;
+const entry = await getEntry('works', slug);
+const work = entry?.data;
+const screenClass = slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen';
+const shots = work?.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image) })) ?? [];
 ---
 
 {shots.length > 0 && (
 	<section id="gallery" class="case-gallery" aria-labelledby="case-gallery-title">
-		<h2 id="case-gallery-title">流程截图</h2>
+		<h2 id="case-gallery-title">关键界面</h2>
 		<div class="case-gallery__items">
 			{shots.map((shot) => (
 				<figure class="window">
@@ -30,7 +32,7 @@ const shots = work.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image
 							decoding="async"
 						/>
 					</div>
-					<figcaption>{shot.alt}</figcaption>
+					<figcaption>{shot.caption}</figcaption>
 				</figure>
 			))}
 		</div>
@@ -39,14 +41,15 @@ const shots = work.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image
 
 <style>
 	.case-gallery {
-		max-width: 42rem;
-		padding: 0 1.25rem 2.5rem;
+		max-width: none;
+		margin: 2rem 0;
+		padding: 0;
 		scroll-margin-top: 4.5rem;
 	}
 
 	.case-gallery h2 {
 		margin: 0 0 1rem;
-		font-size: 1.25rem;
+		font-size: var(--text-lead);
 		font-weight: 500;
 	}
 
@@ -64,6 +67,6 @@ const shots = work.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image
 		padding: 0.7rem 0.85rem 0.8rem;
 		color: var(--color-muted);
 		font-size: var(--font-size-muted);
-		line-height: 1.55;
+		line-height: var(--leading-small);
 	}
 </style>

@@ -10,5 +10,5 @@ test('mailtoHref prefixes an email with mailto:', async () => {
 test('updatedCaption uses the locked 最近更新于 prefix', async () => {
 	const { updatedCaption } = await import('./contact.ts');
 
-	assert.equal(updatedCaption('2026-09'), '最近更新于 2026-09');
+	assert.equal(updatedCaption('2026-10'), '最近更新于 2026-10');
 });

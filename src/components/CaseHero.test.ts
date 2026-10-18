@@ -21,7 +21,7 @@ test('CaseHero is visible h1 → tagline → project summary → media → produ
 	assert.match(source, /<dt>结果<\/dt>/);
 	assert.doesNotMatch(source, /<h[1-6][^>]*>\{work\.tagline\}/);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*var\(--text-section\)/s);
-	assert.match(source, /\.case-hero h1\s*\{[^}]*line-height:\s*1\.25/s);
+	assert.match(source, /\.case-hero h1\s*\{[^}]*line-height:\s*var\(--leading-display-2\)/s);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*font-weight:\s*500/s);
 	assert.doesNotMatch(source, /\.case-hero h1\s*\{[^}]*font-family:/s);
 	assert.match(source, /withBase\(work\.cover\)/);

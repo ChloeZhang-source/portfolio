@@ -73,26 +73,33 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 
 # 3. Typography Rules
 
-```css
---font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;  /* 标题 / thesis / 旁注 */
---font-sans:  "Segoe UI", "PingFang SC", "Microsoft YaHei UI", ui-sans-serif, system-ui, sans-serif; /* 正文 */
---font-mono:  "Cascadia Code", "SF Mono", Consolas, ui-monospace, monospace; /* 窗口栏 / 页码 / 刻度 */
-```
+字体按信息角色分工，避免在普通说明文字中混用字体：
+
+- **衬线**：页面与章节标题、案例判断句等少量观点性文字。
+- **无衬线**：正文、描述、导航、按钮和产品界面说明；旁注正文也使用无衬线。
+- **等宽**：年份、日期、序号、页码和短标签；不用于长段文字。
+
+以上分别使用 `--font-serif`、`--font-sans`、`--font-mono` 字体栈。
 
 ## Type Scale（基准 17px，比例 ≈1.25）
 
 | Token | px | rem | Weight | Line-height | Letter-spacing | 用途 |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| `display-1` | 56 | 3.5 | 500 | 1.14 | **-0.01em** | 首屏主张（clamp 2.6→3.5rem） |
-| `display-2` | 34 | 2.125 | 500 | 1.30 | 0 | 章节标题 |
+| `display-1` | 68 | 4.25 | 500 | 1.14 | **-0.01em** | 首屏主张（clamp 2.8→4.25rem） |
+| `display-2` | 26.4–34 | 1.65–2.125 | 500 | 1.30 | 0 | 章节标题（随视口缩放） |
 | `title` | 28 | 1.75 | 500 | 1.55 | 0 | 章引言 thesis |
+| `card-title` | 19.2–21.6 | 1.2–1.35 | 500 | 1.60 | +0.02em | 作品卡片标题（随视口缩放） |
 | `lead` | 19 | 1.1875 | 400 | 1.70 | 0 | 副题 / lede |
 | `body` | 17 | 1.0625 | 400 | 1.75 | 0 | 正文 |
 | `small` | 14 | 0.875 | 400 | 1.65 | +0.02em | 作品 tagline / 旁注 |
 | `caption` | 12 | 0.75 | 500 | 1.40 | +0.06em | 窗口栏 / 书眉 |
 | `micro` | 11 | 0.6875 | 500 | 1.30 | +0.12em | 页码 / 章节刻度 / 旁注标签 |
 
-**字距方向**：大字号收紧（0 或微负），小字号放开（+0.02em → +0.12em）。现有 Hero 用 `+0.04em`（56px 上等于 +2.24px）方向反了，会让中文标题散开——按上表改为 `-0.01em`。
+页面字号统一引用全局字阶 token。卡片标题使用独立的 `card-title` 层级，避免与章节标题同大；正文与说明文字统一落在 `body`、`small`、`caption` 或 `micro` 层级。
+
+正文行高使用对应字阶 token；按钮和紧凑摘要分别使用 `--leading-control` 与 `--leading-compact`。大标题沿用 `--tracking-display-1`，章节标题使用 `--tracking-display-2`；标签与元信息使用 `--tracking-label`、`--tracking-meta`，避免组件各自散落数字值。
+
+**字距方向**：大字号收紧（0 或微负），小字号放开（+0.02em → +0.12em）。Hero 标题使用 `-0.01em`，避免大字号中文标题被额外拉散。
 
 ## 中文排版细则（硬实力核心，逐条落地）
 
@@ -101,7 +108,7 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 3. **孤字控制**：正文 `text-wrap: pretty`；≤3 行标题 `text-wrap: balance`。
 4. **标点悬挂**：`hanging-punctuation: allow-end`（Safari）；降级 `.hang { margin-left: -.5em }`。
 5. **行首禁则**：`line-break: strict;`，禁止 `overflow-wrap: anywhere` 出现在正文。
-6. **禁用中文斜体**：CJK 无真正斜体，浏览器合成倾斜在汉字上极丑。旁注的「手写感」靠 **字号降一档 + 行高放宽 + 左侧 2px 琥珀痕 + 容器 `rotate(-0.8deg)`** 表达，**禁止 `font-style: italic`**。
+6. **禁用中文斜体**：CJK 无真正斜体，浏览器合成倾斜在汉字上影响阅读。旁注用较小字号、宽松行高与左侧琥珀色细线建立层级，不使用斜体或旋转文字。
 7. **字重**：中文标题固定 500（Noto Serif SC 子集只做了 500，用 600 会触发合成加粗）。这是有意偏离 Apple（拉丁 600），理由是字形来源。
 8. **字体子集硬约束**：标题字体走 `unicode-range` 白名单（`BaseLayout.astro`）。**任何新增进标题/书眉/批注的汉字，必须同步扩白名单**，否则该字静默回退到 Songti SC，字重与字面都不一致。流程：列出新增字 → 取码位 → 追加进 `unicode-range` → 用 `pyftsubset` 重建 woff2 → 重新 build。
 
@@ -162,8 +169,8 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 .annotation {
   max-width: 24rem; padding-left: 12px;
   border-left: 2px solid var(--c-amber-ink);
-  font: 400 14px/1.75 var(--font-serif);
-  color: var(--c-body); transform: rotate(-.8deg);
+  font: 400 var(--text-small)/1.75 var(--font-sans);
+  color: var(--c-body);
 }
 .annotation__tag {
   display: block; margin-bottom: 4px;
@@ -209,6 +216,7 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 - **章节垂直间距**：96px（≤640px 收紧到 48px）
 - **内容容器**：max-width 72rem（1152px），padding 20px；≥1101px 时左轴留 4.25rem + 1.25rem 订口
 - **文本行宽**：正文 ≤36rem；旁注 ≤24rem；展品 ≤52rem
+- **正文宽度执行**：首页个人介绍与案例正文统一使用 `--measure`（36rem），避免长段说明横向铺得过宽；标题可按内容保留更宽的断行空间。
 - **栅格 gutter**：20–24px
 - **留白哲学**：组内紧（8–16px）、组间松（32–48px）、章间最松（96px）。页脚是唯一允许密集的区域
 
@@ -257,6 +265,23 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 7. 不让 hover 承载唯一信息（触屏没有 hover）。
 8. 不新增无限循环动效；装饰性脉冲最长 5s 且必须可暂停。
 
+## 7.1 首页 Hero 动效规范
+
+Hero 动效只负责强化「套印原稿」的识别度，并引导访客看向作品入口与产品展柜。默认按一次性、短时编排执行；页面文案始终立即可读，不等待动效完成。
+
+| 层级 | 动效 | 时长 / 时序 | 约束 |
+| --- | --- | --- | --- |
+| 标题 | 琥珀色套印副本从轻微错位归位 | 300–400ms | 起始位移约 3px；黑色正文标题始终清晰，不逐字出现、不抖动 |
+| 简介与入口 | 淡入并轻微上移 | 每项 300–380ms；层间间隔 80–120ms | 位移 8–12px；顺序为简介 → 主次入口 → 成果数字 |
+| 产品展柜 | 淡入并轻微上移 | 300–380ms；在标题后开始 | 只播放一次；不持续漂浮、倾斜或自动放大 |
+| 展柜内演示 | 「打开 → 开口 → 小结」状态切换 | 一轮数秒 | 默认只演示一轮后停止；保留手动切换与重播入口，不循环播放 |
+
+- Hero 入场编排总时长控制在 800ms 内；可见内容不因延迟、遮罩或逐字效果而暂时不可读。
+- 动画缓动沿用 `--ease-out`；不为 Hero 新增独立的速度或缓动 token。
+- `prefers-reduced-motion: reduce` 时不自动播放、不做位移或套印归位动画，直接显示完整标题、内容与稳定的展柜状态；手动状态切换仍需提供即时、清楚的结果。
+- 手机端沿用相同的信息顺序；不得因动画造成横向溢出、布局跳动或主要按钮延迟出现。
+- 复核时分别检查首次进入、刷新、窄屏和减少动态效果设置；确认演示只播放一轮且可手动操作。
+
 ---
 
 # 8. Responsive Behavior
@@ -283,7 +308,7 @@ references: Apple（字阶与留白 / 唯一阴影）, Linear（4px 网格 / 表
 ## Component Prompts
 
 1. 「按本系统写一个首屏：kicker + 套印错位大标题（56px/500/-0.01em）+ 19px 副题 + 展品窗口，一次编排入场，总时长 ≤800ms，尊重 reduced-motion。」
-2. 「写一个栏外批注组件：14px 衬线、行高 1.75、左 2px 琥珀痕、容器 rotate(-0.8deg)、无斜体、进入视口时以 `--ease-pen` 播 380ms 落笔动画。」
+2. 「写一个栏外批注组件：14px 无衬线、行高 1.75、左 2px 琥珀痕、无斜体和旋转，进入视口时以 `--ease-pen` 播 380ms 落笔动画。」
 3. 「写一个可交互展品：三步完成一轮真实体验，结果区 `aria-live="polite"`，提供暂停按钮，数据条填充 720ms `--ease-out`。」
 4. 「写页脚 Colophon：上边框 1px 发丝线，三列 mono 11px，含版本 / 更新 / 字体授权。」
 5. 「把案例页重排为：标题（34px）→ 判断 tagline（28px 衬线）→ 展品（52rem）→ 三条代价 → 上一个/下一个作品。」

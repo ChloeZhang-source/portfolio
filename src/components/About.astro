@@ -69,7 +69,7 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		margin: 0 0 0.85rem;
 		font-size: var(--text-section);
 		font-weight: 500;
-		letter-spacing: 0.02em;
+		letter-spacing: var(--tracking-display-2);
 	}
 
 	.about__layout {
@@ -87,7 +87,7 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 	.about__story {
 		display: grid;
 		gap: 1rem;
-		max-width: 40rem;
+		max-width: var(--measure);
 	}
 
 	.about__story p {
@@ -107,7 +107,7 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		margin: 0 0 1.6rem;
 		max-width: 34rem;
 		color: var(--color-muted);
-		font-size: 0.9rem;
+		font-size: var(--text-small);
 	}
 
 	.judgments__list {
@@ -150,26 +150,26 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 
 	.judgments__what {
 		margin: 0 0 0.25rem;
-		font-size: 1rem;
+		font-size: var(--text-body);
 		font-weight: 500;
-		line-height: 1.65;
-		letter-spacing: 0.01em;
+		line-height: var(--leading-body);
+		letter-spacing: var(--tracking-body);
 	}
 
 	.judgments__no {
 		margin-right: 0.5rem;
 		color: var(--c-amber-text);
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-micro);
 		font-weight: 400;
-		letter-spacing: 0.1em;
+		letter-spacing: var(--tracking-meta);
 	}
 
 	.judgments__cost {
 		margin: 0;
 		color: var(--color-muted);
-		font-size: 0.87rem;
-		line-height: 1.75;
+		font-size: var(--text-small);
+		line-height: var(--leading-small);
 	}
 
 	.now dl {
@@ -189,8 +189,8 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 	.now dt {
 		color: var(--c-amber-text);
 		font-family: var(--font-mono);
-		font-size: 0.74rem;
-		letter-spacing: 0.1em;
+		font-size: var(--text-caption);
+		letter-spacing: var(--tracking-meta);
 	}
 
 	.now dd {
@@ -203,7 +203,7 @@ const judgmentMarks = ['判断一', '判断二', '判断三', '判断四'];
 		margin: 1.4rem 0 0;
 		color: var(--color-muted);
 		font-family: var(--font-mono);
-		font-size: 0.74rem;
+		font-size: var(--text-caption);
 	}
 
 	@media (min-width: 900px) {

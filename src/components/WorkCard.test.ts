@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('WorkCard keeps problem, role, approach, result, and one case CTA', async () => {
+test('WorkCard keeps the same problem, role, approach, scoped result, invite, and CTA for every case', async () => {
 	const source = await readFile(join(here, 'WorkCard.astro'), 'utf8');
 
 	assert.match(source, /workCaseHref/);
@@ -18,6 +18,7 @@ test('WorkCard keeps problem, role, approach, result, and one case CTA', async (
 	assert.match(source, /work\.homeContribution/);
 	assert.match(source, /work\.result/);
 	assert.match(source, /homeCopy\.workInvite/);
+	assert.match(source, /<dt>结果与范围<\/dt>/);
 	assert.match(source, /withBase\(work\.cover\)/);
 	assert.match(source, /work\.cover/);
 	assert.match(source, /workImageSize/);
@@ -29,7 +30,7 @@ test('WorkCard keeps problem, role, approach, result, and one case CTA', async (
 	assert.match(source, /caption=\{work\.title\}/);
 	assert.match(source, /\.work-card__problem\s*\{/);
 	assert.match(source, /\.work-card__invite\s*\{[^}]*color:\s*var\(--color-muted\)/s);
-	assert.match(source, /\.work-card h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
+	assert.match(source, /\.work-card h2\s*\{[^}]*letter-spacing:\s*var\(--tracking-card-title\)/s);
 	assert.doesNotMatch(source, /\.work-card h2\s*\{[^}]*font-family:/s);
 	assert.match(source, /\.work-card\s*\{[^}]*text-align:\s*left/s);
 	assert.doesNotMatch(source, /\.work-card\s*\{[^}]*justify-items:\s*center/s);

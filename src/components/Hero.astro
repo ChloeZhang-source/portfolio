@@ -19,17 +19,16 @@ import SpeakingExhibit from './SpeakingExhibit.astro';
 				}
 			</p>
 			<h1 class="hero__role misprint hero__beat hero__beat--title" data-text={site.headlineRole}>{site.headlineRole}</h1>
-			<div class="hero__arrive hero__beat hero__beat--arrive">
-				<p class="hero__sub">
+			<div class="hero__arrive">
+				<p class="hero__sub hero__beat hero__beat--intro">
 					{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
 				</p>
-				<div class="hero__actions">
+				<div class="hero__actions hero__beat hero__beat--actions">
 					<a class="btn" href={homeCopy.heroWorkHref}>看作品</a>
 					<a class="btn-ghost" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>{site.resumeLabel}</a>
 				</div>
-				<p class="hero__facts">
-					<span>口语陪练：约 <span class="num">300</span> 人次体验（含重复访问）</span>
-					<span>面试系统：教师招聘 <span class="num">50+</span> 场（单一企业）</span>
+				<p class="hero__facts hero__beat hero__beat--facts">
+					<span>口语陪练公开内测：约 <span class="num">300</span> 人次体验（含重复访问）</span>
 				</p>
 			</div>
 		</div>
@@ -69,24 +68,24 @@ import SpeakingExhibit from './SpeakingExhibit.astro';
 	}
 
 	.chapter__kicker {
-		letter-spacing: 0.04em;
+		letter-spacing: var(--tracking-label);
 		text-transform: none;
 	}
 
 	.hero h1 {
 		margin: 0;
 		max-width: 100%;
-		font-size: clamp(3.25rem, 6.5vw, 5.25rem);
+		font-size: var(--text-hero);
 		font-weight: 500;
 		line-height: var(--leading-display-1);
-		letter-spacing: -0.02em;
+		letter-spacing: var(--tracking-display-1);
 		text-wrap: balance;
 		text-align: left;
 	}
 
 	.hero__role {
 		font-family: var(--font-serif);
-		letter-spacing: -0.02em;
+		letter-spacing: var(--tracking-display-1);
 	}
 
 	.hero__sub {
@@ -98,7 +97,6 @@ import SpeakingExhibit from './SpeakingExhibit.astro';
 		letter-spacing: var(--tracking-lead);
 		line-height: var(--leading-lead);
 		color: var(--color-muted);
-		word-break: keep-all;
 	}
 
 	.hero__actions {
@@ -153,17 +151,35 @@ import SpeakingExhibit from './SpeakingExhibit.astro';
 			animation: hero-rise var(--dur-3) var(--ease-out) backwards;
 		}
 
+		.hero__role::after {
+			animation: hero-misprint-align 360ms var(--ease-out) 120ms both;
+		}
+
 		.hero__beat--title {
 			animation-delay: 120ms;
 			animation-timing-function: var(--ease-quart);
 		}
 
-		.hero__beat--arrive {
+		.hero__beat--intro {
 			animation-delay: 300ms;
 		}
 
+		.hero__beat--actions,
+		.hero__beat--facts {
+			animation-duration: 300ms;
+		}
+
+		.hero__beat--actions {
+			animation-delay: 380ms;
+		}
+
+		.hero__beat--facts {
+			animation-delay: 460ms;
+		}
+
 		.hero__beat--exhibit {
-			animation-delay: 400ms;
+			animation-delay: 500ms;
+			animation-duration: 300ms;
 		}
 	}
 
@@ -184,6 +200,16 @@ import SpeakingExhibit from './SpeakingExhibit.astro';
 		to {
 			opacity: 1;
 			transform: none;
+		}
+	}
+
+	@keyframes hero-misprint-align {
+		from {
+			transform: translate(3px, -2px);
+		}
+
+		to {
+			transform: translate(0, 0);
 		}
 	}
 </style>

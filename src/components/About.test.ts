@@ -68,7 +68,7 @@ test('About renders path story, judgments timeline, and now from site/home data'
 	assert.doesNotMatch(source, /about__skills|about__cert|about__dialog/);
 	assert.doesNotMatch(source, /<script/);
 
-	assert.match(source, /\.about h2\s*\{[^}]*letter-spacing:\s*0\.02em/s);
+	assert.match(source, /\.about h2\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-2\)/s);
 	assert.match(source, /\.judgments__what\s*\{[^}]*font-weight:\s*500/s);
 	assert.doesNotMatch(source, /\.judgments__what\s*\{[^}]*font-weight:\s*600/s);
 	assert.match(source, /\.now dd\s*\{[^}]*font-size:\s*var\(--text-body\)/s);

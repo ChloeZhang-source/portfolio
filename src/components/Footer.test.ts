@@ -18,10 +18,10 @@ test('Footer colophon keeps the update note in the version column', async () => 
 	assert.match(source, /\.colophon\s*\{[^}]*border-top:\s*1px\s+solid\s+var\(--c-hairline\)/s);
 	assert.match(source, /\.colophon\s*\{[^}]*grid-template-columns:\s*repeat\(3,\s*1fr\)/s);
 	assert.match(source, /\.colophon\s*\{[^}]*font-family:\s*var\(--font-mono\)/s);
-	assert.match(source, /\.colophon\s*\{[^}]*font-size:\s*11px/s);
+	assert.match(source, /\.colophon\s*\{[^}]*font-size:\s*var\(--text-micro\)/s);
 	assert.match(source, /\.colophon\s*\{[^}]*line-height:\s*1\.6/s);
 	assert.match(source, /\.colophon b\s*\{[^}]*color:\s*var\(--c-body\)/s);
-	assert.match(source, /\.colophon b\s*\{[^}]*letter-spacing:\s*0\.12em/s);
+	assert.match(source, /\.colophon b\s*\{[^}]*letter-spacing:\s*var\(--tracking-micro\)/s);
 	assert.match(source, /@media\s*\(\s*max-width:\s*899px\s*\)[\s\S]*\.colophon\s*\{[^}]*grid-template-columns:\s*1fr/);
 	assert.match(source, /updatedCaption/);
 	assert.match(source, /site\.updatedAt/);

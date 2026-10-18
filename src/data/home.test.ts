@@ -27,8 +27,8 @@ test('homeCopy locks homepage chrome labels from the plan', async () => {
 		'我的作品统一解决一个核心问题：让私有的经验、零散的流程、口头的标准，变成公开、可复现、可落地的系统。',
 		'我优先交付最小可用版本，以真实场景验证假设，再逐步迭代扩张。不做无人使用的完美架构，只做能持续落地的有效产品。',
 	]);
-	assert.equal(homeCopy.workInvite.speaking, '你现在就能打开试一轮。');
-	assert.equal('interview' in homeCopy.workInvite, false);
+	assert.equal(homeCopy.workInvite.speaking, '无需登录，打开即可开始一轮练习。');
+	assert.equal(homeCopy.workInvite.interview, '候选人信息已脱敏，案例页展示流程与评估方式。');
 	assert.equal(homeCopy.nowTitle, '现在');
 	assert.equal(homeCopy.aboutTitle, '关于');
 	assert.equal('experienceTitle' in homeCopy, false);
