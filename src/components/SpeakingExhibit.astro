@@ -43,6 +43,13 @@ import WindowBar from './WindowBar.astro';
 				})
 			}
 		</div>
+		<div class="exhibit__pager" role="group" aria-label="作品预览翻页">
+			<button type="button" class="exhibit__page-button" data-page-nav="previous" aria-label="上一页" aria-controls="speaking-exhibit-caption" disabled>‹</button>
+			<span class="exhibit__page" data-page-indicator aria-hidden="true">
+				01 / {String(speakingExhibit.steps.length).padStart(2, '0')}
+			</span>
+			<button type="button" class="exhibit__page-button" data-page-nav="next" aria-label="下一页" aria-controls="speaking-exhibit-caption">›</button>
+		</div>
 		<p class="exhibit__caption" id="speaking-exhibit-caption" data-caption aria-live="polite">
 			{speakingExhibit.steps[0].text}
 		</p>
@@ -51,77 +58,76 @@ import WindowBar from './WindowBar.astro';
 </div>
 
 <script>
-	import { createExhibitSession } from '../lib/speaking-exhibit';
+	import { createExhibitSession, speakingExhibit } from '../lib/speaking-exhibit';
 
 	const root = document.querySelector<HTMLElement>('[data-speaking-exhibit]');
 	if (root && root.dataset.bound !== 'true') {
 		root.dataset.bound = 'true';
 		const session = createExhibitSession();
 		const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-step]')];
+		const pageNavButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-page-nav]')];
 		const caption = root.querySelector<HTMLElement>('[data-caption]');
+		const pageIndicator = root.querySelector<HTMLElement>('[data-page-indicator]');
 		const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-		let autoTimer: number | undefined;
-		let userSelected = false;
 
-		const cancelAutoPlayback = () => {
-			userSelected = true;
-			if (autoTimer !== undefined) {
-				window.clearTimeout(autoTimer);
-				autoTimer = undefined;
-			}
-		};
-
-		const render = () => {
+		const render = (direction?: 'next' | 'previous') => {
 			const { step } = session.snapshot();
+			const page = speakingExhibit.steps.findIndex((item) => item.key === step.key) + 1;
+			if (direction) root.dataset.turn = direction;
 			for (const button of buttons) {
 				button.setAttribute('aria-pressed', String(button.dataset.step === step.key));
 			}
 			for (const image of root.querySelectorAll<HTMLImageElement>('[data-frame-image]')) {
 				const active = image.dataset.frameImage === step.key;
+				image.classList.remove('exhibit__frame-image--turning');
 				image.hidden = !active;
-				image.classList.toggle('exhibit__frame-image--entering', active);
+				if (active && direction && !motionPreference.matches) {
+					void image.offsetWidth;
+					image.classList.add('exhibit__frame-image--turning');
+				}
 			}
 			if (caption) caption.textContent = step.text;
+			if (pageIndicator) {
+				pageIndicator.textContent = `${String(page).padStart(2, '0')} / ${String(speakingExhibit.steps.length).padStart(2, '0')}`;
+			}
+			for (const button of pageNavButtons) {
+				button.disabled = button.dataset.pageNav === 'previous'
+					? page === 1
+					: page === speakingExhibit.steps.length;
+			}
 		};
 
 		for (const button of buttons) {
-			button.addEventListener('focus', cancelAutoPlayback);
 			button.addEventListener('click', () => {
-				cancelAutoPlayback();
 				const key = button.dataset.step;
 				if (!key) return;
+				const currentPage = speakingExhibit.steps.findIndex((item) => item.key === session.snapshot().step.key);
+				const nextPage = speakingExhibit.steps.findIndex((item) => item.key === key);
+				if (nextPage < 0 || nextPage === currentPage) return;
 				session.select(key);
-				render();
+				render(nextPage > currentPage ? 'next' : 'previous');
 			});
 		}
 
-		if ('IntersectionObserver' in window && !motionPreference.matches) {
-			const observer = new IntersectionObserver((entries) => {
-				if (!entries.some((entry) => entry.isIntersecting)) return;
-				observer.disconnect();
-				if (userSelected || document.hidden) return;
-
-				autoTimer = window.setTimeout(() => {
-					if (userSelected || document.hidden) return;
-					session.select('speak');
-					render();
-
-					autoTimer = window.setTimeout(() => {
-						if (userSelected || document.hidden) return;
-						session.select('summary');
-						render();
-						autoTimer = undefined;
-					}, 1200);
-				}, 1100);
-			}, { threshold: 0.35 });
-
-			observer.observe(root);
-			motionPreference.addEventListener('change', (event) => {
-				if (!event.matches) return;
-				cancelAutoPlayback();
-				observer.disconnect();
+		for (const button of pageNavButtons) {
+			button.addEventListener('click', () => {
+				const direction = button.dataset.pageNav;
+				if (direction !== 'next' && direction !== 'previous') return;
+				const currentPage = speakingExhibit.steps.findIndex((item) => item.key === session.snapshot().step.key);
+				const nextPage = currentPage + (direction === 'next' ? 1 : -1);
+				const nextStep = speakingExhibit.steps[nextPage];
+				if (!nextStep) return;
+				session.select(nextStep.key);
+				render(direction);
 			});
 		}
+
+		motionPreference.addEventListener('change', (event) => {
+			if (!event.matches) return;
+			for (const image of root.querySelectorAll<HTMLImageElement>('.exhibit__frame-image--turning')) {
+				image.classList.remove('exhibit__frame-image--turning');
+			}
+		});
 	}
 </script>
 
@@ -171,10 +177,50 @@ import WindowBar from './WindowBar.astro';
 	}
 
 	.exhibit__frame {
+		position: relative;
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
 		border-radius: var(--r-sm);
 		background: var(--c-exhibit-bg);
+	}
+
+	.exhibit__pager {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.exhibit__page-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		min-height: 44px;
+		padding: 0;
+		border: 1px solid var(--c-rule);
+		border-radius: var(--r-pill);
+		background: transparent;
+		color: var(--c-ink);
+		font-family: var(--font-sans);
+		font-size: var(--text-title);
+		line-height: var(--leading-control);
+		cursor: pointer;
+		transition: border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+	}
+
+	.exhibit__page-button:disabled {
+		color: var(--c-muted);
+		cursor: not-allowed;
+		opacity: 0.45;
+	}
+
+	.exhibit__page {
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		line-height: var(--leading-micro);
+		letter-spacing: var(--tracking-micro);
+		font-variant-numeric: tabular-nums;
+		color: var(--c-muted);
 	}
 
 	.exhibit__frame img {
@@ -184,8 +230,21 @@ import WindowBar from './WindowBar.astro';
 		object-fit: cover;
 	}
 
-	.exhibit__frame-image--entering {
-		animation: exhibit-frame-in var(--dur-2) var(--ease-out) both;
+	.exhibit__frame-image--turning {
+		animation-duration: var(--dur-3);
+		animation-timing-function: var(--ease-out);
+		animation-fill-mode: both;
+		backface-visibility: hidden;
+	}
+
+	[data-speaking-exhibit][data-turn='next'] .exhibit__frame-image--turning {
+		transform-origin: left center;
+		animation-name: page-turn-next;
+	}
+
+	[data-speaking-exhibit][data-turn='previous'] .exhibit__frame-image--turning {
+		transform-origin: right center;
+		animation-name: page-turn-previous;
 	}
 
 	.exhibit__frame [hidden] {
@@ -208,6 +267,11 @@ import WindowBar from './WindowBar.astro';
 			background: #f0eee9;
 		}
 
+		.exhibit__page-button:not(:disabled):hover {
+			border-color: var(--c-ink);
+			background: #f0eee9;
+		}
+
 		.exhibit__case:hover {
 			text-decoration: underline;
 		}
@@ -216,21 +280,72 @@ import WindowBar from './WindowBar.astro';
 	@media (prefers-reduced-motion: reduce) {
 		.exhibit__chip,
 		.exhibit__frame img,
-		.exhibit__frame-image--entering {
+		.exhibit__frame-image--turning,
+		.exhibit[data-speaking-exhibit][data-turn] .exhibit__frame-image--turning {
 			transition: none;
 			animation: none;
 		}
 	}
 
-	@keyframes exhibit-frame-in {
+	@media (max-width: 639px) {
+		.exhibit__frame-image--turning {
+			animation-duration: var(--dur-2);
+		}
+
+		[data-speaking-exhibit][data-turn='next'] .exhibit__frame-image--turning {
+			animation-name: page-swipe-next;
+		}
+
+		[data-speaking-exhibit][data-turn='previous'] .exhibit__frame-image--turning {
+			animation-name: page-swipe-previous;
+		}
+	}
+
+	@keyframes page-turn-next {
 		from {
-			opacity: 0;
-			transform: translateY(4px);
+			opacity: 0.72;
+			transform: perspective(900px) translateX(14px) rotateY(-4deg);
 		}
 
 		to {
 			opacity: 1;
-			transform: none;
+			transform: perspective(900px) translateX(0) rotateY(0);
+		}
+	}
+
+	@keyframes page-turn-previous {
+		from {
+			opacity: 0.72;
+			transform: perspective(900px) translateX(-14px) rotateY(4deg);
+		}
+
+		to {
+			opacity: 1;
+			transform: perspective(900px) translateX(0) rotateY(0);
+		}
+	}
+
+	@keyframes page-swipe-next {
+		from {
+			opacity: 0.82;
+			transform: translateX(8px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes page-swipe-previous {
+		from {
+			opacity: 0.82;
+			transform: translateX(-8px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateX(0);
 		}
 	}
 </style>

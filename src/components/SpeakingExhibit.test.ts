@@ -25,6 +25,9 @@ test('speaking exhibit shows the product frames and links to the case', async ()
 	assert.match(source, /aria-pressed/);
 	assert.match(source, /data-step=\{step\.key\}/);
 	assert.match(source, /data-frame-image=\{step\.key\}/);
+	assert.match(source, /data-page-indicator/);
+	assert.match(source, /speakingExhibit\.steps\.findIndex/);
+	assert.match(source, /padStart\(2, '0'\)/);
 	assert.match(source, /alt=\{step\.alt\}/);
 	assert.doesNotMatch(source, /httpsaitalk\.win/);
 	assert.doesNotMatch(source, /\bfetch\s*\(/);
