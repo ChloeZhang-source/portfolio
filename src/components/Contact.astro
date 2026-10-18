@@ -15,11 +15,11 @@ const mailHref = mailtoHref(site.email);
 		{site.contactInvite.map((paragraph) => <p>{paragraph}</p>)}
 	</div>
 	<div class="contact__actions">
-		<a class="btn" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>下载简历 PDF</a>
-		<a class="contact__mail" href={mailHref}>
+		<a class="btn contact__mail" href={mailHref}>
 			<span class="contact__send">{sendLabel}</span>
 			<span class="contact__email">{site.email}</span>
 		</a>
+		<a class="contact__resume" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>下载简历 PDF</a>
 	</div>
 	<div class="contact__row">
 		<img
@@ -97,7 +97,6 @@ const mailHref = mailtoHref(site.email);
 		align-items: baseline;
 		gap: 0.45rem 0.85rem;
 		min-width: 0;
-		color: var(--color-accent);
 		text-decoration: none;
 	}
 
@@ -111,9 +110,9 @@ const mailHref = mailtoHref(site.email);
 		overflow-wrap: anywhere;
 	}
 
-	.contact__mail:hover .contact__send,
-	.contact__mail:hover .contact__email {
-		color: var(--color-text);
+	.contact__resume {
+		color: var(--color-muted);
+		font-size: var(--font-size-muted);
 	}
 
 	.contact__wechat {

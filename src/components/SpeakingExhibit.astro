@@ -1,0 +1,174 @@
+---
+import { speakingExhibit } from '../lib/speaking-exhibit';
+import { withBase } from '../lib/paths';
+import { workCaseHref } from '../lib/work';
+import { workImageSize } from '../lib/work-image';
+import WindowBar from './WindowBar.astro';
+---
+
+<div class="window exhibit" data-speaking-exhibit>
+	<WindowBar caption={speakingExhibit.caption} />
+	<div class="exhibit__body">
+		<p class="exhibit__note">{speakingExhibit.note}</p>
+		<div class="exhibit__chips">
+			{
+				speakingExhibit.steps.map((step, index) => (
+					<button
+						type="button"
+						class="exhibit__chip"
+						data-step={step.key}
+						aria-pressed={index === 0 ? 'true' : 'false'}
+						aria-controls="speaking-exhibit-caption"
+					>
+						{step.label}
+					</button>
+				))
+			}
+		</div>
+		<div class="exhibit__frame">
+			{
+				speakingExhibit.steps.map((step, index) => {
+					const size = workImageSize(step.image);
+					return (
+						<img
+							src={withBase(step.image)}
+							alt={step.alt}
+							width={size.width}
+							height={size.height}
+							data-frame-image={step.key}
+							hidden={index !== 0}
+							decoding="async"
+						/>
+					);
+				})
+			}
+		</div>
+		<p class="exhibit__caption" id="speaking-exhibit-caption" data-caption aria-live="polite">
+			{speakingExhibit.steps[0].text}
+		</p>
+		<a class="exhibit__case" href={workCaseHref('speaking')}>{speakingExhibit.caseLabel}</a>
+	</div>
+</div>
+
+<script>
+	import { createExhibitSession } from '../lib/speaking-exhibit';
+
+	const root = document.querySelector<HTMLElement>('[data-speaking-exhibit]');
+	if (root && root.dataset.bound !== 'true') {
+		root.dataset.bound = 'true';
+		const session = createExhibitSession();
+		const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-step]')];
+		const caption = root.querySelector<HTMLElement>('[data-caption]');
+
+		const render = () => {
+			const { step } = session.snapshot();
+			for (const button of buttons) {
+				button.setAttribute('aria-pressed', String(button.dataset.step === step.key));
+			}
+			for (const image of root.querySelectorAll<HTMLImageElement>('[data-frame-image]')) {
+				image.hidden = image.dataset.frameImage !== step.key;
+			}
+			if (caption) caption.textContent = step.text;
+		};
+
+		for (const button of buttons) {
+			button.addEventListener('click', () => {
+				const key = button.dataset.step;
+				if (!key) return;
+				session.select(key);
+				render();
+			});
+		}
+	}
+</script>
+
+<style>
+	.exhibit {
+		width: 100%;
+	}
+
+	.exhibit__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		padding: 1.1rem 1.15rem 1.25rem;
+	}
+
+	.exhibit__note,
+	.exhibit__caption {
+		margin: 0;
+		color: var(--color-body);
+		font-size: var(--text-small);
+		line-height: var(--leading-small);
+	}
+
+	.exhibit__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.exhibit__chip {
+		min-height: 44px;
+		padding: 10px 14px;
+		border: 1px solid var(--c-rule);
+		border-radius: var(--r-pill);
+		background: transparent;
+		color: var(--c-ink);
+		font-family: var(--font-sans);
+		font-size: var(--text-small);
+		line-height: 1.2;
+		cursor: pointer;
+	}
+
+	.exhibit__chip[aria-pressed='true'] {
+		border-color: var(--c-ink);
+		background: #f0eee9;
+	}
+
+	.exhibit__frame {
+		overflow: hidden;
+		aspect-ratio: 16 / 9;
+		border-radius: var(--r-sm);
+		background: var(--c-exhibit-bg);
+	}
+
+	.exhibit__frame img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.exhibit__frame [hidden] {
+		display: none;
+	}
+
+	.exhibit__case {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		color: var(--c-ink);
+		font-size: var(--text-small);
+		line-height: 1.2;
+		text-decoration: none;
+	}
+
+	@media (hover: hover) {
+		.exhibit__chip:hover {
+			border-color: var(--c-ink);
+			background: #f0eee9;
+		}
+
+		.exhibit__case:hover {
+			text-decoration: underline;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.exhibit__chip,
+		.exhibit__frame img {
+			transition: none;
+		}
+	}
+</style>

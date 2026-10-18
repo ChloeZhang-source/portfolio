@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Contact puts a resume button and mail text link under the invite, then likeness and WeChat', async () => {
+test('Contact puts the primary mail action and secondary resume link under the invite, then likeness and WeChat', async () => {
 	const source = await readFile(join(here, 'Contact.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
@@ -38,9 +38,10 @@ test('Contact puts a resume button and mail text link under the invite, then lik
 	assert.match(source, /class=["']chapter__kicker["']>\s*联系\s*</);
 	assert.doesNotMatch(source, /<h2/);
 	assert.match(source, /text-align:\s*left/);
-	assert.match(source, /var\(--color-accent\)/);
-	assert.match(source, /class=["']btn["']/);
+	assert.match(source, /class=["']btn contact__mail["']/);
+	assert.match(source, /href=\{mailHref\}/);
 	assert.match(source, /下载简历 PDF/);
+	assert.match(source, /class=["']contact__resume["']/);
 	assert.match(source, /href=\{withBase\(site\.resumeHref\)\}/);
 	assert.match(source, /download=\{site\.resumeDownloadName\}/);
 	assert.doesNotMatch(source, /site\.resumeLabel/);
@@ -49,8 +50,8 @@ test('Contact puts a resume button and mail text link under the invite, then lik
 
 	const order = [
 		'site.contactInvite',
-		'site.resumeHref',
 		'site.email',
+		'site.resumeHref',
 		'site.avatarSrc',
 		'site.wechatQrSrc',
 		'site.wechatHint',

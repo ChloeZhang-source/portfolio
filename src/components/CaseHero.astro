@@ -1,6 +1,6 @@
 ---
 import type { Work } from '../content/works-schema';
-import { caseCopy, resultFactsFor } from '../data/case';
+import { caseCopy } from '../data/case';
 import { caseProductCta, showCaseDemo } from '../lib/work';
 import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
@@ -12,31 +12,19 @@ interface Props {
 
 const { work } = Astro.props;
 const product = caseProductCta(work);
-const facts = resultFactsFor(work.slug, work.result);
 const demo = showCaseDemo(work);
 const coverSize = workImageSize(work.cover);
 const screenClass = work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen';
-const shots = work.gallery.map((item) => {
-	if (typeof item === 'string') {
-		return { src: item, alt: work.title, caption: '', ...workImageSize(item) };
-	}
-
-	return { src: item.image, alt: item.alt, caption: item.caption, ...workImageSize(item.image) };
-});
 ---
 
 <section class="case-hero">
 	<h1>{work.title}</h1>
 	<p class="case-hero__tagline">{work.tagline}</p>
-	{
-		(work.period || work.role) && (
-			<p class="case-hero__meta">
-				{work.period && <span>{work.period}</span>}
-				{work.period && work.role && <span class="case-hero__meta-sep">·</span>}
-				{work.role && <span>{work.role}</span>}
-			</p>
-		)
-	}
+	<dl class="case-hero__summary" aria-label="项目摘要">
+		{work.role && <div><dt>角色</dt><dd>{work.role}</dd></div>}
+		{work.period && <div><dt>周期</dt><dd>{work.period}</dd></div>}
+		<div class="case-hero__summary-result"><dt>结果</dt><dd>{work.result}</dd></div>
+	</dl>
 	<div class="window case-hero__media">
 		<WindowBar caption={work.title} />
 		<div class={screenClass}>
@@ -55,7 +43,6 @@ const shots = work.gallery.map((item) => {
 			}
 		</div>
 	</div>
-	<p class="muted case-hero__facts">{facts.join(' · ')}</p>
 	<div class="case-hero__cta">
 		{
 			product.external ? (
@@ -95,29 +82,6 @@ const shots = work.gallery.map((item) => {
 			</section>
 		)
 	}
-	{
-		shots.length > 0 && (
-			<section id="gallery" class="case-hero__gallery">
-				{
-					shots.map((shot) => (
-						<div class="window">
-							<WindowBar caption={shot.caption} />
-							<div class={screenClass}>
-								<img
-									src={withBase(shot.src)}
-									alt={shot.alt}
-									width={shot.width}
-									height={shot.height}
-									loading="lazy"
-									decoding="async"
-								/>
-							</div>
-						</div>
-					))
-				}
-			</section>
-		)
-	}
 </section>
 
 <script>
@@ -151,22 +115,39 @@ const shots = work.gallery.map((item) => {
 		line-height: 1.65;
 	}
 
-	.case-hero__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem 0.6rem;
+	.case-hero__summary {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.8rem 1.25rem;
 		max-width: 42rem;
+		margin: 0;
+		padding: 1rem 0;
+		border-top: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.case-hero__summary div {
+		display: grid;
+		gap: 0.25rem;
+		align-content: start;
+	}
+
+	.case-hero__summary dt {
 		color: var(--color-muted);
 		font-size: var(--font-size-muted);
 	}
 
-	.case-hero__media {
-		width: 100%;
+	.case-hero__summary dd {
+		margin: 0;
+		line-height: 1.5;
 	}
 
-	.case-hero__facts {
-		margin: 0;
-		max-width: 42rem;
+	.case-hero__summary-result {
+		grid-column: 1 / -1;
+	}
+
+	.case-hero__media {
+		width: 100%;
 	}
 
 	.case-hero p {
@@ -199,9 +180,8 @@ const shots = work.gallery.map((item) => {
 		margin: 0;
 	}
 
-	.case-hero__gallery {
-		display: grid;
-		gap: 1rem;
-		scroll-margin-top: 4.5rem;
+	@media (max-width: 36rem) {
+		.case-hero__summary { grid-template-columns: 1fr; }
+		.case-hero__summary-result { grid-column: auto; }
 	}
 </style>

@@ -1,0 +1,69 @@
+---
+import type { Work } from '../content/works-schema';
+import { workImageSize } from '../lib/work-image';
+import { withBase } from '../lib/paths';
+import WindowBar from './WindowBar.astro';
+
+interface Props {
+	work: Work;
+}
+
+const { work } = Astro.props;
+const screenClass = work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen';
+const shots = work.gallery.map((shot) => ({ ...shot, ...workImageSize(shot.image) }));
+---
+
+{shots.length > 0 && (
+	<section id="gallery" class="case-gallery" aria-labelledby="case-gallery-title">
+		<h2 id="case-gallery-title">流程截图</h2>
+		<div class="case-gallery__items">
+			{shots.map((shot) => (
+				<figure class="window">
+					<WindowBar caption={shot.caption} />
+					<div class={screenClass}>
+						<img
+							src={withBase(shot.image)}
+							alt={shot.alt}
+							width={shot.width}
+							height={shot.height}
+							loading="lazy"
+							decoding="async"
+						/>
+					</div>
+					<figcaption>{shot.alt}</figcaption>
+				</figure>
+			))}
+		</div>
+	</section>
+)}
+
+<style>
+	.case-gallery {
+		max-width: 42rem;
+		padding: 0 1.25rem 2.5rem;
+		scroll-margin-top: 4.5rem;
+	}
+
+	.case-gallery h2 {
+		margin: 0 0 1rem;
+		font-size: 1.25rem;
+		font-weight: 500;
+	}
+
+	.case-gallery__items {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.case-gallery figure {
+		margin: 0;
+		overflow: hidden;
+	}
+
+	.case-gallery figcaption {
+		padding: 0.7rem 0.85rem 0.8rem;
+		color: var(--color-muted);
+		font-size: var(--font-size-muted);
+		line-height: 1.55;
+	}
+</style>

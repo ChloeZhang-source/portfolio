@@ -2,38 +2,39 @@
 import { homeCopy } from '../data/home';
 import { site } from '../data/site';
 import { heroMarginNotes } from '../lib/marginalia';
-import { workCaseHref } from '../lib/work';
-import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
 import Annotation from './Annotation.astro';
-import WindowBar from './WindowBar.astro';
-
-interface Props {
-	works: {
-		slug: string;
-		title: string;
-		cover: string;
-	}[];
-}
-
-const { works } = Astro.props;
+import SpeakingExhibit from './SpeakingExhibit.astro';
 ---
 
 <section id="home" class="chapter hero">
 	<p class="running-head" aria-hidden="true">作品集 · {site.name}</p>
-	<div class="hero__head">
+	<div class="hero__frame">
 		<div class="hero__lede">
-			<p class="chapter__kicker">
+			<p class="chapter__kicker hero__beat">
 				{
 					homeCopy.heroKicker.split(/(\d[\d.-]*)/).map((part) =>
 						/^\d/.test(part) ? <span class="num">{part}</span> : part,
 					)
 				}
 			</p>
-			<h1 class="hero__role misprint" data-text={site.headlineRole}>{site.headlineRole}</h1>
-			<p class="hero__sub">
-				{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
-			</p>
+			<h1 class="hero__role misprint hero__beat hero__beat--title" data-text={site.headlineRole}>{site.headlineRole}</h1>
+			<div class="hero__arrive hero__beat hero__beat--arrive">
+				<p class="hero__sub">
+					{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
+				</p>
+				<div class="hero__actions">
+					<a class="btn" href={homeCopy.heroWorkHref}>看作品</a>
+					<a class="btn-ghost" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>{site.resumeLabel}</a>
+				</div>
+				<p class="hero__facts">
+					<span>口语陪练：约 <span class="num">300</span> 人次体验（含重复访问）</span>
+					<span>面试系统：教师招聘 <span class="num">50+</span> 场（单一企业）</span>
+				</p>
+			</div>
+		</div>
+		<div class="hero__exhibit hero__beat hero__beat--exhibit">
+			<SpeakingExhibit />
 		</div>
 		<div class="hero__notes">
 			{
@@ -43,37 +44,6 @@ const { works } = Astro.props;
 			}
 		</div>
 	</div>
-	<div class="hero__board">
-		{
-			works.map((work, index) => (
-				<article class={index === 0 ? 'hero__pair hero__pair--start' : 'hero__pair hero__pair--end'}>
-					<a class="window" href={workCaseHref(work.slug)}>
-						<WindowBar caption={work.title} />
-						<div class={work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen'}>
-							<img
-								src={withBase(work.cover)}
-								alt={work.title}
-								width={workImageSize(work.cover).width}
-								height={workImageSize(work.cover).height}
-								decoding="async"
-							/>
-						</div>
-					</a>
-					<div class="hero__copy">
-						<a class="hero__work-title" href={workCaseHref(work.slug)}>{work.title} →</a>
-						<p class="hero__work-tagline">
-							{homeCopy.heroPreviews[work.slug as keyof typeof homeCopy.heroPreviews]}
-						</p>
-					</div>
-					<div class="hero__mark" aria-hidden="true">
-						<span class="hero__mark-folio">{String(index + 1).padStart(2, '0')}</span>
-						<span class="hero__mark-rule"></span>
-						<span class="hero__mark-dot"></span>
-					</div>
-				</article>
-			))
-		}
-	</div>
 </section>
 
 <style>
@@ -81,10 +51,15 @@ const { works } = Astro.props;
 		position: relative;
 	}
 
-	.hero__head {
+	.hero__frame {
 		display: grid;
 		gap: 1.4rem;
 		width: 100%;
+	}
+
+	.hero__lede,
+	.hero__exhibit {
+		min-width: 0;
 	}
 
 	.hero__notes {
@@ -100,22 +75,22 @@ const { works } = Astro.props;
 
 	.hero h1 {
 		margin: 0;
-		max-width: 28rem;
-		font-size: var(--text-display-1);
+		max-width: 100%;
+		font-size: clamp(3.25rem, 6.5vw, 5.25rem);
 		font-weight: 500;
 		line-height: var(--leading-display-1);
-		letter-spacing: var(--tracking-display-1);
+		letter-spacing: -0.02em;
 		text-wrap: balance;
 		text-align: left;
 	}
 
 	.hero__role {
 		font-family: var(--font-serif);
-		letter-spacing: var(--tracking-display-1);
+		letter-spacing: -0.02em;
 	}
 
 	.hero__sub {
-		margin: 0.55em 0 2.5rem;
+		margin: 0.55em 0 1.15rem;
 		max-width: var(--measure);
 		font-family: var(--font-sans);
 		font-size: var(--text-lead);
@@ -126,168 +101,44 @@ const { works } = Astro.props;
 		word-break: keep-all;
 	}
 
-	.hero__board {
-		display: grid;
-		gap: 1.6rem;
-		width: min(var(--window-max), 100%);
-	}
-
-	.hero__pair {
-		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.7fr) minmax(0, 0.95fr);
-		grid-template-areas: "window copy mark";
-		align-items: center;
-		gap: 0.9rem 1.15rem;
-		width: 100%;
-	}
-
-	.hero__pair--start {
-		justify-self: stretch;
-	}
-
-	.hero__pair--end {
-		grid-template-areas: "mark copy window";
-		grid-template-columns: minmax(0, 0.95fr) minmax(0, 0.7fr) minmax(0, 1.15fr);
-		justify-self: stretch;
-	}
-
-	.hero__pair .window {
-		grid-area: window;
-		display: block;
-		width: 100%;
-		max-width: none;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.hero__copy {
-		grid-area: copy;
-		min-width: 0;
-		text-align: left;
-	}
-
-	.hero__pair--end .hero__copy {
-		text-align: right;
-	}
-
-	.hero__mark {
-		grid-area: mark;
+	.hero__actions {
 		display: flex;
-		align-items: center;
-		gap: 0.7rem;
-		min-width: 0;
-		pointer-events: none;
+		flex-wrap: wrap;
+		gap: 0.75rem;
 	}
 
-	.hero__pair--start .hero__mark,
-	.hero__pair--end .hero__mark {
-		justify-content: center;
-	}
-
-	.hero__pair--end .hero__mark {
-		flex-direction: row-reverse;
-	}
-
-	.hero__mark-folio {
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.1em;
-		color: var(--color-muted);
-	}
-
-	.hero__mark-rule {
-		width: 2.5rem;
-		height: 1px;
-		background: var(--color-rule);
-	}
-
-	.hero__mark-dot {
-		flex: 0 0 auto;
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--color-amber-ink);
-	}
-
-	.hero__work-title,
-	.hero__work-tagline {
-		margin: 0;
-	}
-
-	.hero__work-title {
-		color: inherit;
-		font-size: 1rem;
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		line-height: 1.5;
-		text-decoration: none;
-	}
-
-	.hero__work-title:hover,
-	.hero__work-title:focus-visible,
-	.hero__pair:has(.window:hover) .hero__work-title,
-	.hero__pair:has(.window:focus-visible) .hero__work-title {
-		color: var(--color-accent);
-	}
-
-	.hero__work-tagline {
-		margin-top: 0.3rem;
-		color: var(--color-muted);
-		font-size: 0.86rem;
-		letter-spacing: 0.04em;
-		line-height: 1.65;
+	.hero__facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1rem;
+		margin: 0.85rem 0 0;
+		max-width: var(--measure);
+		color: var(--color-body);
+		font-size: var(--text-small);
+		line-height: var(--leading-small);
+		letter-spacing: var(--tracking-small);
 	}
 
 	@media (min-width: 900px) {
-		.hero__head {
-			grid-template-columns: minmax(0, var(--measure)) minmax(10rem, 1fr);
+		.hero__frame {
+			grid-template-columns: minmax(0, var(--measure)) minmax(16rem, 1fr);
 			gap: 1.5rem 2rem;
 			align-items: start;
 		}
 
+		.hero__exhibit {
+			grid-column: 2;
+			grid-row: 1 / span 2;
+		}
+
 		.hero__notes {
-			padding-top: 2.6rem;
-		}
-	}
-
-	@media (max-width: 899px) {
-		.hero__pair,
-		.hero__pair--start,
-		.hero__pair--end {
-			grid-template-columns: 1fr;
-			grid-template-areas: "copy" "window";
-			justify-self: stretch;
-			width: 100%;
-			justify-items: start;
-		}
-
-		.hero__copy,
-		.hero__pair--end .hero__copy {
-			text-align: left;
-		}
-
-		.hero__pair .window {
-			width: 100%;
-		}
-
-		.hero__mark {
-			display: none;
+			grid-column: 1;
 		}
 	}
 
 	@media (max-width: 639px) {
-		.hero__pair .window {
+		.hero__exhibit {
 			width: min(22rem, 100%);
-		}
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		.hero__pair .window {
-			animation: hero-window-in 380ms ease-out backwards;
-		}
-
-		.hero__pair--end .window {
-			animation-delay: 90ms;
 		}
 	}
 
@@ -295,17 +146,36 @@ const { works } = Astro.props;
 		.hero {
 			padding-top: 4rem;
 		}
+	}
 
-		.hero__sub {
-			margin-bottom: 1.25rem;
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__beat {
+			animation: hero-rise var(--dur-3) var(--ease-out) backwards;
 		}
 
-		.hero .window__screen {
-			max-height: 16rem;
+		.hero__beat--title {
+			animation-delay: 120ms;
+			animation-timing-function: var(--ease-quart);
+		}
+
+		.hero__beat--arrive {
+			animation-delay: 300ms;
+		}
+
+		.hero__beat--exhibit {
+			animation-delay: 400ms;
 		}
 	}
 
-	@keyframes hero-window-in {
+	@media (prefers-reduced-motion: reduce) {
+		.hero__beat {
+			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@keyframes hero-rise {
 		from {
 			opacity: 0;
 			transform: translateY(12px);

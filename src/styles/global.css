@@ -67,6 +67,7 @@
 	--ease-out: cubic-bezier(.2, .7, .2, 1);
 	--ease-in-out: cubic-bezier(.4, 0, .2, 1);
 	--ease-pen: cubic-bezier(.2, .85, .15, 1);
+	--ease-quart: cubic-bezier(.77, 0, .175, 1);
 
 	/* 层级：只有展品有投影 */
 	--shadow-exhibit: 0 24px 60px rgba(28, 28, 28, .10);
@@ -436,10 +437,12 @@ code {
 	transition: box-shadow 180ms var(--ease-out), transform 180ms var(--ease-out);
 }
 
-.window:hover,
-.window:focus-visible {
-	transform: translateY(-2px);
-	box-shadow: var(--shadow-exhibit-hover);
+@media (hover: hover) {
+	.window:hover,
+	.window:focus-visible {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-exhibit-hover);
+	}
 }
 
 .window__bar {
@@ -526,9 +529,45 @@ body > header {
 	position: sticky;
 	top: 0;
 	z-index: var(--z-header);
-	background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-	border-bottom: 1px solid transparent;
-	backdrop-filter: blur(16px);
+	border-bottom: 1px solid var(--c-hairline);
+	background: var(--color-bg);
+	color: var(--color-text);
+}
+
+body > header a,
+body > header a:hover,
+body > header a.nav-current {
+	color: var(--color-text);
+}
+
+@supports (anchor-name: --nav-current) {
+	body > header .nav-current {
+		anchor-name: --nav-current;
+	}
+
+	body:has(> header .nav-current)::after {
+		content: "";
+		position: fixed;
+		position-anchor: --nav-current;
+		z-index: var(--z-header);
+		left: anchor(left);
+		top: calc(anchor(bottom) - 1px);
+		width: anchor-size(width);
+		height: 2px;
+		border-radius: 1px;
+		background: var(--color-amber-ink);
+		pointer-events: none;
+		mix-blend-mode: normal;
+	}
+
+	body > header .nav-current::after {
+		content: none;
+	}
+}
+
+body > header a:focus-visible {
+	outline: 2px solid var(--c-amber-ink);
+	outline-offset: 2px;
 }
 
 body > header > *,

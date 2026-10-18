@@ -64,6 +64,7 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--ease-out:\s*cubic-bezier\(\.2,\s*\.7,\s*\.2,\s*1\)/);
 	assert.match(css, /--ease-in-out:\s*cubic-bezier\(\.4,\s*0,\s*\.2,\s*1\)/);
 	assert.match(css, /--ease-pen:\s*cubic-bezier\(\.2,\s*\.85,\s*\.15,\s*1\)/);
+	assert.match(css, /--ease-quart:\s*cubic-bezier\(\.77,\s*0,\s*\.175,\s*1\)/);
 	assert.match(css, /--r-xs:\s*4px/);
 	assert.match(css, /--r-sm:\s*8px/);
 	assert.match(css, /--r-md:\s*18px/);
@@ -193,8 +194,14 @@ test('window chrome is a floating exhibit: 18px radius, soft shadow, gray lights
 	assert.match(css, /\.window\s*\{[^}]*border-radius:\s*var\(--r-md\)/s);
 	assert.match(css, /\.window\s*\{[^}]*transition:[^}]*box-shadow/s);
 	assert.match(css, /\.window\s*\{[^}]*transition:[^}]*transform/s);
-	assert.match(css, /\.window:hover,\s*\n\s*\.window:focus-visible\s*\{[^}]*translateY\(-2px\)/s);
-	assert.match(css, /\.window:hover,\s*\n\s*\.window:focus-visible\s*\{[^}]*box-shadow:\s*var\(--shadow-exhibit-hover\)/s);
+	assert.match(
+		css,
+		/@media\s*\(\s*hover:\s*hover\s*\)\s*\{[\s\S]*?\.window:hover,\s*\n\s*\.window:focus-visible\s*\{[^}]*translateY\(-2px\)/s,
+	);
+	assert.match(
+		css,
+		/@media\s*\(\s*hover:\s*hover\s*\)\s*\{[\s\S]*?\.window:hover,\s*\n\s*\.window:focus-visible\s*\{[^}]*box-shadow:\s*var\(--shadow-exhibit-hover\)/s,
+	);
 	assert.doesNotMatch(css, /window--portrait/);
 	assert.match(css, /prefers-reduced-motion:\s*no-preference/);
 	assert.match(css, /prefers-reduced-motion:\s*reduce/);
@@ -247,6 +254,19 @@ test('main is the positioning context for the chapter spine', async () => {
 	const css = await readFile(join(here, 'global.css'), 'utf8');
 
 	assert.match(css, /body\s*>\s*main\s*\{[^}]*position:\s*relative/s);
+});
+
+test('header stays on paper and does not frost the page', async () => {
+	const css = await readFile(join(here, 'global.css'), 'utf8');
+
+	assert.match(css, /body\s*>\s*header\s*\{[^}]*position:\s*sticky/s);
+	assert.match(css, /body\s*>\s*header\s*\{[^}]*background:\s*var\(--color-bg\)/s);
+	assert.match(css, /body\s*>\s*header\s*\{[^}]*color:\s*var\(--color-text\)/s);
+	assert.doesNotMatch(css, /body\s*>\s*header\s*\{[^}]*mix-blend-mode:\s*difference/s);
+	assert.doesNotMatch(css, /body\s*>\s*header\s*\{[^}]*backdrop-filter/s);
+	assert.doesNotMatch(css, /body\s*>\s*header\s*\{[^}]*color-mix\(/s);
+	assert.doesNotMatch(css, /backdrop-filter/);
+	assert.doesNotMatch(css, /body\s*>\s*footer\s*\{[^}]*mix-blend-mode:\s*difference/s);
 });
 
 test('wide viewports keep chapter text inside the spine with shared page tokens', async () => {

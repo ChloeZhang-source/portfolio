@@ -125,7 +125,7 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 		justify-content: center;
 		min-height: 44px;
 		padding: 0.85rem 0.2rem;
-		color: var(--color-muted);
+		color: var(--color-text);
 		text-decoration: none;
 		font-size: 0.92rem;
 		line-height: 1.2;
@@ -149,21 +149,21 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 
 	@media (max-width: 639px) {
 		.site-header {
+			grid-template-columns: auto minmax(0, 1fr);
 			gap: 0.35rem 0.5rem;
 			padding-block: 0.4rem;
 		}
 
 		.site-header__nav {
+			grid-column: 2;
 			flex-wrap: nowrap;
-			gap: 0.4rem 0.75rem;
+			justify-content: flex-end;
+			gap: 0.25rem 0.55rem;
 		}
 
 		.site-header__nav a {
-			font-size: 0.8rem;
-		}
-
-		.site-header__nav a[href$="#contact"] {
-			display: none;
+			font-size: 0.75rem;
+			padding-inline: 0.08rem;
 		}
 	}
 </style>

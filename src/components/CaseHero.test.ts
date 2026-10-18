@@ -6,18 +6,19 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('CaseHero is visible h1 → tagline → media → caption facts → product CTA → optional #demo → gallery windows', async () => {
+test('CaseHero is visible h1 → tagline → project summary → media → product CTA → optional #demo', async () => {
 	const source = await readFile(join(here, 'CaseHero.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/case['"]/);
 	assert.match(source, /caseProductCta/);
 	assert.match(source, /showCaseDemo/);
-	assert.match(source, /resultFactsFor/);
 	assert.match(source, /<h1>\{work\.title\}<\/h1>/);
 	assert.match(source, /<p class="case-hero__tagline">\{work\.tagline\}<\/p>/);
 	assert.match(source, /\.case-hero__tagline\s*\{[^}]*color:\s*var\(--color-muted\)/s);
-	assert.match(source, /\.case-hero__meta\s*\{[^}]*color:\s*var\(--color-muted\)/s);
-	assert.doesNotMatch(source, /\.case-hero__meta-sep\s*\{[^}]*opacity/s);
+	assert.match(source, /case-hero__summary/);
+	assert.match(source, /<dt>角色<\/dt>/);
+	assert.match(source, /<dt>周期<\/dt>/);
+	assert.match(source, /<dt>结果<\/dt>/);
 	assert.doesNotMatch(source, /<h[1-6][^>]*>\{work\.tagline\}/);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*font-size:\s*var\(--text-section\)/s);
 	assert.match(source, /\.case-hero h1\s*\{[^}]*line-height:\s*1\.25/s);
@@ -29,19 +30,11 @@ test('CaseHero is visible h1 → tagline → media → caption facts → product
 	assert.match(source, /width=\{coverSize\.width\}/);
 	assert.match(source, /height=\{coverSize\.height\}/);
 	assert.match(source, /decoding=["']async["']/);
-	assert.match(source, /loading=["']lazy["']/);
 	assert.match(source, /withBase\(work\.video\)/);
 	assert.match(source, /work\.video/);
 	assert.match(source, /id=["']demo["']/);
-	assert.match(source, /id=["']gallery["']/);
-	assert.match(source, /work\.gallery/);
 	assert.match(source, /WindowBar/);
 	assert.match(source, /caption=\{work\.title\}/);
-	assert.match(source, /caption=\{shot\.caption\}/);
-	assert.match(source, /alt=\{shot\.alt\}/);
-	assert.match(source, /src=\{withBase\(shot\.src\)\}/);
-	assert.match(source, /width=\{shot\.width\}/);
-	assert.match(source, /height=\{shot\.height\}/);
 	assert.match(source, /work\.demoNotes/);
 	assert.match(source, /caseCopy\.accessTitle/);
 	assert.match(source, /caseCopy\.walkthroughLabel/);
@@ -61,14 +54,11 @@ test('CaseHero is visible h1 → tagline → media → caption facts → product
 	const order = [
 		'<h1>{work.title}</h1>',
 		'work.tagline',
+		'case-hero__summary',
 		'case-hero__media',
 		'work.cover',
-		'case-hero__facts',
 		'product.href',
 		'id="demo"',
-		'id="gallery"',
-		'shot.caption',
-		'shot.alt',
 	];
 	let cursor = -1;
 	for (const token of order) {
@@ -89,7 +79,7 @@ test('CaseHero is visible h1 → tagline → media → caption facts → product
 
 test('walkthrough link in #demo is only rendered when the product CTA is external', async () => {
 	const source = await readFile(join(here, 'CaseHero.astro'), 'utf8');
-	const demoBlock = source.slice(source.indexOf('id="demo"'), source.indexOf('id="gallery"'));
+	const demoBlock = source.slice(source.indexOf('id="demo"'), source.indexOf('</section>', source.indexOf('id="demo"')));
 
 	assert.match(demoBlock, /product\.external/);
 	assert.match(demoBlock, /product\.external[\s\S]{0,400}caseCopy\.walkthroughLabel/);

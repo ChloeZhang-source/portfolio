@@ -5,6 +5,8 @@ export const worksSchema = z
 		title: z.string(),
 		slug: z.string(),
 		tagline: z.string(),
+		homeProblem: z.string(),
+		homeContribution: z.string(),
 		description: z.string(),
 		role: z.string(),
 		period: z.string().optional(),

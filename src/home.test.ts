@@ -51,7 +51,8 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	const about = source.indexOf('<About');
 	const contact = source.indexOf('<Contact');
 
-	assert.match(source, /<Hero\s+works=\{works\.map/);
+	assert.match(source, /<Hero\s*\/>/);
+	assert.doesNotMatch(source, /<Hero\s+works=/);
 	assert.doesNotMatch(source, /exhibit=\{works\[0\]/);
 
 	assert.ok(hero >= 0 && work > hero, 'Hero must precede #work');

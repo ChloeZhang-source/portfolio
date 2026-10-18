@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import CaseBar from '../../components/CaseBar.astro';
 import CaseHero from '../../components/CaseHero.astro';
+import CaseGallery from '../../components/CaseGallery.astro';
 import Header from '../../components/Header.astro';
 import { site } from '../../data/site';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -77,6 +78,7 @@ const jsonLd = buildCaseJsonLd({
 	<article class="case-body">
 		<Content />
 	</article>
+	<CaseGallery work={work} />
 	<CaseBar slot="footer" work={work} works={works.map((item) => item.data)} />
 </BaseLayout>
 

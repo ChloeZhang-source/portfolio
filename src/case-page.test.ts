@@ -12,6 +12,8 @@ test('case page renders MDX, CaseHero, CaseBar, and SEO from work data', async (
 	assert.match(source, /getStaticPaths/);
 	assert.match(source, /getCollection\(['"]works['"]\)/);
 	assert.match(source, /CaseHero\.astro/);
+	assert.match(source, /CaseGallery\.astro/);
+	assert.match(source, /<CaseGallery work=\{work\} \/>/);
 	assert.match(source, /CaseBar\.astro/);
 	assert.match(source, /Header\.astro/);
 	assert.match(source, /<Content/);

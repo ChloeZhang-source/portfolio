@@ -47,7 +47,7 @@ test('wide viewports inset the header with the shared spine page pad', async () 
 	);
 });
 
-test('narrow header shrinks nav type, keeps one line, and hides the contact link', async () => {
+test('narrow header shrinks nav type and keeps one line', async () => {
 	const source = await readFile(join(here, 'Header.astro'), 'utf8');
 	const narrow = source.match(/@media\s*\(\s*max-width:\s*639px\s*\)\s*\{([\s\S]*?)\n\t\}/);
 	assert.ok(narrow, 'expected a 639px header block');
@@ -56,10 +56,9 @@ test('narrow header shrinks nav type, keeps one line, and hides the contact link
 	assert.match(block, /\.site-header\s*\{[^}]*padding-block:\s*0\.4rem/s);
 	assert.match(block, /\.site-header\s*\{[^}]*gap:\s*0\.35rem\s+0\.5rem/s);
 	assert.match(block, /\.site-header__nav\s*\{[^}]*flex-wrap:\s*nowrap/s);
-	assert.match(block, /\.site-header__nav\s*\{[^}]*gap:\s*0\.4rem\s+0\.75rem/s);
-	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.8rem/s);
-	assert.match(block, /a\[href\$=["']#contact["']\]\s*\{[^}]*display:\s*none/s);
-	assert.doesNotMatch(source, /联系/);
+	assert.match(block, /\.site-header__nav\s*\{[^}]*gap:\s*0\.25rem\s+0\.55rem/s);
+	assert.match(block, /\.site-header__nav a\s*\{[^}]*font-size:\s*0\.75rem/s);
+	assert.doesNotMatch(block, /display:\s*none/);
 	assert.doesNotMatch(source, /max-width:\s*640px/);
 	assert.doesNotMatch(source, /max-width:\s*720px/);
 });
