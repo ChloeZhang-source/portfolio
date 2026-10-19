@@ -105,8 +105,8 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 	}
 
 	.site-header__name {
-		font-weight: 600;
-		letter-spacing: -0.02em;
+		font-weight: 500;
+		letter-spacing: var(--tracking-body);
 		text-decoration: none;
 	}
 
@@ -129,7 +129,7 @@ const currentHref = navCurrentHref(Astro.url.pathname, Astro.url.hash);
 		text-decoration: none;
 		font-size: var(--text-small);
 		line-height: var(--leading-control);
-		transition: color 160ms ease;
+		transition: color var(--dur-1) var(--ease-out);
 	}
 
 	.site-header__nav a:hover,

@@ -7,7 +7,7 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.headlineRole, '先闭环可用，再迭代完美');
 	assert.equal(
 		site.headlineSub,
-		'前互联网教育行业主管，专注 AI 产品落地与流程设计。',
+		'前互联网教育行业主管，专注把 AI 想法落成可用产品。',
 	);
 	assert.equal(site.headline, `${site.headlineRole}${site.headlineSub}`);
 	assert.equal(site.headlinePath, undefined);
@@ -39,15 +39,14 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	assert.equal(site.ogImage, '/og-home.png');
 
 	assert.equal('about' in site, false);
-	assert.equal(site.aboutStory.length, 3);
-	assert.equal(site.aboutStory[0], '张晓雪 Chloe，翻硕背景，前互联网教育行业主管，聚焦 AI 产品落地。');
+	assert.equal(site.aboutStory.length, 2);
 	assert.equal(
-		site.aboutStory[1],
-		'我负责拆解需求、定义规则、搭建流程并验证产品闭环，以 AI 推动想法成为可用产品。',
+		site.aboutStory[0],
+		'翻译硕士训练和互联网教育工作，让我习惯先厘清语境、目标与标准。做产品时，我也会先看清约束和责任边界，再判断哪些步骤适合产品化、哪些需要人工判断。',
 	);
 	assert.equal(
-		site.aboutStory[2],
-		'我擅长把模糊的业务经验转成清晰、可执行、可复用的产品系统：先验证最小闭环，再根据真实反馈迭代。',
+		site.aboutStory[1],
+		'我重视可解释、可复核的流程，也会说明数据口径和仍未验证的问题。',
 	);
 
 	assert.equal(site.judgments.length, 4);
@@ -69,15 +68,15 @@ test('site.ts exports the locked portfolio copy and required fields', async () =
 	});
 
 	assert.deepEqual(site.now, {
-		doing: '沉淀面试评分体系，打磨可通用、可复用的标准化产品模板。',
-		learning: '系统化产品分析方法，精进精准、可控、可迭代的 AI 指令设计能力。',
-		thinking: '非技术背景的产品创作者，如何用规则、逻辑与落地力建立长期竞争力。',
+		doing: '整理面试评分标准，完善可复用的产品模板。',
+		learning: '系统学习产品分析，并练习设计精准、可控、可迭代的 AI 指令。',
+		thinking: '非技术背景的产品创作者，怎样用规则、逻辑和落地能力建立长期竞争力？',
 	});
 
 	assert.equal(site.brandManifesto, undefined);
 
 	assert.deepEqual(site.contactInvite, [
-		'欢迎围绕 AI 落地、产品流程与系统设计交流项目中的实际问题与解法。',
+		'欢迎交流 AI 产品落地、产品流程和系统设计中的具体问题与解法。',
 	]);
 
 	assert.equal(site.status, undefined);

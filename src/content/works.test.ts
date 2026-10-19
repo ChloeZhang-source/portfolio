@@ -58,13 +58,13 @@ test('works schema validates speaking (public) and interview (demo) entries', as
 		summaryEnShort: '50+ mock interviews completed.',
 		cover: '/work/interview/cover.jpg',
 		gallery: [{ image: '/work/interview/1.jpg', alt: '面试指引页：流程步骤与评分标准', caption: '面试指引' }],
-		ctaLabel: '看脱敏流程',
+		ctaLabel: '查看脱敏流程',
 		access: 'demo',
 		demoNotes: '本产品已在真实业务环境使用，不提供公开账号。',
 		order: 2,
 	});
 	assert.equal(interview.access, 'demo');
-	assert.equal(interview.ctaLabel, '看脱敏流程');
+	assert.equal(interview.ctaLabel, '查看脱敏流程');
 	assert.equal(interview.productUrl, undefined);
 	assert.equal(interview.demoAccount, undefined);
 	assert.equal(interview.demoPassword, undefined);
@@ -129,13 +129,13 @@ test('speaking and interview MDX follow the case-study narrative and preserve ev
 	assert.equal(speaking.slug, 'speaking');
 	assert.equal(speaking.access, 'public');
 	assert.equal(speaking.ctaLabel, '直接开练');
-	assert.equal(speaking.tagline, '口语练习卡在启动成本。打开即用，无需注册，一轮即成。');
+	assert.equal(speaking.tagline, '无需注册，打开后即可完成一轮口语练习。');
 	assert.equal(
 		speaking.description,
-		'口语练习的最大阻碍是过高的启动成本。剥离前置流程与账号体系，实现打开即用、无需注册、一轮即成。公开内测累计约 300 人次体验，人均对话约 15 轮。',
+		'无需注册即可开始一轮口语练习。公开内测累计约 300 人次体验，人均对话约 15 轮。',
 	);
 	assert.notEqual(speaking.description, speaking.tagline);
-	assert.equal(speaking.result, '公开内测 · 约 300 人次体验（含重复访问） · 人均约 15 轮');
+	assert.equal(speaking.result, '截至 2026 年 9 月 · 公开内测约 300 人次体验（含重复访问） · 人均约 15 轮');
 	assert.equal(speaking.homeProblem, '注册、登录和配置增加了第一次开口前的步骤。');
 	assert.equal(speaking.homeContribution, '去掉注册与配置，让用户打开即进入一轮练习并获得反馈。');
 	assert.equal(speaking.transferable, '先保证第一次表达发生，比先搭账号体系更关键');
@@ -174,18 +174,18 @@ test('speaking and interview MDX follow the case-study narrative and preserve ev
 	assert.equal(interview.homeProblem, '评分标准依赖个人经验，过程和结果都难以追溯、复评。');
 	assert.equal(interview.homeContribution, '将口头标准拆成面试指引、分段考核、全程录制与人工复评。');
 	assert.equal(interview.access, 'demo');
-	assert.equal(interview.ctaLabel, '看脱敏流程');
+	assert.equal(interview.ctaLabel, '查看脱敏流程');
 	assert.equal(
 		interview.tagline,
-		'标准不可见、过程不可溯、结果不可评。做成可录制、可打分、可复评的面试体系。',
+		'把口头标准整理成可执行的面试流程，并保留录像、评分和复评记录。',
 	);
 	assert.equal(
 		interview.description,
 		'传统面试依赖个人经验，标准不可见、过程不可溯、结果不可评。将口头经验结构化为可录制、可打分、可复评、可复盘的体系。已落地 50+ 场真实教师招聘面试。',
 	);
 	assert.notEqual(interview.description, interview.tagline);
-	assert.equal(interview.result, '50+ 场真实教师招聘面试 · 单一企业内部 · 全程存档');
-	assert.equal(interview.transferable, '把一轮面试做成可复评流程，比堆更多环节更管用');
+	assert.equal(interview.result, '截至 2026 年 9 月 · 50+ 场真实教师招聘面试 · 单一企业内部 · 全程存档');
+	assert.equal(interview.transferable, '让每一轮面试都有明确标准和可复核记录');
 	assert.equal(interview.productUrl, undefined);
 	assert.match(interview.summaryEn, /50\+ teacher-hiring interviews completed\./);
 	assert.match(interview.summaryEn, /Built for teacher hiring at my previous company\./);
@@ -196,9 +196,9 @@ test('speaking and interview MDX follow the case-study narrative and preserve ev
 	assert.doesNotMatch(interview.summaryEn, /transfer to other/i);
 	assert.equal(
 		interview.demoNotes,
-		'这是前司招聘线上老师的正式流程，不是给访客试用的产品。这里只用脱敏截图说明三件事：面试指引、正式面试、管理端评分。不开放登录，也不展示真实候选人。想看完整流程，可以约一次线上讲解。',
+		'这是前公司招聘线上老师的正式流程，不是给访客试用的产品。这里只用脱敏截图说明三件事：面试指引、正式面试、管理端评分。不开放登录，也不展示真实候选人。想看完整流程，可以约一次线上讲解。',
 	);
-	assert.match(interview.demoNotes ?? '', /前司招聘线上老师/);
+	assert.match(interview.demoNotes ?? '', /前公司招聘线上老师/);
 	assert.match(interview.demoNotes ?? '', /面试指引/);
 	assert.match(interview.demoNotes ?? '', /管理端评分/);
 	assert.match(interview.demoNotes ?? '', /不开放登录/);
@@ -215,7 +215,7 @@ test('speaking and interview MDX follow the case-study narrative and preserve ev
 	assert.doesNotMatch(interviewRaw, /做到能用时我学到的/);
 	assert.doesNotMatch(interviewRaw, /^## (洞察|方案|我做了什么|结果与反思)$/m);
 	assert.match(interviewRaw, /传统面试依赖个人经验，标准不可见、过程不可溯、结果不可评。/);
-	assert.match(interviewRaw, /流程覆盖身份校验、设备检测、面试指引、分段作答、管理端评分和归档反馈/);
+	assert.match(interviewRaw, /候选人先完成身份校验和设备检测，再查看面试指引并分段作答/);
 	assert.match(interviewRaw, /身份校验、权限和归档规则/);
 	assert.match(interviewRaw, /AI 只提供参考分，不直接决定候选人结果/);
 	assert.match(interviewRaw, /15 分钟知识点专项考核与屏幕共享辅助授课/);

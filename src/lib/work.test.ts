@@ -55,12 +55,12 @@ test('demo case product CTA stays on #gallery and never opens a live admin', asy
 		access: 'demo',
 		slug: 'interview',
 		productUrl: 'https://mianshi.zhan.com/#/admin',
-		ctaLabel: '看脱敏流程',
+		ctaLabel: '查看脱敏流程',
 	});
 
 	assert.deepEqual(cta, {
 		href: '#gallery',
-		label: '看脱敏流程',
+		label: '查看脱敏流程',
 		external: false,
 	});
 	assert.doesNotMatch(cta.href, /mianshi\.zhan\.com|https?:\/\//);

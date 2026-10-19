@@ -17,8 +17,8 @@ const interviewSize = workImageSize(interviewCover);
 			<p class="hero__eyebrow">个人作品集 · 2026</p>
 			<h1 id="hero-title" class="hero__title">{site.headlineRole}</h1>
 			<p class="hero__name">{site.name}</p>
-			<p class="hero__sub">前互联网教育行业主管，专注 AI 产品落地与流程设计。</p>
-			<a class="hero__hint" href="#work">打开一份作品，看看我是如何让想法落地 <span aria-hidden="true">↓</span></a>
+			<p class="hero__sub">{site.headlineSub}</p>
+			<a class="hero__hint" href="#work">看作品如何落地 <span aria-hidden="true">↓</span></a>
 		</div>
 
 		<a class="hero__folder hero__folder--about" href={withBase('/#about')} aria-label="关于我：经历、判断与正在做的事">
@@ -113,9 +113,9 @@ const interviewSize = workImageSize(interviewCover);
 		max-width: 17ch;
 		margin: 0 auto;
 		font-family: var(--font-serif);
-		font-size: clamp(2rem, 3.5vw, 3.25rem);
+		font-size: var(--text-display-1);
 		font-weight: 500;
-		line-height: 1.32;
+		line-height: var(--leading-display-1);
 		letter-spacing: var(--tracking-display-1);
 		text-wrap: balance;
 	}
@@ -167,7 +167,7 @@ const interviewSize = workImageSize(interviewCover);
 		inset: 0;
 		display: block;
 		transform-origin: 50% 55%;
-		filter: drop-shadow(0 0.8rem 0.75rem rgba(28, 28, 28, 0.12));
+		filter: drop-shadow(0 0.45rem 0.45rem rgba(28, 28, 28, 0.08));
 	}
 
 	.hero__folder-back {
@@ -191,9 +191,9 @@ const interviewSize = workImageSize(interviewCover);
 		border: 3px solid #fff;
 		border-radius: 2px;
 		background: #fff;
-		box-shadow: 0 0.25rem 0.6rem rgba(28, 28, 28, 0.16);
+		box-shadow: 0 0.15rem 0.35rem rgba(28, 28, 28, 0.1);
 		transform: rotate(-4deg);
-		transition: transform 220ms var(--ease-out);
+		transition: transform var(--dur-2) var(--ease-out);
 	}
 
 	.hero__folder-sheet img {
@@ -240,9 +240,9 @@ const interviewSize = workImageSize(interviewCover);
 	}
 
 	.hero__folder--about {
-		--folder-back: #e8da84;
-		--folder-face: #f1e8ad;
-		--folder-edge: #cdbb61;
+		--folder-back: #d6cda9;
+		--folder-face: #e8e2ce;
+		--folder-edge: #c5b98e;
 		grid-column: 1;
 		grid-row: 1;
 		rotate: -7deg;
@@ -252,9 +252,9 @@ const interviewSize = workImageSize(interviewCover);
 	}
 
 	.hero__folder--interview {
-		--folder-back: #aac29b;
-		--folder-face: #c4d2b8;
-		--folder-edge: #8da77d;
+		--folder-back: #b6beb0;
+		--folder-face: #cbd0c7;
+		--folder-edge: var(--c-case-interview);
 		grid-column: 3;
 		grid-row: 1;
 		rotate: 5deg;
@@ -264,9 +264,9 @@ const interviewSize = workImageSize(interviewCover);
 	}
 
 	.hero__folder--speaking {
-		--folder-back: #79aada;
-		--folder-face: #a7c7e7;
-		--folder-edge: #5b8fbe;
+		--folder-back: #a4b5bf;
+		--folder-face: #c1cbd0;
+		--folder-edge: var(--c-case-speaking);
 		grid-column: 1;
 		grid-row: 2;
 		rotate: 5deg;
@@ -276,9 +276,9 @@ const interviewSize = workImageSize(interviewCover);
 	}
 
 	.hero__folder--contact {
-		--folder-back: #262725;
-		--folder-face: #393a37;
-		--folder-edge: #171815;
+		--folder-back: #34332f;
+		--folder-face: #45433e;
+		--folder-edge: #252421;
 		grid-column: 3;
 		grid-row: 2;
 		rotate: -6deg;
@@ -294,7 +294,7 @@ const interviewSize = workImageSize(interviewCover);
 
 	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
 		.hero__folder-object {
-			transition: translate 160ms var(--ease-out), scale 160ms var(--ease-out);
+			transition: translate var(--dur-1) var(--ease-out), scale var(--dur-1) var(--ease-out);
 		}
 
 		.hero__folder:hover .hero__folder-object,
@@ -320,15 +320,15 @@ const interviewSize = workImageSize(interviewCover);
 
 	@media (prefers-reduced-motion: no-preference) {
 		.hero__center {
-			animation: hero-center-in 360ms var(--ease-out) both;
+			animation: hero-center-in var(--dur-3) var(--ease-out) both;
 		}
 
 		.hero__folder {
-			animation: hero-folder-arrive 320ms var(--ease-out) var(--enter-delay) both;
+			animation: hero-folder-arrive var(--dur-3) var(--ease-out) var(--enter-delay) both;
 		}
 
 		.hero__folder-object {
-			animation: hero-folder-float var(--float-duration) ease-in-out var(--float-delay) infinite alternate;
+			animation: hero-folder-float var(--float-duration) var(--ease-in-out) var(--float-delay) infinite alternate;
 		}
 	}
 

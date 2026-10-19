@@ -24,7 +24,7 @@ export const worksSchema = z
 			}),
 		),
 		productUrl: z.string().url().optional(),
-		ctaLabel: z.enum(['直接开练', '看脱敏流程']),
+		ctaLabel: z.enum(['直接开练', '查看脱敏流程']),
 		access: z.enum(['public', 'demo']),
 		demoNotes: z.string().optional(),
 		order: z.number().int(),

@@ -37,8 +37,8 @@ test('global.css defines getdesign-preview paper tokens and shared utilities', a
 	assert.match(css, /--color-border:\s*rgba\(27,\s*26,\s*23,\s*\.11\)/);
 	assert.match(css, /--c-window-bar:\s*#e6e2d9/i);
 	assert.match(css, /--color-window-bar:\s*var\(--c-window-bar\)/);
-	assert.match(css, /--text-display-1:\s*clamp\(2\.8rem,\s*5\.2vw,\s*4\.25rem\)/);
-	assert.match(css, /--leading-display-1:\s*1\.14/);
+	assert.match(css, /--text-display-1:\s*clamp\(2rem,\s*3\.5vw,\s*3\.25rem\)/);
+	assert.match(css, /--leading-display-1:\s*1\.32/);
 	assert.match(css, /--tracking-display-1:\s*-0\.01em/);
 	assert.match(css, /--text-display-2:\s*clamp\(1\.65rem,\s*4vw,\s*2\.125rem\)/);
 	assert.match(css, /--leading-display-2:\s*1\.3/);
@@ -191,7 +191,8 @@ test('window chrome is a floating exhibit: 18px radius, soft shadow, gray lights
 	assert.match(css, /--r-md:\s*18px/);
 	assert.match(css, /--r-pill:\s*999px/);
 	assert.match(css, /--radius:\s*var\(--r-md\)/);
-	assert.match(css, /\.window\s*\{[^}]*border-radius:\s*var\(--r-md\)/s);
+	assert.match(css, /--r-media:\s*var\(--r-md\)/);
+	assert.match(css, /\.window\s*\{[^}]*border-radius:\s*var\(--r-media\)/s);
 	assert.match(css, /\.window\s*\{[^}]*transition:[^}]*box-shadow/s);
 	assert.match(css, /\.window\s*\{[^}]*transition:[^}]*transform/s);
 	assert.match(

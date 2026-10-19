@@ -7,8 +7,8 @@ export const homeCopy = {
 		interview: '一套能被复评的面试流程',
 	},
 	workCaseLabels: {
-		speaking: '看它怎么做的 →',
-		interview: '看脱敏流程 →',
+		speaking: '查看案例 →',
+		interview: '查看案例 →',
 	},
 	workCaseTypes: {
 		speaking: 'AI 口语练习产品',
@@ -22,18 +22,18 @@ export const homeCopy = {
 		interview: ['面试指引', '分段考核', '全程录制', '人工复评'],
 	},
 	workDemoLabel: '查看访问说明',
-	workThesis: '多数产品重在搭建架构，我重在拆除门槛。',
+	workThesis: '把经验和标准变成可用、可复核的产品流程。',
 	workLede: [
-		'我把零散经验和复杂流程，整理成可使用、可复现、可持续迭代的产品系统。',
+		'我先找出实际使用中的阻力，再把解决办法落进产品：口语陪练减少开练前的步骤，面试系统让评估过程可回看。',
 	],
 	workIdentity: '产品负责人 · 独立开发 · AI 产品落地',
-	workClosing: '我关注的不只是功能是否完成，也包括规则、流程和使用门槛是否真正被解决。',
+	workClosing: '关于我：经历、产品判断与当前关注。',
 	workInvite: {
 		speaking: '无需登录，打开即可开始一轮练习。',
 		interview: '候选人信息已脱敏，案例页展示流程与评估方式。',
 	},
 	judgmentsTitle: '产品决策｜四项取舍原则',
-	judgmentsNote: '每一次产品选择，都是主动取舍。我接受优势，也承担对应的代价。',
+	judgmentsNote: '每项选择都有收益，也有代价。',
 	nowTitle: '现在',
 	aboutTitle: '关于',
 	contactMailLabel: '发邮件',

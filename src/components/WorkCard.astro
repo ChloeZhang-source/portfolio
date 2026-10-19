@@ -92,7 +92,7 @@ const process = work.slug === 'interview' ? homeCopy.workProcesses.interview : u
 
 <style>
 	.work-card {
-		--case-accent: #5b8fbe;
+		--case-accent: var(--c-case-speaking);
 		display: grid;
 		grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
 		grid-template-areas:
@@ -109,7 +109,7 @@ const process = work.slug === 'interview' ? homeCopy.workProcesses.interview : u
 	}
 
 	.work-card[data-work='interview'] {
-		--case-accent: #8da77d;
+		--case-accent: var(--c-case-interview);
 	}
 
 	.work-card h2,
@@ -252,8 +252,7 @@ const process = work.slug === 'interview' ? homeCopy.workProcesses.interview : u
 		width: 100%;
 		margin: 0;
 		border-color: var(--c-hairline);
-		border-radius: var(--r-sm);
-		box-shadow: 0 10px 28px rgba(28, 28, 28, 0.06);
+		box-shadow: var(--shadow-exhibit);
 		text-align: left;
 	}
 
@@ -261,7 +260,7 @@ const process = work.slug === 'interview' ? homeCopy.workProcesses.interview : u
 		.work-card__preview .window:hover,
 		.work-card__preview .window:focus-visible {
 			transform: none;
-			box-shadow: 0 12px 32px rgba(28, 28, 28, 0.08);
+			box-shadow: var(--shadow-exhibit-hover);
 		}
 	}
 

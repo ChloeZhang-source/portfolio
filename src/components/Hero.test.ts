@@ -23,9 +23,9 @@ test('Hero centers identity and links four folders to about, cases, and contact'
 	assert.match(source, /class=["']hero__title["']>\{site\.headlineRole\}<\/h1>/);
 	assert.match(source, /class=["']hero__name["']>\{site\.name\}<\/p>/);
 	assert.match(source, /个人作品集 · 2026/);
-	assert.match(source, /前互联网教育行业主管，专注 AI 产品落地与流程设计。/);
+	assert.match(source, /\{site\.headlineSub\}/);
 	assert.match(source, /href=["']#work["']/);
-	assert.match(source, /打开一份作品，看看我是如何让想法落地/);
+	assert.match(source, /看作品如何落地/);
 	assert.match(source, /workCaseHref\(['"]speaking['"]\)/);
 	assert.match(source, /workCaseHref\(['"]interview['"]\)/);
 	assert.match(source, /withBase\(['"]\/#about['"]\)/);

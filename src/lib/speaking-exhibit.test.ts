@@ -11,7 +11,7 @@ test('speaking exhibit walks the real product frames, not a scored chat', async 
 	const { speakingExhibit } = await import('./speaking-exhibit.ts');
 
 	assert.equal(speakingExhibit.caption, '口语陪练 · 打开即用');
-	assert.equal(speakingExhibit.note, '不用注册。这是一轮的形状，不是正在连线。');
+	assert.equal(speakingExhibit.note, '这些截图展示一轮练习流程，不是实时连线。');
 	assert.equal('caseLabel' in speakingExhibit, false);
 	assert.equal(speakingExhibit.caseSlug, 'speaking');
 	assert.deepEqual(

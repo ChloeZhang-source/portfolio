@@ -14,23 +14,17 @@ test('homeCopy locks homepage chrome labels from the plan', async () => {
 	assert.equal('workSectionTitle' in homeCopy, false);
 	assert.equal('exploreLede' in homeCopy, false);
 	assert.equal('workCaseLabel' in homeCopy, false);
-	assert.equal(homeCopy.workCaseLabels.speaking, '看它怎么做的 →');
-	assert.equal(homeCopy.workCaseLabels.interview, '看脱敏流程 →');
+	assert.equal(homeCopy.workCaseLabels.speaking, '查看案例 →');
+	assert.equal(homeCopy.workCaseLabels.interview, '查看案例 →');
 	assert.equal(homeCopy.workDemoLabel, '查看访问说明');
-	assert.equal(homeCopy.workThesis, '多数产品重在搭建架构，我重在拆除门槛。');
+	assert.equal(homeCopy.workThesis, '把经验和标准变成可用、可复核的产品流程。');
 	assert.equal(homeCopy.judgmentsTitle, '产品决策｜四项取舍原则');
-	assert.equal(
-		homeCopy.judgmentsNote,
-		'每一次产品选择，都是主动取舍。我接受优势，也承担对应的代价。',
-	);
+	assert.equal(homeCopy.judgmentsNote, '每项选择都有收益，也有代价。');
 	assert.deepEqual(homeCopy.workLede, [
-		'我把零散经验和复杂流程，整理成可使用、可复现、可持续迭代的产品系统。',
+		'我先找出实际使用中的阻力，再把解决办法落进产品：口语陪练减少开练前的步骤，面试系统让评估过程可回看。',
 	]);
 	assert.equal(homeCopy.workIdentity, '产品负责人 · 独立开发 · AI 产品落地');
-	assert.equal(
-		homeCopy.workClosing,
-		'我关注的不只是功能是否完成，也包括规则、流程和使用门槛是否真正被解决。',
-	);
+	assert.equal(homeCopy.workClosing, '关于我：经历、产品判断与当前关注。');
 	assert.deepEqual(homeCopy.workCaseTypes, {
 		speaking: 'AI 口语练习产品',
 		interview: '招聘与面试流程',
