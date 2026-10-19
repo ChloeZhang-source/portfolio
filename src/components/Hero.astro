@@ -1,215 +1,429 @@
 ---
-import { homeCopy } from '../data/home';
 import { site } from '../data/site';
-import { heroMarginNotes } from '../lib/marginalia';
+import { workCaseHref } from '../lib/work';
+import { workImageSize } from '../lib/work-image';
 import { withBase } from '../lib/paths';
-import Annotation from './Annotation.astro';
-import SpeakingExhibit from './SpeakingExhibit.astro';
+
+const speakingCover = '/work/speaking/cover.jpg';
+const interviewCover = '/work/interview/cover.jpg';
+const speakingSize = workImageSize(speakingCover);
+const interviewSize = workImageSize(interviewCover);
 ---
 
-<section id="home" class="chapter hero">
+<section id="home" class="chapter hero" aria-labelledby="hero-title">
 	<p class="running-head" aria-hidden="true">作品集 · {site.name}</p>
-	<div class="hero__frame">
-		<div class="hero__lede">
-			<p class="chapter__kicker hero__beat">
-				{
-					homeCopy.heroKicker.split(/(\d[\d.-]*)/).map((part) =>
-						/^\d/.test(part) ? <span class="num">{part}</span> : part,
-					)
-				}
-			</p>
-			<h1 class="hero__role misprint hero__beat hero__beat--title" data-text={site.headlineRole}>{site.headlineRole}</h1>
-			<div class="hero__arrive">
-				<p class="hero__sub hero__beat hero__beat--intro">
-					{site.headlineSub.slice(0, site.headlineSub.indexOf('AI'))}<span class="lat">AI</span>{site.headlineSub.slice(site.headlineSub.indexOf('AI') + 2)}
-				</p>
-				<div class="hero__actions hero__beat hero__beat--actions">
-					<a class="btn" href={homeCopy.heroWorkHref}>看作品</a>
-					<a class="btn-ghost" href={withBase(site.resumeHref)} download={site.resumeDownloadName}>{site.resumeLabel}</a>
-				</div>
-				<p class="hero__facts hero__beat hero__beat--facts">
-					<span>口语陪练公开内测：约 <span class="num">300</span> 人次体验（含重复访问）</span>
-				</p>
-			</div>
+	<div class="hero__layout">
+		<div class="hero__center">
+			<p class="hero__eyebrow">个人作品集 · 2026</p>
+			<h1 id="hero-title" class="hero__title">{site.headlineRole}</h1>
+			<p class="hero__name">{site.name}</p>
+			<p class="hero__sub">前互联网教育行业主管，专注 AI 产品落地与流程设计。</p>
+			<a class="hero__hint" href="#work">打开一份作品，看看我是如何让想法落地 <span aria-hidden="true">↓</span></a>
 		</div>
-		<div class="hero__exhibit hero__beat hero__beat--exhibit">
-			<SpeakingExhibit />
-		</div>
-		<div class="hero__notes">
-			{
-				heroMarginNotes(site.judgments).map((note) => (
-					<Annotation tag={note.what} text={note.cost} />
-				))
-			}
-		</div>
+
+		<a class="hero__folder hero__folder--about" href={withBase('/#about')} aria-label="关于我：经历、判断与正在做的事">
+			<span class="hero__folder-object" aria-hidden="true">
+				<span class="hero__folder-back"></span>
+				<span class="hero__folder-sheet hero__folder-sheet--portrait"><img src={withBase(site.avatarSrc)} alt="" width="480" height="270" /></span>
+				<span class="hero__folder-face"><span>关于我</span></span>
+			</span>
+		</a>
+		<a class="hero__folder hero__folder--interview" href={workCaseHref('interview')} aria-label="面试系统：让面试过程可复评">
+			<span class="hero__folder-object" aria-hidden="true">
+				<span class="hero__folder-back"></span>
+				<span class="hero__folder-sheet"><img src={withBase(interviewCover)} alt="" width={interviewSize.width} height={interviewSize.height} /></span>
+				<span class="hero__folder-face"><span>面试系统</span></span>
+			</span>
+		</a>
+
+		<a class="hero__folder hero__folder--speaking" href={workCaseHref('speaking')} aria-label="口语陪练：打开即练习，无需注册">
+			<span class="hero__folder-object" aria-hidden="true">
+				<span class="hero__folder-back"></span>
+				<span class="hero__folder-sheet"><img src={withBase(speakingCover)} alt="" width={speakingSize.width} height={speakingSize.height} /></span>
+				<span class="hero__folder-face"><span>口语陪练</span></span>
+			</span>
+		</a>
+		<a class="hero__folder hero__folder--contact" href={withBase('/#contact')} aria-label="联系：聊聊 AI 落地与产品流程">
+			<span class="hero__folder-object" aria-hidden="true">
+				<span class="hero__folder-back"></span>
+				<span class="hero__folder-sheet hero__folder-sheet--contact">
+					<svg viewBox="0 0 64 44" focusable="false"><rect x="4" y="5" width="56" height="34" rx="2" /><path d="m5 7 27 21L59 7" /></svg>
+				</span>
+				<span class="hero__folder-face"><span>联系</span></span>
+			</span>
+		</a>
 	</div>
 </section>
 
 <style>
 	.hero {
 		position: relative;
-	}
-
-	.hero__frame {
+		min-height: min(44rem, calc(100svh - 5rem));
 		display: grid;
-		gap: 1.4rem;
-		width: 100%;
+		align-items: center;
+		padding-block: clamp(1.5rem, 4vh, 3.5rem);
 	}
 
-	.hero__lede,
-	.hero__exhibit {
-		min-width: 0;
-	}
-
-	.hero__notes {
+	.hero__layout {
+		position: relative;
+		isolation: isolate;
+		width: min(70rem, 100%);
+		min-height: clamp(30rem, 68svh, 39rem);
+		margin-inline: auto;
 		display: grid;
-		gap: 1.4rem;
-		align-content: start;
+		grid-template-columns: minmax(8.5rem, 1fr) minmax(20rem, 1.55fr) minmax(8.5rem, 1fr);
+		grid-template-rows: 1fr 1fr;
+		align-items: center;
+		gap: 1.25rem 2rem;
 	}
 
-	.chapter__kicker {
+	.hero__layout::before,
+	.hero__layout::after {
+		position: absolute;
+		z-index: -1;
+		border: 1px solid rgba(27, 26, 23, 0.065);
+		border-radius: 50%;
+		content: '';
+		pointer-events: none;
+	}
+
+	.hero__layout::before {
+		inset: 3% 8%;
+	}
+
+	.hero__layout::after {
+		inset: 14% 22%;
+	}
+
+	.hero__center {
+		z-index: 1;
+		grid-column: 2;
+		grid-row: 1 / 3;
+		text-align: center;
+	}
+
+	.hero__eyebrow {
+		margin: 0 0 1rem;
+		color: var(--color-amber-ink);
+		font-size: var(--text-caption);
 		letter-spacing: var(--tracking-label);
-		text-transform: none;
 	}
 
-	.hero h1 {
-		margin: 0;
-		max-width: 100%;
-		font-size: var(--text-hero);
+	.hero__title {
+		max-width: 17ch;
+		margin: 0 auto;
+		font-family: var(--font-serif);
+		font-size: clamp(2rem, 3.5vw, 3.25rem);
 		font-weight: 500;
-		line-height: var(--leading-display-1);
+		line-height: 1.32;
 		letter-spacing: var(--tracking-display-1);
 		text-wrap: balance;
-		text-align: left;
 	}
 
-	.hero__role {
+	.hero__name {
+		margin: 0.8rem 0 0;
 		font-family: var(--font-serif);
-		letter-spacing: var(--tracking-display-1);
+		font-size: var(--text-title);
+		line-height: var(--leading-title);
 	}
 
 	.hero__sub {
-		margin: 0.55em 0 1.15rem;
-		max-width: var(--measure);
-		font-family: var(--font-sans);
-		font-size: var(--text-lead);
-		font-weight: 400;
-		letter-spacing: var(--tracking-lead);
-		line-height: var(--leading-lead);
+		max-width: 27rem;
+		margin: 0.55rem auto 0;
 		color: var(--color-muted);
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
 	}
 
-	.hero__actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-	}
-
-	.hero__facts {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.25rem 1rem;
-		margin: 0.85rem 0 0;
-		max-width: var(--measure);
-		color: var(--color-body);
+	.hero__hint {
+		display: inline-flex;
+		min-height: 44px;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 1.1rem;
+		color: var(--color-muted);
 		font-size: var(--text-small);
-		line-height: var(--leading-small);
-		letter-spacing: var(--tracking-small);
+		text-decoration: none;
 	}
 
-	@media (min-width: 900px) {
-		.hero__frame {
-			grid-template-columns: minmax(0, var(--measure)) minmax(16rem, 1fr);
-			gap: 1.5rem 2rem;
-			align-items: start;
+	.hero__hint span {
+		color: var(--color-amber-ink);
+	}
+
+	.hero__folder {
+		position: relative;
+		z-index: 1;
+		width: clamp(8.3rem, 13vw, 10.25rem);
+		aspect-ratio: 1.36;
+		justify-self: center;
+		display: block;
+		color: var(--color-text);
+		text-decoration: none;
+		outline-offset: 0.45rem;
+	}
+
+	.hero__folder-object {
+		position: absolute;
+		inset: 0;
+		display: block;
+		transform-origin: 50% 55%;
+		filter: drop-shadow(0 0.8rem 0.75rem rgba(28, 28, 28, 0.12));
+	}
+
+	.hero__folder-back {
+		position: absolute;
+		inset: 0;
+		clip-path: polygon(0 18%, 39% 18%, 50% 0, 82% 0, 91% 18%, 100% 18%, 100% 100%, 0 100%);
+		border-radius: 7px;
+		background: var(--folder-back);
+	}
+
+	.hero__folder-sheet {
+		position: absolute;
+		top: 3%;
+		left: 29%;
+		z-index: 1;
+		width: 42%;
+		height: 55%;
+		display: grid;
+		place-items: center;
+		overflow: hidden;
+		border: 3px solid #fff;
+		border-radius: 2px;
+		background: #fff;
+		box-shadow: 0 0.25rem 0.6rem rgba(28, 28, 28, 0.16);
+		transform: rotate(-4deg);
+		transition: transform 220ms var(--ease-out);
+	}
+
+	.hero__folder-sheet img {
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+	}
+
+	.hero__folder-sheet--portrait img {
+		object-position: center 35%;
+	}
+
+	.hero__folder-sheet--contact {
+		border-color: rgba(255, 255, 255, 0.92);
+		background: #f4f3ef;
+		transform: rotate(4deg);
+	}
+
+	.hero__folder-sheet--contact svg {
+		width: 76%;
+		fill: none;
+		stroke: var(--color-amber-ink);
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.3;
+	}
+
+	.hero__folder-face {
+		position: absolute;
+		inset: 23% 0 0;
+		z-index: 2;
+		display: flex;
+		align-items: flex-end;
+		padding: 0.8rem 0.8rem 0.65rem;
+		border: 1px solid var(--folder-edge);
+		border-top-color: rgba(255, 255, 255, 0.38);
+		border-radius: 3px 5px 7px 7px;
+		background: linear-gradient(150deg, var(--folder-face), var(--folder-back));
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.3);
+		font-family: var(--font-serif);
+		font-size: var(--text-small);
+		line-height: 1.25;
+	}
+
+	.hero__folder--about {
+		--folder-back: #e8da84;
+		--folder-face: #f1e8ad;
+		--folder-edge: #cdbb61;
+		grid-column: 1;
+		grid-row: 1;
+		rotate: -7deg;
+		--enter-delay: 200ms;
+		--float-delay: 900ms;
+		--float-duration: 5.8s;
+	}
+
+	.hero__folder--interview {
+		--folder-back: #aac29b;
+		--folder-face: #c4d2b8;
+		--folder-edge: #8da77d;
+		grid-column: 3;
+		grid-row: 1;
+		rotate: 5deg;
+		--enter-delay: 280ms;
+		--float-delay: 1.1s;
+		--float-duration: 6.3s;
+	}
+
+	.hero__folder--speaking {
+		--folder-back: #79aada;
+		--folder-face: #a7c7e7;
+		--folder-edge: #5b8fbe;
+		grid-column: 1;
+		grid-row: 2;
+		rotate: 5deg;
+		--enter-delay: 360ms;
+		--float-delay: 1.3s;
+		--float-duration: 6.7s;
+	}
+
+	.hero__folder--contact {
+		--folder-back: #262725;
+		--folder-face: #393a37;
+		--folder-edge: #171815;
+		grid-column: 3;
+		grid-row: 2;
+		rotate: -6deg;
+		--enter-delay: 440ms;
+		--float-delay: 1.5s;
+		--float-duration: 5.4s;
+		color: #f4f3ef;
+	}
+
+	.hero__folder--contact .hero__folder-face {
+		color: #f4f3ef;
+	}
+
+	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		.hero__folder-object {
+			transition: translate 160ms var(--ease-out), scale 160ms var(--ease-out);
 		}
 
-		.hero__exhibit {
-			grid-column: 2;
-			grid-row: 1 / span 2;
+		.hero__folder:hover .hero__folder-object,
+		.hero__folder:focus-visible .hero__folder-object {
+			translate: 0 -0.35rem;
+			scale: 1.045;
+			animation-play-state: paused;
 		}
 
-		.hero__notes {
-			grid-column: 1;
+		.hero__folder:hover .hero__folder-sheet,
+		.hero__folder:focus-visible .hero__folder-sheet {
+			transform: translateY(-0.3rem) rotate(-1deg);
+		}
+
+		.hero__folder:active .hero__folder-object {
+			scale: 0.985;
 		}
 	}
 
-	@media (max-width: 639px) {
-		.hero__exhibit {
-			width: min(22rem, 100%);
-		}
-	}
-
-	@media (min-width: 1100px) {
-		.hero {
-			padding-top: 4rem;
-		}
+	.hero__folder:focus-visible {
+		outline: 2px solid var(--color-amber-ink);
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		.hero__beat {
-			animation: hero-rise var(--dur-3) var(--ease-out) backwards;
+		.hero__center {
+			animation: hero-center-in 360ms var(--ease-out) both;
 		}
 
-		.hero__role::after {
-			animation: hero-misprint-align 360ms var(--ease-out) 120ms both;
+		.hero__folder {
+			animation: hero-folder-arrive 320ms var(--ease-out) var(--enter-delay) both;
 		}
 
-		.hero__beat--title {
-			animation-delay: 120ms;
-			animation-timing-function: var(--ease-quart);
-		}
-
-		.hero__beat--intro {
-			animation-delay: 300ms;
-		}
-
-		.hero__beat--actions,
-		.hero__beat--facts {
-			animation-duration: 300ms;
-		}
-
-		.hero__beat--actions {
-			animation-delay: 380ms;
-		}
-
-		.hero__beat--facts {
-			animation-delay: 460ms;
-		}
-
-		.hero__beat--exhibit {
-			animation-delay: 500ms;
-			animation-duration: 300ms;
+		.hero__folder-object {
+			animation: hero-folder-float var(--float-duration) ease-in-out var(--float-delay) infinite alternate;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.hero__beat {
+		.hero__folder,
+		.hero__center,
+		.hero__folder-object,
+		.hero__folder-sheet {
 			animation: none;
-			opacity: 1;
-			transform: none;
+			transition: none;
 		}
 	}
 
-	@keyframes hero-rise {
-		from {
-			opacity: 0;
-			transform: translateY(12px);
-		}
-
-		to {
-			opacity: 1;
-			transform: none;
-		}
+	@keyframes hero-center-in {
+		from { opacity: 0; translate: 0 0.5rem; }
+		to { opacity: 1; translate: 0 0; }
 	}
 
-	@keyframes hero-misprint-align {
-		from {
-			transform: translate(3px, -2px);
+	@keyframes hero-folder-arrive {
+		from { opacity: 0; translate: 0 0.6rem; scale: 0.97; }
+		to { opacity: 1; translate: 0 0; scale: 1; }
+	}
+
+	@keyframes hero-folder-float {
+		from { transform: translateY(-3px); }
+		to { transform: translateY(3px); }
+	}
+
+	@media (max-width: 760px) {
+		.hero {
+			min-height: 0;
+			padding-block: 2rem 3rem;
 		}
 
-		to {
-			transform: translate(0, 0);
+		.hero__layout {
+			min-height: 31rem;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto auto auto;
+			gap: 1.2rem 1rem;
+		}
+
+		.hero__layout::before { inset: 14% 2%; }
+		.hero__layout::after { inset: 22% 12%; }
+
+		.hero__center {
+			grid-column: 1 / -1;
+			grid-row: 1;
+			padding-block: 1.2rem 0.7rem;
+		}
+
+		.hero__folder {
+			width: clamp(7.5rem, 30vw, 9.25rem);
+			rotate: 0deg;
+		}
+
+		.hero__folder-object {
+			animation: none;
+		}
+
+		.hero__folder-sheet {
+			transform: none;
+		}
+
+		.hero__folder--about { grid-column: 1; grid-row: 2; }
+		.hero__folder--interview { grid-column: 2; grid-row: 2; }
+		.hero__folder--speaking { grid-column: 1; grid-row: 3; }
+		.hero__folder--contact { grid-column: 2; grid-row: 3; }
+	}
+
+	@media (max-width: 420px) {
+		.hero__layout {
+			min-height: 0;
+			grid-template-columns: 1fr;
+			grid-template-rows: auto repeat(4, 8rem);
+			gap: 1.1rem;
+		}
+
+		.hero__center { grid-column: 1; grid-row: 1; }
+		.hero__folder { width: 8.3rem; }
+		.hero__folder--about { grid-column: 1; grid-row: 2; }
+		.hero__folder--interview { grid-column: 1; grid-row: 3; }
+		.hero__folder--speaking { grid-column: 1; grid-row: 4; }
+		.hero__folder--contact { grid-column: 1; grid-row: 5; }
+	}
+
+	@media (max-width: 760px) and (hover: hover) {
+		.hero__folder:hover .hero__folder-object,
+		.hero__folder:focus-visible .hero__folder-object {
+			translate: 0;
+			scale: 1;
+		}
+
+		.hero__folder:hover .hero__folder-sheet,
+		.hero__folder:focus-visible .hero__folder-sheet {
+			transform: none;
 		}
 	}
 </style>

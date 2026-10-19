@@ -6,121 +6,63 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-test('Hero leads with identity, two real exits, and published evidence', async () => {
+test('Hero centers identity and links four folders to about, cases, and contact', async () => {
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/data\/site['"]/);
-	assert.match(source, /from\s+['"]\.\.\/data\/home['"]/);
-	assert.match(source, /from\s+['"]\.\/SpeakingExhibit\.astro['"]/);
+	assert.match(source, /from\s+['"]\.\.\/lib\/work['"]/);
+	assert.match(source, /from\s+['"]\.\.\/lib\/work-image['"]/);
+	assert.match(source, /from\s+['"]\.\.\/lib\/paths['"]/);
+	assert.doesNotMatch(source, /from\s+['"]\.\.\/data\/home['"]/);
+	assert.doesNotMatch(source, /SpeakingExhibit/);
+	assert.doesNotMatch(source, /Annotation/);
+	assert.doesNotMatch(source, /heroMarginNotes/);
 	assert.match(source, /id=["']home["']/);
-	assert.match(source, /homeCopy\.heroKicker/);
-	assert.doesNotMatch(source, /chapter__kicker[^>]*>\{site\.name\}/);
-	assert.doesNotMatch(source, /headlinePath|headlineProof|hero__path|hero__proof/);
-	assert.match(source, /site\.headlineRole/);
-	assert.match(source, /site\.headlineSub/);
-	assert.match(
-		source,
-		/<h1 class=["']hero__role misprint hero__beat hero__beat--title["'] data-text=\{site\.headlineRole\}>\{site\.headlineRole\}<\/h1>/,
-	);
-	assert.match(source, /class=["'][^"']*\bhero__sub\b[^"']*["']/);
-	assert.match(source, /site\.headlineSub\.indexOf\(['"]AI['"]\)/);
-	assert.match(source, /<span class=["']lat["']>AI<\/span>/);
-	assert.match(source, /homeCopy\.heroKicker\.split/);
-	assert.match(source, /<span class=["']num["']>/);
-	{
-		const h1 = source.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/);
-		assert.ok(h1, 'expected a single Hero h1');
-		assert.match(h1[1], /site\.headlineRole/);
-		assert.doesNotMatch(h1[1], /headlineSub|headlinePath|headlineProof/);
-	}
-	assert.match(source, /\.hero__role\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
-	assert.match(source, /\.hero__role\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
-	assert.match(source, /\.hero__sub\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
+	assert.match(source, /aria-labelledby=["']hero-title["']/);
+	assert.match(source, /id=["']hero-title["']/);
+	assert.match(source, /class=["']hero__title["']>\{site\.headlineRole\}<\/h1>/);
+	assert.match(source, /class=["']hero__name["']>\{site\.name\}<\/p>/);
+	assert.match(source, /个人作品集 · 2026/);
+	assert.match(source, /前互联网教育行业主管，专注 AI 产品落地与流程设计。/);
+	assert.match(source, /href=["']#work["']/);
+	assert.match(source, /打开一份作品，看看我是如何让想法落地/);
+	assert.match(source, /workCaseHref\(['"]speaking['"]\)/);
+	assert.match(source, /workCaseHref\(['"]interview['"]\)/);
+	assert.match(source, /withBase\(['"]\/#about['"]\)/);
+	assert.match(source, /withBase\(['"]\/#contact['"]\)/);
+	assert.match(source, /withBase\(site\.avatarSrc\)/);
+	assert.match(source, /\/work\/speaking\/cover\.jpg/);
+	assert.match(source, /\/work\/interview\/cover\.jpg/);
+	assert.match(source, /workImageSize/);
+	assert.match(source, /hero__folder--about/);
+	assert.match(source, /hero__folder--interview/);
+	assert.match(source, /hero__folder--speaking/);
+	assert.match(source, /hero__folder--contact/);
+	assert.match(source, /aria-label=["']关于我：经历、判断与正在做的事["']/);
+	assert.match(source, /aria-label=["']面试系统：让面试过程可复评["']/);
+	assert.match(source, /aria-label=["']口语陪练：打开即练习，无需注册["']/);
+	assert.match(source, /aria-label=["']联系：聊聊 AI 落地与产品流程["']/);
+	assert.match(source, /\.hero__title\s*\{[^}]*font-family:\s*var\(--font-serif\)/s);
+	assert.match(source, /\.hero__title\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
 	assert.match(source, /\.hero__sub\s*\{[^}]*font-size:\s*var\(--text-lead\)/s);
-	assert.match(source, /\.hero__sub\s*\{[^}]*line-height:\s*var\(--leading-lead\)/s);
-	assert.match(source, /\.hero__sub\s*\{[^}]*letter-spacing:\s*var\(--tracking-lead\)/s);
-	assert.doesNotMatch(source, /\.hero__sub\s*\{[^}]*word-break:\s*keep-all/s);
-	assert.doesNotMatch(source, /site\.statusLines/);
-	assert.doesNotMatch(source, /site\.avatarSrc/);
-	assert.doesNotMatch(source, /width=["']480["']\s+height=["']600["']/);
-	assert.doesNotMatch(source, /site\.headlineEn/);
-	assert.doesNotMatch(source, /work\.result/);
-	assert.doesNotMatch(source, /work\.video/);
-	assert.doesNotMatch(source, /works\.map/);
-	assert.doesNotMatch(source, /work\.cover/);
-	assert.doesNotMatch(source, /workImageSize/);
-	assert.doesNotMatch(source, /homeCopy\.heroPreviews/);
-	assert.doesNotMatch(source, /workCaseHref/);
-	assert.doesNotMatch(source, /hero__pair/);
-	assert.doesNotMatch(source, /hero__mark/);
-	assert.doesNotMatch(source, /httpsaitalk\.win/);
-
-	assert.match(
-		source,
-		/<a class=["']btn["'] href=\{homeCopy\.heroWorkHref\}>看作品<\/a>/,
-	);
-	assert.match(
-		source,
-		/<a class=["']btn-ghost["'] href=\{withBase\(site\.resumeHref\)\} download=\{site\.resumeDownloadName\}>\{site\.resumeLabel\}<\/a>/,
-	);
-	assert.match(source, /class=["'][^"']*\bhero__actions\b[^"']*["']/);
-	assert.doesNotMatch(source, /\.hero__actions[^{]*\{[^}]*opacity:\s*0/s);
-	assert.doesNotMatch(source, /\.hero__actions:hover/);
-	assert.match(
-		source,
-		/口语陪练公开内测：约 <span class=["']num["']>300<\/span> 人次体验（含重复访问）<\/span>/,
-	);
-
-	assert.match(source, /heroMarginNotes\(site\.judgments\)/);
-	assert.match(source, /Annotation/);
-	assert.match(source, /tag=\{note\.what\}/);
-	assert.match(source, /text=\{note\.cost\}/);
-	assert.match(source, /class=["']hero__notes["']/);
-	assert.match(source, /<SpeakingExhibit\s*\/>/);
-	assert.match(
-		source,
-		/@media\s*\(\s*min-width:\s*900px\s*\)[\s\S]*grid-template-columns:\s*minmax\(0,\s*var\(--measure\)\)/,
-	);
-	assert.match(
-		source,
-		/@media\s*\(\s*min-width:\s*900px\s*\)[\s\S]*\.hero__exhibit\s*\{[^}]*grid-column:\s*2/s,
-	);
-	assert.doesNotMatch(source, /hero__intro/);
-	assert.doesNotMatch(source, /grid-template-areas:\s*["']lede title["']/);
-	assert.doesNotMatch(source, /factLabels|产品经验|授课经验|hero__fact-k/);
-	assert.doesNotMatch(source, /rgba\(245,\s*244,\s*240,\s*0\.68\)/);
-	assert.doesNotMatch(source, /#f2f1ed|#f3f1ea/);
-	assert.doesNotMatch(source, /InkWash|#e9b37a/i);
-	assert.doesNotMatch(source, /plaster|texture|canvas-filter|url\(/i);
-	assert.doesNotMatch(source, /ChapterRule/);
-	assert.doesNotMatch(source, /chapter__art/);
-
-	assert.doesNotMatch(source, /<h1>\{site\.headline\}<\/h1>/);
-	assert.match(source, /\.hero h1\s*\{/);
-	assert.match(source, /\.hero h1\s*\{[^}]*font-size:\s*var\(--text-hero\)/s);
-	assert.match(source, /\.hero h1\s*\{[^}]*max-width:\s*100%/s);
-	assert.match(source, /\.hero h1\s*\{[^}]*line-height:\s*var\(--leading-display-1\)/s);
-	assert.match(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*var\(--tracking-display-1\)/s);
-	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*letter-spacing:\s*0\.04em/s);
-	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*position:\s*absolute/s);
-	assert.doesNotMatch(source, /\.hero h1::after/);
-	assert.doesNotMatch(source, /clamp\(4rem,\s*18vw,\s*15rem\)/);
-	assert.match(source, /\.hero h1\s*\{[^}]*text-align:\s*left/s);
-	assert.match(source, /\.chapter__kicker\s*\{[^}]*letter-spacing:\s*var\(--tracking-label\)/s);
-	assert.doesNotMatch(source, /letter-spacing:\s*0\.28em/);
+	assert.match(source, /\.hero__center\s*\{[^}]*text-align:\s*center/s);
 	assert.match(source, /text-wrap:\s*balance/);
-	assert.doesNotMatch(source, /letter-spacing:\s*-0\.03em/);
-	assert.doesNotMatch(source, /\.hero h1\s*\{[^}]*text-align:\s*center/s);
+	assert.doesNotMatch(source, /site\.resumeHref/);
+	assert.doesNotMatch(source, /site\.headlineEn/);
+	assert.doesNotMatch(source, /misprint|hero__beat|hero__exhibit|hero__notes/);
+	assert.doesNotMatch(source, /httpsaitalk\.win/);
+	assert.doesNotMatch(source, /hello@example\.com/);
+	assert.doesNotMatch(source, /tel:|github\.com/i);
 
 	const order = [
-		'homeCopy.heroKicker',
+		'hero__eyebrow',
 		'site.headlineRole',
-		'site.headlineSub',
-		'homeCopy.heroWorkHref',
-		'site.resumeHref',
-		'口语陪练公开内测：约',
-		'<SpeakingExhibit',
-		'heroMarginNotes',
+		'site.name',
+		'hero__hint',
+		'hero__folder--about',
+		'hero__folder--interview',
+		'hero__folder--speaking',
+		'hero__folder--contact',
 	];
 	let cursor = -1;
 	for (const token of order) {
@@ -128,67 +70,25 @@ test('Hero leads with identity, two real exits, and published evidence', async (
 		assert.ok(at > cursor, `expected ${token} after previous hero field`);
 		cursor = at;
 	}
-
-	assert.doesNotMatch(source, /hello@example\.com/);
-	assert.doesNotMatch(source, /open to any AI role/i);
-	assert.doesNotMatch(source, /tel:|github\.com/i);
 });
 
-test('Hero title misprints in amber and the screen carries a vertical running head', async () => {
+test('Hero keeps the running head and folder motion respects reduced motion', async () => {
 	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
 
 	assert.match(source, /class=["']running-head["'][^>]*aria-hidden=["']true["']/);
 	assert.match(source, /作品集 · \{site\.name\}/);
 	assert.match(source, /\.hero\s*\{[^}]*position:\s*relative/s);
+	assert.match(source, /@keyframes\s+hero-center-in/);
+	assert.match(source, /@keyframes\s+hero-folder-arrive/);
+	assert.match(source, /@keyframes\s+hero-folder-float/);
+	assert.match(source, /animation:\s*hero-folder-float\s+var\(--float-duration\)/);
+	assert.match(
+		source,
+		/@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[\s\S]*\.hero__folder[\s\S]*animation:\s*none/,
+	);
+	assert.match(source, /@media\s*\(\s*max-width:\s*760px\s*\)/);
+	assert.match(source, /@media\s*\(\s*max-width:\s*420px\s*\)/);
 	assert.doesNotMatch(source, /\.running-head\s*\{[^}]*font-style:\s*italic/s);
-	assert.doesNotMatch(source, /\.running-head\s*\{[^}]*box-shadow/s);
 	assert.doesNotMatch(source, /_serif500\.ttf/);
-});
-
-test('wide Hero keeps the exhibit in the right column', async () => {
-	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
-	const wide = source.match(/@media\s*\(\s*min-width:\s*1100px\s*\)\s*\{([\s\S]*?)\n\t\}/);
-	assert.ok(wide, 'expected a wide-screen Hero block');
-	const block = wide[1];
-
-	assert.match(block, /\.hero\s*\{[^}]*padding-top:\s*4rem/s);
-	assert.doesNotMatch(block, /aspect-ratio:\s*16\s*\/\s*9/);
-	assert.doesNotMatch(source, /max-width:\s*40rem/);
-	assert.doesNotMatch(source, /1101px/);
-	assert.match(source, /@media\s*\(\s*max-width:\s*639px\s*\)[\s\S]*width:\s*min\(22rem,\s*100%\)/);
-});
-
-test('Hero entrance plays once from kicker to exhibit and stays under 800ms', async () => {
-	const source = await readFile(join(here, 'Hero.astro'), 'utf8');
-
-	assert.match(source, /@keyframes\s+hero-rise/);
-	assert.match(source, /@keyframes\s+hero-misprint-align/);
-	assert.match(source, /\.hero__role::after\s*\{[^}]*animation:\s*hero-misprint-align\s+360ms\s+var\(--ease-out\)\s+120ms\s+both/s);
-	assert.match(source, /@keyframes\s+hero-misprint-align\s*\{[^}]*translate\(3px,\s*-2px\)[\s\S]*translate\(0,\s*0\)/s);
-	assert.match(source, /translateY\(12px\)/);
-	assert.match(source, /animation:\s*hero-rise\s+var\(--dur-3\)\s+var\(--ease-out\)\s+backwards/);
-	assert.match(source, /class=["']chapter__kicker hero__beat["']/);
-	assert.match(source, /hero__beat--title/);
-	assert.match(source, /hero__beat--intro/);
-	assert.match(source, /hero__beat--actions/);
-	assert.match(source, /hero__beat--facts/);
-	assert.match(source, /hero__beat--exhibit/);
-	assert.match(source, /\.hero__beat--title\s*\{[^}]*animation-delay:\s*120ms/s);
-	assert.match(source, /\.hero__beat--title\s*\{[^}]*animation-timing-function:\s*var\(--ease-quart\)/s);
-	assert.match(source, /\.hero__beat--intro\s*\{[^}]*animation-delay:\s*300ms/s);
-	assert.match(source, /\.hero__beat--actions\s*\{[^}]*animation-delay:\s*380ms/s);
-	assert.match(source, /\.hero__beat--facts\s*\{[^}]*animation-delay:\s*460ms/s);
-	assert.match(source, /\.hero__beat--actions,\s*\.hero__beat--facts\s*\{[^}]*animation-duration:\s*300ms/s);
-	assert.match(source, /\.hero__beat--exhibit\s*\{[^}]*animation-delay:\s*500ms/s);
-	assert.match(source, /\.hero__beat--exhibit\s*\{[^}]*animation-duration:\s*300ms/s);
-	assert.match(source, /prefers-reduced-motion:\s*no-preference/);
-	assert.match(source, /@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[\s\S]*\.hero__beat\s*\{[^}]*animation:\s*none/s);
-	assert.match(source, /@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)[\s\S]*opacity:\s*1/);
-	assert.doesNotMatch(source, /animation-iteration-count:\s*infinite/);
-	assert.doesNotMatch(source, /animation:[^;\n]*infinite/);
-	assert.doesNotMatch(source, /hero-window-in/);
-
-	const delays = [...source.matchAll(/animation-delay:\s*(\d+)ms/g)].map((match) => Number(match[1]));
-	assert.deepEqual(delays, [120, 300, 380, 460, 500]);
-	assert.ok(Math.max(120 + 380, 300 + 380, 380 + 300, 460 + 300, 500 + 300) <= 800, 'entrance must finish within 800ms');
+	assert.doesNotMatch(source, /hero-rise|hero-misprint-align|hero__beat/);
 });
