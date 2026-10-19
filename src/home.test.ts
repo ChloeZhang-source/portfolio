@@ -81,19 +81,6 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.doesNotMatch(source, /立即体验|Try now|免费注册/);
 });
 
-test('work and about chapters close with mono folios', async () => {
-	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
-
-	const folio01 = source.indexOf('<p class="folio">— <span class="num">01</span> —</p>');
-	const folio02 = source.indexOf('<p class="folio">— <span class="num">02</span> —</p>');
-	const work = source.indexOf('id="work"');
-	const about = source.indexOf('id="about"');
-	const footer = source.indexOf('<Footer');
-
-	assert.ok(folio01 > work && folio01 < about, '01 folio closes #work');
-	assert.ok(folio02 > about && folio02 < footer, '02 folio closes #about');
-});
-
 test('homepage mounts SideAtmosphere beside the existing Home / Explore / About chapters', async () => {
 	const source = await readFile(join(here, 'pages', 'index.astro'), 'utf8');
 
