@@ -10,15 +10,15 @@ test('speaking exhibit shows the product frames and links to the case', async ()
 	const source = await readFile(join(here, 'SpeakingExhibit.astro'), 'utf8');
 
 	assert.match(source, /from\s+['"]\.\.\/lib\/speaking-exhibit['"]/);
-	assert.match(source, /from\s+['"]\.\.\/lib\/work['"]/);
-	assert.match(source, /workCaseHref\(\s*['"]speaking['"]\s*\)/);
+	assert.doesNotMatch(source, /from\s+['"]\.\.\/lib\/work['"]/);
+	assert.doesNotMatch(source, /workCaseHref/);
+	assert.doesNotMatch(source, /caseLabel/);
 	assert.match(source, /withBase\(step\.image\)/);
 	assert.match(source, /workImageSize\(step\.image\)/);
 	assert.match(source, /createExhibitSession/);
 	assert.match(source, /class=["']window exhibit["']/);
 	assert.match(source, /caption=\{speakingExhibit\.caption\}/);
 	assert.match(source, /\{speakingExhibit\.note\}/);
-	assert.match(source, /\{speakingExhibit\.caseLabel\}/);
 	assert.match(source, /WindowBar/);
 	assert.doesNotMatch(source, /<a class=["']window["']/);
 	assert.match(source, /aria-live=["']polite["']/);
@@ -42,7 +42,7 @@ test('exhibit steps are touch sized and do not paint amber text', async () => {
 	const source = await readFile(join(here, 'SpeakingExhibit.astro'), 'utf8');
 
 	assert.match(source, /\.exhibit__chip\s*\{[^}]*min-height:\s*44px/s);
-	assert.match(source, /\.exhibit__case\s*\{[^}]*min-height:\s*44px/s);
+	assert.match(source, /\.exhibit__page-button\s*\{[^}]*min-height:\s*44px/s);
 	assert.match(source, /@media\s*\(\s*hover:\s*hover\s*\)/);
 	assert.match(source, /@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)/);
 	assert.match(source, /\.exhibit__frame\s+\[hidden\]\s*\{[^}]*display:\s*none/s);

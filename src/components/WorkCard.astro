@@ -13,32 +13,54 @@ interface Props {
 const { work } = Astro.props;
 const coverSize = workImageSize(work.cover);
 const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite];
+const highlight = work.slug === 'speaking' ? invite : undefined;
+const process = work.slug === 'interview' ? homeCopy.workProcesses.interview : undefined;
 ---
 
-<article class="work-card">
+<article class="work-card" data-work={work.slug}>
 	<div class="work-card__intro">
+		<p class="work-card__category">
+			<span>{homeCopy.workCaseNumbers[work.slug as keyof typeof homeCopy.workCaseNumbers]}</span>
+			<span aria-hidden="true">/</span>
+			{homeCopy.workCaseTypes[work.slug as keyof typeof homeCopy.workCaseTypes]}
+		</p>
 		<h2>{work.title}</h2>
 		<p class="work-card__problem"><span>问题</span>{work.homeProblem}</p>
+		{highlight ? <p class="work-card__highlight">{highlight}</p> : null}
 	</div>
-	<a class="window" href={workCaseHref(work.slug)}>
-		<WindowBar caption={work.title} />
-		<div class={work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen'}>
-			{
-				work.video ? (
-					<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline></video>
-				) : (
-					<img
-						src={withBase(work.cover)}
-						alt={work.title}
-						width={coverSize.width}
-						height={coverSize.height}
-						loading="lazy"
-						decoding="async"
-					/>
-				)
-			}
-		</div>
-	</a>
+	<div class="work-card__preview">
+		<slot name="preview">
+			<a class="window" href={workCaseHref(work.slug)}>
+				<WindowBar caption={work.title} />
+				<div class={work.slug === 'interview' ? 'window__screen window__screen--mat' : 'window__screen'}>
+					{
+						work.video ? (
+							<video src={withBase(work.video)} poster={withBase(work.cover)} muted loop playsinline></video>
+						) : (
+							<img
+								src={withBase(work.cover)}
+								alt={work.title}
+								width={coverSize.width}
+								height={coverSize.height}
+								loading="lazy"
+								decoding="async"
+							/>
+						)
+					}
+				</div>
+			</a>
+		</slot>
+	</div>
+	{process ? (
+		<ol class="work-card__process" aria-label="面试评估流程">
+			{process.map((step, index) => (
+				<li>
+					<span>{String(index + 1).padStart(2, '0')}</span>
+					{step}
+				</li>
+			))}
+		</ol>
+	) : null}
 	<dl class="work-card__details">
 		<div>
 			<dt>我的角色</dt>
@@ -53,7 +75,7 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 			<dd class="result-number">{work.result}</dd>
 		</div>
 	</dl>
-	{invite ? <p class="work-card__invite">{invite}</p> : null}
+	{invite && !highlight ? <p class="work-card__invite">{invite}</p> : null}
 	<div class="work-card__cta">
 		<a class="btn" href={workCaseHref(work.slug)}>{homeCopy.workCaseLabels[work.slug as keyof typeof homeCopy.workCaseLabels]}</a>
 	</div>
@@ -70,10 +92,24 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 
 <style>
 	.work-card {
+		--case-accent: #5b8fbe;
 		display: grid;
+		grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
+		grid-template-areas:
+			'intro preview'
+			'process process'
+			'details details'
+			'invite invite'
+			'cta cta';
+		align-items: start;
+		column-gap: clamp(1.5rem, 4vw, 3rem);
+		row-gap: 1rem;
 		justify-items: start;
-		gap: 0.85rem;
 		text-align: left;
+	}
+
+	.work-card[data-work='interview'] {
+		--case-accent: #8da77d;
 	}
 
 	.work-card h2,
@@ -83,8 +119,34 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 	}
 
 	.work-card__intro {
+		grid-area: intro;
 		display: grid;
-		gap: 0.35rem;
+		gap: 0.55rem;
+		padding-top: 0.35rem;
+	}
+
+	.work-card__highlight {
+		padding-top: 0.2rem;
+		color: var(--color-text);
+		font-size: var(--text-small);
+		font-weight: 500;
+		line-height: var(--leading-small);
+	}
+
+	.work-card__category {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		padding-left: 0.6rem;
+		border-left: 2px solid var(--case-accent);
+		color: var(--color-muted);
+		font-size: var(--text-caption);
+		letter-spacing: var(--tracking-label);
+	}
+
+	.work-card__category span {
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.work-card h2 {
@@ -103,15 +165,50 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 
 	.work-card__problem span {
 		flex: 0 0 4.45rem;
-		color: var(--color-amber-ink);
+		color: var(--color-muted);
 		font-size: var(--text-caption);
 		letter-spacing: var(--tracking-label);
 	}
 
 	.work-card__details {
+		grid-area: details;
 		display: grid;
 		width: min(var(--window-max), 100%);
 		margin: 0;
+	}
+
+	.work-card__process {
+		grid-area: process;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1rem;
+		width: min(var(--window-max), 100%);
+		margin: 0.25rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.work-card__process li {
+		display: grid;
+		gap: 0.45rem;
+		padding-top: 0.65rem;
+		border-top: 1px solid color-mix(in srgb, var(--case-accent) 52%, var(--c-hairline));
+		color: var(--color-text);
+		font-size: var(--text-small);
+		line-height: var(--leading-small);
+	}
+
+	.work-card__process li span {
+		color: var(--color-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		letter-spacing: var(--tracking-micro);
+	}
+
+	.work-card__preview {
+		grid-area: preview;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.work-card__details > div {
@@ -123,7 +220,7 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 	}
 
 	.work-card__details dt {
-		color: var(--color-amber-ink);
+		color: var(--color-muted);
 		font-size: var(--text-caption);
 		letter-spacing: var(--tracking-label);
 	}
@@ -146,17 +243,62 @@ const invite = homeCopy.workInvite[work.slug as keyof typeof homeCopy.workInvite
 	}
 
 	.work-card__invite {
+		grid-area: invite;
 		color: var(--color-muted);
 		font-size: var(--text-small);
 	}
 
-	.work-card .window {
+	.work-card__preview .window {
 		width: 100%;
-		margin: 0.25rem 0 0.35rem;
+		margin: 0;
+		border-color: var(--c-hairline);
+		border-radius: var(--r-sm);
+		box-shadow: 0 10px 28px rgba(28, 28, 28, 0.06);
 		text-align: left;
 	}
 
+	@media (hover: hover) {
+		.work-card__preview .window:hover,
+		.work-card__preview .window:focus-visible {
+			transform: none;
+			box-shadow: 0 12px 32px rgba(28, 28, 28, 0.08);
+		}
+	}
+
 	.work-card__cta {
+		grid-area: cta;
 		margin-top: 0.35rem;
+	}
+
+	@media (max-width: 720px) {
+		.work-card {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				'intro'
+				'preview'
+				'process'
+				'details'
+				'invite'
+				'cta';
+			row-gap: 0.85rem;
+		}
+
+		.work-card__process {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: 0.85rem;
+			row-gap: 0.75rem;
+		}
+	}
+
+	@media (max-width: 639px) {
+		.work-card__details > div {
+			grid-template-columns: 4.5rem minmax(0, 1fr);
+			gap: 0.65rem;
+		}
+
+		.work-card__cta,
+		.work-card__cta .btn {
+			width: 100%;
+		}
 	}
 </style>

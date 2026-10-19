@@ -1,7 +1,6 @@
 ---
 import { speakingExhibit } from '../lib/speaking-exhibit';
 import { withBase } from '../lib/paths';
-import { workCaseHref } from '../lib/work';
 import { workImageSize } from '../lib/work-image';
 import WindowBar from './WindowBar.astro';
 ---
@@ -53,7 +52,6 @@ import WindowBar from './WindowBar.astro';
 		<p class="exhibit__caption" id="speaking-exhibit-caption" data-caption aria-live="polite">
 			{speakingExhibit.steps[0].text}
 		</p>
-		<a class="exhibit__case" href={workCaseHref('speaking')}>{speakingExhibit.caseLabel}</a>
 	</div>
 </div>
 
@@ -251,16 +249,6 @@ import WindowBar from './WindowBar.astro';
 		display: none;
 	}
 
-	.exhibit__case {
-		display: inline-flex;
-		align-items: center;
-		min-height: 44px;
-		color: var(--c-ink);
-		font-size: var(--text-small);
-		line-height: var(--leading-control);
-		text-decoration: none;
-	}
-
 	@media (hover: hover) {
 		.exhibit__chip:hover {
 			border-color: var(--c-ink);
@@ -272,9 +260,6 @@ import WindowBar from './WindowBar.astro';
 			background: #f0eee9;
 		}
 
-		.exhibit__case:hover {
-			text-decoration: underline;
-		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -288,6 +273,20 @@ import WindowBar from './WindowBar.astro';
 	}
 
 	@media (max-width: 639px) {
+		.exhibit__body {
+			gap: 0.7rem;
+			padding: 0.8rem;
+		}
+
+		.exhibit__chips {
+			gap: 0.4rem;
+		}
+
+		.exhibit__chip {
+			flex: 1 1 auto;
+			padding-inline: 0.75rem;
+		}
+
 		.exhibit__frame-image--turning {
 			animation-duration: var(--dur-2);
 		}

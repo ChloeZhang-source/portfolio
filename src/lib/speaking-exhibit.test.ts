@@ -12,7 +12,7 @@ test('speaking exhibit walks the real product frames, not a scored chat', async 
 
 	assert.equal(speakingExhibit.caption, '口语陪练 · 打开即用');
 	assert.equal(speakingExhibit.note, '不用注册。这是一轮的形状，不是正在连线。');
-	assert.equal(speakingExhibit.caseLabel, '看这一轮怎么做的 →');
+	assert.equal('caseLabel' in speakingExhibit, false);
 	assert.equal(speakingExhibit.caseSlug, 'speaking');
 	assert.deepEqual(
 		speakingExhibit.steps.map((step) => step.label),

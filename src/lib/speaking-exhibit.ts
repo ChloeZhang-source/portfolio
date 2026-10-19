@@ -11,7 +11,6 @@ export interface ExhibitStep {
 export const speakingExhibit = {
 	caption: '口语陪练 · 打开即用',
 	note: '不用注册。这是一轮的形状，不是正在连线。',
-	caseLabel: '看这一轮怎么做的 →',
 	caseSlug: 'speaking',
 	steps: [
 		{

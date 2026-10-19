@@ -24,9 +24,22 @@ test('homeCopy locks homepage chrome labels from the plan', async () => {
 		'每一次产品选择，都是主动取舍。我接受优势，也承担对应的代价。',
 	);
 	assert.deepEqual(homeCopy.workLede, [
-		'我的作品统一解决一个核心问题：让私有的经验、零散的流程、口头的标准，变成公开、可复现、可落地的系统。',
-		'我优先交付最小可用版本，以真实场景验证假设，再逐步迭代扩张。不做无人使用的完美架构，只做能持续落地的有效产品。',
+		'我把零散经验和复杂流程，整理成可使用、可复现、可持续迭代的产品系统。',
 	]);
+	assert.equal(homeCopy.workIdentity, '产品负责人 · 独立开发 · AI 产品落地');
+	assert.equal(
+		homeCopy.workClosing,
+		'我关注的不只是功能是否完成，也包括规则、流程和使用门槛是否真正被解决。',
+	);
+	assert.deepEqual(homeCopy.workCaseTypes, {
+		speaking: 'AI 口语练习产品',
+		interview: '招聘与面试流程',
+	});
+	assert.deepEqual(homeCopy.workCaseNumbers, {
+		speaking: '01',
+		interview: '02',
+	});
+	assert.deepEqual(homeCopy.workProcesses.interview, ['面试指引', '分段考核', '全程录制', '人工复评']);
 	assert.equal(homeCopy.workInvite.speaking, '无需登录，打开即可开始一轮练习。');
 	assert.equal(homeCopy.workInvite.interview, '候选人信息已脱敏，案例页展示流程与评估方式。');
 	assert.equal(homeCopy.nowTitle, '现在');

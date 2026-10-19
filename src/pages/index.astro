@@ -30,16 +30,31 @@ const jsonLd = buildHomeJsonLd();
 				<p class="chapter__lede">{paragraph}</p>
 			))
 		}
-		<div class="chapter__exhibit">
-			<SpeakingExhibit />
+		<p class="chapter__identity">{homeCopy.workIdentity}</p>
+		<div class="chapter__case chapter__case--speaking">
+			<div class="chapter__works">
+				{
+					works.filter((entry) => entry.data.slug === 'speaking').map((entry) => (
+						<WorkCard work={entry.data}>
+							<div slot="preview" class="chapter__exhibit">
+								<SpeakingExhibit />
+							</div>
+						</WorkCard>
+					))
+				}
+			</div>
 		</div>
-		<div class="chapter__works">
-			{
-				works.map((entry) => (
-					<WorkCard work={entry.data} />
-				))
-			}
+		<div class="chapter__case chapter__case--interview">
+			<div class="chapter__works">
+				{
+					works.filter((entry) => entry.data.slug === 'interview').map((entry) => (
+						<WorkCard work={entry.data} />
+					))
+				}
+			</div>
 		</div>
+		<p class="chapter__closing">{homeCopy.workClosing}</p>
+		<a class="chapter__about-link" href="#about">继续了解我的经历与产品判断 <span aria-hidden="true">→</span></a>
 		<p class="folio">— <span class="num">01</span> —</p>
 	</section>
 	<section id="about" class="chapter chapter--about">
@@ -58,9 +73,53 @@ const jsonLd = buildHomeJsonLd();
 		gap: 3.5rem;
 	}
 
-	.chapter__exhibit {
+	.chapter__case + .chapter__case {
+		margin-top: 3.5rem;
+		padding-top: 3.5rem;
+		border-top: 1px solid var(--c-hairline);
+	}
+
+	.chapter__closing {
 		width: min(var(--window-max), 100%);
-		margin-block: 2rem 3.5rem;
+		margin: 4rem 0 0.75rem;
+		color: var(--color-muted);
+		line-height: var(--leading-body);
+	}
+
+	.chapter__about-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		min-height: 44px;
+		color: var(--color-text);
+		font-size: var(--text-small);
+		line-height: var(--leading-control);
+		text-decoration-color: var(--c-hairline);
+		text-underline-offset: 0.25em;
+	}
+
+	.chapter__about-link span {
+		color: var(--color-muted);
+	}
+
+	.chapter__identity {
+		width: min(var(--window-max), 100%);
+		margin: -1.25rem 0 2.25rem;
+		color: var(--color-muted);
+		font-size: var(--text-caption);
+		letter-spacing: var(--tracking-label);
+	}
+
+	.chapter__exhibit {
+		width: 100%;
+		margin: 0;
+	}
+
+	@media (max-width: 720px) {
+		.chapter__case + .chapter__case {
+			margin-top: 2.5rem;
+			padding-top: 2.5rem;
+		}
 	}
 
 	.chapter--about {
