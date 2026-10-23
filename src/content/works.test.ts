@@ -156,10 +156,22 @@ test('speaking and interview MDX follow the case-study narrative and preserve ev
 	assert.match(speakingRaw, /7 日留存约 22%、单次会话成本约 0.35 元/);
 	assert.match(speakingRaw, /不能把结果归因于某个具体设计决策/);
 	assert.doesNotMatch(speakingRaw, /独立定 MVP/);
+	assert.equal(speaking.video, '/work/speaking/demo.mp4');
 	assert.deepEqual(
 		speaking.gallery.map((item) => item.caption),
-		['开口对话', '即时反馈'],
+		['选择场景', '开口对话', '本场小结'],
 	);
+	assert.deepEqual(
+		speaking.gallery.map((item) => item.image),
+		[
+			'/work/speaking/gallery-1.jpg',
+			'/work/speaking/gallery-2.jpg',
+			'/work/speaking/gallery-3.jpg',
+		],
+	);
+	assert.match(speaking.gallery[0].alt, /日常口语、雅思口语、面试英语、旅行英语/);
+	assert.match(speaking.gallery[1].alt, /What scene would you like to try first\?/);
+	assert.match(speaking.gallery[2].alt, /流利度、用词、语法和金句/);
 	assert.equal(new Set(speaking.gallery.map((item) => item.alt)).size, speaking.gallery.length);
 	for (const item of speaking.gallery) {
 		assert.notEqual(item.alt, '口语陪练');

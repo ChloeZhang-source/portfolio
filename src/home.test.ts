@@ -36,9 +36,9 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.match(source, /class=["']chapter__thesis["']/);
 	assert.match(source, /homeCopy\.workLede\.map/);
 	assert.match(source, /class=["']chapter__lede["']/);
-	assert.match(source, /SpeakingExhibit\.astro/);
-	assert.match(source, /class=["']chapter__exhibit["']/);
-	assert.match(source, /<SpeakingExhibit\s*\/>/);
+	assert.doesNotMatch(source, /SpeakingExhibit/);
+	assert.doesNotMatch(source, /slot=["']preview["']/);
+	assert.doesNotMatch(source, /chapter__exhibit/);
 	assert.match(source, /homeCopy\.workIdentity/);
 	assert.match(source, /homeCopy\.workClosing/);
 	assert.match(source, /chapter__case--speaking/);
@@ -56,7 +56,6 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	const lede = source.indexOf('homeCopy.workLede');
 	const identity = source.indexOf('homeCopy.workIdentity');
 	const speakingCase = source.indexOf('chapter__case--speaking');
-	const exhibit = source.indexOf('<SpeakingExhibit');
 	const interviewCase = source.indexOf('chapter__case--interview');
 	const closing = source.indexOf('homeCopy.workClosing');
 	const about = source.indexOf('<About');
@@ -71,8 +70,11 @@ test('homepage chapters are Home → Explore #work → About (About + Contact)',
 	assert.ok(lede > thesis, 'work lede must follow thesis');
 	assert.ok(identity > lede, 'work identity must follow lede');
 	assert.ok(speakingCase > identity, 'speaking case must follow identity');
-	assert.ok(exhibit > speakingCase && exhibit < interviewCase, 'SpeakingExhibit lives inside the speaking case');
-	assert.ok(interviewCase > exhibit, 'interview case follows the speaking exhibit');
+	const speakingBlock = source.slice(speakingCase, interviewCase);
+	assert.match(speakingBlock, /<WorkCard work=\{entry\.data\} \/>/);
+	assert.doesNotMatch(speakingBlock, /slot=["']preview["']/);
+	assert.doesNotMatch(speakingBlock, /SpeakingExhibit/);
+	assert.ok(interviewCase > speakingCase, 'interview case follows the speaking case');
 	assert.ok(closing > interviewCase, 'work closing follows both cases');
 	assert.ok(about > closing, 'About must follow the work closing');
 	assert.ok(contact > about, 'Contact must follow About');

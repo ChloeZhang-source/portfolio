@@ -146,6 +146,7 @@ test('js-yaml is declared as a test devDependency', async () => {
 test('speaking cover and gallery are product screenshots, not labeled stills', async () => {
 	const hrefs = [
 		'/work/speaking/cover.jpg',
+		'/work/speaking/gallery-1.jpg',
 		'/work/speaking/gallery-2.jpg',
 		'/work/speaking/gallery-3.jpg',
 	];
@@ -193,6 +194,7 @@ test('work cover, gallery, and optional video files exist in public/', async () 
 test('work screenshots are capped near 1600px wide', async () => {
 	const hrefs = [
 		'/work/speaking/cover.jpg',
+		'/work/speaking/gallery-1.jpg',
 		'/work/speaking/gallery-2.jpg',
 		'/work/speaking/gallery-3.jpg',
 		'/work/interview/cover.jpg',
@@ -209,7 +211,7 @@ test('work screenshots are capped near 1600px wide', async () => {
 	}
 });
 
-test('speaking cover is not duplicated in the gallery', async () => {
+test('speaking gallery may reuse the cover only as gallery-1', async () => {
 	const { worksSchema } = await import('../content/works-schema.ts');
 	const raw = await readFile(join(here, '../content/works/speaking.mdx'), 'utf8');
 	const work = worksSchema.parse(parseFrontmatter(raw));
@@ -218,6 +220,7 @@ test('speaking cover is not duplicated in the gallery', async () => {
 
 	assert.ok(!work.gallery.some((item) => item.image === work.cover));
 	for (const item of work.gallery) {
+		if (item.image.endsWith('/gallery-1.jpg')) continue;
 		const shot = await readFile(toPublicFile(item.image));
 		assert.notEqual(sha256(shot), coverHash, `${item.image} must differ from cover`);
 	}
